@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>From Scratch to Python</title>
+<meta name="description" content="A free workbook for kids moving from Scratch to real Python in Google Colab: every Scratch block mapped to runnable code, 35 missions.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐢</text></svg>">
+<style>
+:root {
+  --bg: #f6f8fd; --card: #ffffff; --ink: #1b2550; --muted: #56618a; --line: #dfe4f2;
+  --code-bg: #eef2fc; --accent: #4c97ff; --accent-ink: #ffffff;
+  --motion: #4c97ff; --looks: #9966ff; --sound: #cf63cf; --events: #ffbf00;
+  --control: #ffab19; --sensing: #5cb1d6; --operators: #59c059; --variables: #ff8c1a;
+  --myblocks: #ff6680; --pen: #0fbd8c;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11152b; --card: #1a2040; --ink: #e8ecff; --muted: #a3acd6; --line: #2c3563;
+    --code-bg: #232a52; --accent: #6aa8ff; --accent-ink: #0d1330;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11152b; --card: #1a2040; --ink: #e8ecff; --muted: #a3acd6; --line: #2c3563;
+  --code-bg: #232a52; --accent: #6aa8ff; --accent-ink: #0d1330;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 17px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+.wrap { max-width: 980px; margin: 0 auto; padding: 0 16px; }
+.strip { display: flex; height: 8px; }
+.strip span { flex: 1; }
+header { padding: 48px 0 32px; }
+.kicker { color: var(--muted); font-weight: 700; letter-spacing: .04em; text-transform: uppercase; font-size: 14px; margin: 0; }
+h1 { font-size: clamp(36px, 7vw, 60px); line-height: 1.05; margin: 8px 0 16px; }
+.lead { font-size: 19px; max-width: 640px; margin: 0 0 24px; }
+.buttons { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 999px;
+  font-weight: 700; text-decoration: none; border: 2px solid var(--accent);
+}
+.btn.primary { background: var(--accent); color: var(--accent-ink); }
+.btn.secondary { color: var(--accent); background: transparent; }
+.btn:focus-visible { outline: 3px solid var(--events); outline-offset: 2px; }
+.facts { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 20px; color: var(--muted); font-size: 15px; }
+section { padding: 28px 0; }
+h2 { font-size: 26px; margin: 0 0 14px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
+.side { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.blocks { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+.block {
+  color: #fff; font-weight: 700; font-size: 15px; padding: 7px 14px; border-radius: 6px;
+  text-shadow: 0 1px 0 rgba(0,0,0,.18);
+}
+.block.in { margin-left: 22px; }
+.block.hat { border-radius: 18px 18px 6px 6px; }
+pre {
+  margin: 0; background: var(--code-bg); border-radius: 10px; padding: 14px 16px; overflow-x: auto;
+  font: 15px/1.55 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+.k { color: var(--motion); font-weight: 700; }
+.c { color: var(--muted); font-style: italic; }
+.parts { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+.part { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px; border-top: 6px solid var(--c); }
+.part h3 { margin: 0 0 4px; font-size: 17px; }
+.part p { margin: 0; color: var(--muted); font-size: 15px; }
+ol.steps { margin: 0; padding-left: 22px; }
+ol.steps li { margin-bottom: 8px; }
+.note { border-left: 5px solid var(--control); padding: 10px 14px; background: var(--card); border-radius: 8px; margin-top: 14px; font-size: 15px; }
+code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; background: var(--code-bg); padding: 1px 6px; border-radius: 5px; font-size: .92em; }
+footer { color: var(--muted); font-size: 14px; padding: 28px 0 40px; border-top: 1px solid var(--line); margin-top: 20px; }
+footer a, .card a, .note a { color: var(--accent); }
+@media (max-width: 640px) {
+  .side { grid-template-columns: 1fr; }
+  header { padding-top: 32px; }
+}
+</style>
+</head>
+<body>
+<div class="strip" aria-hidden="true">
+  <span style="background:var(--motion)"></span><span style="background:var(--looks)"></span>
+  <span style="background:var(--sound)"></span><span style="background:var(--events)"></span>
+  <span style="background:var(--control)"></span><span style="background:var(--sensing)"></span>
+  <span style="background:var(--operators)"></span><span style="background:var(--variables)"></span>
+  <span style="background:var(--myblocks)"></span><span style="background:var(--pen)"></span>
+</div>
+
+<div class="wrap">
+<header>
+  <p class="kicker">🐢 A free workbook for young coders</p>
+  <h1>From Scratch<br>to Python</h1>
+  <p class="lead">You already know how to code. Every time you snap Scratch blocks together, you are writing a program. This book shows you how to type the same ideas as real Python, in Google Colab, one mission at a time.</p>
+  <div class="buttons">
+    <a class="btn primary" href="scratch-to-python-workbook.pdf">📘 Download the book (PDF)</a>
+    <a class="btn secondary" href="https://colab.research.google.com/github/Setopy/luzkids-scratch2python/blob/main/My%20Python%20Adventures.ipynb">▶ Open the notebook in Colab</a>
+  </div>
+  <div class="facts">
+    <span>258 pages</span><span>35 missions</span><span>147 Scratch blocks translated</span><span>Nothing to install</span>
+  </div>
+</header>
+
+<section>
+  <h2>What a mission looks like</h2>
+  <div class="side">
+    <div class="card">
+      <div class="blocks" aria-label="Scratch blocks">
+        <span class="block hat" style="background:var(--events)">when 🏁 clicked</span>
+        <span class="block" style="background:var(--control)">repeat 4</span>
+        <span class="block in" style="background:var(--motion)">move 100 steps</span>
+        <span class="block in" style="background:var(--motion)">turn ↻ 90 degrees</span>
+      </div>
+    </div>
+    <div class="card">
+<pre><span class="k">from</span> ColabTurtlePlus.Turtle <span class="k">import</span> *
+clearscreen()
+initializeTurtle((480, 360))
+
+<span class="k">for</span> i <span class="k">in</span> range(4):
+    forward(100)
+    right(90)</pre>
+    </div>
+  </div>
+  <p>Every mission has five steps: <strong>build it in Scratch</strong>, <strong>type it in Colab</strong>, <strong>read it line by line</strong>, <strong>run it</strong>, and <strong>make it yours</strong>.</p>
+</section>
+
+<section>
+  <h2>What's inside</h2>
+  <div class="parts">
+    <div class="part" style="--c:var(--motion)"><h3>Part 1: Motion and Pen</h3><p>Move the turtle, turn, draw with colours.</p></div>
+    <div class="part" style="--c:var(--control)"><h3>Part 2: Loops</h3><p><code>repeat</code> becomes <code>for</code>. Stars, spirals, flowers.</p></div>
+    <div class="part" style="--c:var(--variables)"><h3>Part 3: Variables and Lists</h3><p>Labelled boxes and a backpack of things.</p></div>
+    <div class="part" style="--c:var(--operators)"><h3>Part 4: Operators</h3><p>Maths, random numbers, joining words.</p></div>
+    <div class="part" style="--c:var(--sensing)"><h3>Part 5: Sensing and Decisions</h3><p>Ask questions, make choices, time things.</p></div>
+    <div class="part" style="--c:var(--myblocks)"><h3>Part 6: My Blocks</h3><p>Make your own blocks with <code>def</code>.</p></div>
+    <div class="part" style="--c:var(--looks)"><h3>Part 7: Looks, Sound and Events</h3><p>Costumes, music and a turtle race.</p></div>
+    <div class="part" style="--c:var(--pen)"><h3>Big Projects</h3><p>Eight games, from a story to a chase game.</p></div>
+    <div class="part" style="--c:var(--sound)"><h3>The Bug Zoo</h3><p>Read error messages like a detective.</p></div>
+    <div class="part" style="--c:var(--events)"><h3>Block Dictionary</h3><p>The Python for every Scratch block.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>Quick start for grown-ups</h2>
+  <div class="card">
+    <ol class="steps">
+      <li><strong>Open or print the book.</strong> Read <em>For grown-ups</em> near the back first.</li>
+      <li><strong>Open the notebook in Colab</strong> with the button above, then choose <em>File → Save a copy in Drive</em> so the work is saved.</li>
+      <li><strong>Run the magic first cell</strong>, <code>!pip install ColabTurtlePlus</code>, each time you open the notebook.</li>
+      <li><strong>Do one mission per session</strong>, about 20 to 30 minutes, with your child at the keyboard.</li>
+    </ol>
+    <div class="note">Install <code>ColabTurtlePlus</code> (with <em>Plus</em>). The similarly named <code>ColabTurtle</code> is a different library and won't work with this book. Everything was tested in Colab in November 2026.</div>
+  </div>
+</section>
+
+<footer>
+  <p>Source files, research notes and build scripts are on <a href="https://github.com/Setopy/luzkids-scratch2python">GitHub</a>.</p>
+  <p>This is an independent workbook. It is not made by or connected with Scratch, the Scratch Foundation, MIT or Google. Scratch is a project of the Scratch Foundation.</p>
+</footer>
+</div>
+</body>
+</html>
