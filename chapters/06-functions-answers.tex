@@ -1,0 +1,75 @@
+\subsection*{Part 6, Mission: Make your own block}
+\textbf{Triangle:}
+\begin{codenonum}
+def triangle(size):
+    for i in range(3):
+        forward(size)
+        right(120)
+\end{codenonum}
+\textbf{Colour input:}
+\begin{codenonum}
+def square(size, colour):
+    pencolor(colour)
+    for i in range(4):
+        forward(size)
+        right(90)
+\end{codenonum}
+\textbf{No brackets:} a line with just \py|square| does nothing, and there is no error. Without the brackets you only say the block's name. You must call it, for example \py|square(60)|.
+
+\subsection*{Part 6, Mission: Shape machine}
+\py|flower(8, 4, 60)| draws 8 petals, and each petal is a square. With \py|animationOff()| the turtle jumps instead of walking, so the drawing appears faster. Colour input:
+\begin{codenonum}
+def flower(petals, sides, size, colour):
+    pencolor(colour)
+    for i in range(petals):
+        polygon(sides, size)
+        right(360 / petals)
+\end{codenonum}
+Call it with four inputs, for example \py|flower(12, 6, 40, "red")|.
+
+\subsection*{Part 6, Mission: Answer machine}
+\begin{codenonum}
+def half(n):
+    return n / 2
+
+def perimeter(width, height):
+    return 2 * width + 2 * height
+
+def is_even(n):
+    return n % 2 == 0
+\end{codenonum}
+\py|print(half(9))| shows \texttt{4.5}. \py|is_even(7)| is \py|False|, so the \py|if| part is skipped.
+
+With \py|print(n * 2)| in line 2, \py|double| only \textbf{shows} the number and gives back \texttt{None}. So line 7 shows \texttt{8} and then \texttt{None}. Line 11 then tries \py|area(None, 10)|, and Python stops with a \texttt{TypeError}, because it can't multiply nothing by 10.
+
+\subsection*{Part 6, Mission: Sprite army}
+\begin{codenonum}
+def turn_all(angle):
+    for s in army:
+        s.left(angle)
+\end{codenonum}
+Call \py|turn_all(90)| before marching, and the army marches up. For the race, put \py|import random| at the top and use \py|s.forward(random.randint(10, 80))| in \texttt{march}. \py|army[0]| is the first sprite made: the red one at the top (lists count from 0).
+
+\subsection*{Part 6, Translate it yourself}
+\begin{codenonum}
+from ColabTurtlePlus.Turtle import *
+clearscreen()
+initializeTurtle((480, 360))
+
+def star(size):
+    for i in range(5):
+        forward(size)
+        right(144)
+
+pencolor("gold")
+star(100)
+star(50)
+\end{codenonum}
+You should see a big gold star with a small one inside it, sharing one point.
+
+\subsection*{Part 6, Two-line puzzle}
+\begin{codenonum}
+def triple(n):
+    return n * 3
+\end{codenonum}
+\py|triple(2)| is 6, and \py|triple(6)| is 18.

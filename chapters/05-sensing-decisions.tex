@@ -1,0 +1,851 @@
+% =====================================================================
+% PART 5: Sensing and Decisions
+% =====================================================================
+\partopener{sensing}{PART 5}{Sensing and Decisions}{Your programs will listen to you, watch the clock and make choices.}
+
+Until now your programs did the same thing every time you pressed \playbtn. In this part they start to \textbf{sense} things and \textbf{decide} what to do. Sensing blocks are the sprite's eyes, ears and watch. In Python, \py|input()| is the program's ears, \py|distance()| is its measuring tape, and \py|time| is its stopwatch.
+
+You will meet these Scratch blocks and their Python twins:
+
+\begin{itemize}
+  \item \chip[sensing]{ask and wait} and \chip[sensing]{answer} become \py|input()|
+  \item \chip[control]{if then}, \chip[control]{if then else} and \chip[control]{repeat until} become \py|if|, \py|else| and \py|while|
+  \item \chip[sensing]{timer} and \chip[sensing]{current year} become \py|time| and \py|datetime|
+  \item \chip[sensing]{touching?} and \chip[motion]{if on edge, bounce} become a little bit of maths with \py|distance()|, \py|xcor()| and \py|if|
+\end{itemize}
+
+None of these programs need the turtle until near the end, so most of them start straight away with no starting lines.
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{Ask a question and wait}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center, raster force size=false, raster column 1/.style={width=0.36\linewidth}, raster column 2/.style={width=0.64\linewidth-12pt}]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center, left=0pt, right=0pt]
+\setscratch{scale=0.8}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blocksensing{ask \ovalnum{What's your name?} and wait}
+\blocklook{say \ovaloperator{join \ovalnum{Hello } \ovalsensing{answer}}}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+name = input("What's your name? ")
+print("Hello " + name)
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works.} \py|input("...")| does the job of \chip[sensing]{ask and wait}. It shows the question, then a little box appears \textbf{under the cell}. Click in the box, type, and press \textbf{Enter}. Whatever you typed comes out of \py|input()| and is put into the variable on the left of the \texttt{=}. Scratch keeps the reply in a block called \chip[sensing]{answer}; in Python \textbf{you} choose the name of the box, so here it is called \py|name|.
+
+\begin{outputbox}
+What's your name? Ada\\
+Hello Ada
+\end{outputbox}
+
+\begin{think}[Leave a space at the end]
+Look at the space after the question mark in \py|"What's your name? "|. It stops your typing from sticking to the question, like \texttt{What's your name?Ada}.
+\end{think}
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{Input always gives you writing}
+
+\begin{center}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blocksensing{ask \ovalnum{How old are you?} and wait}
+\blocklook{say \ovaloperator{join \ovalnum{Next year you will be } \ovaloperator{\ovalsensing{answer} + \ovalnum{1}}}}
+\end{scratch}
+\end{center}
+\vspace{-4pt}
+\begin{code}
+age = input("How old are you? ")
+age = int(age)
+print("Next year you will be " + str(age + 1))
+\end{code}
+
+\textbf{How it works.} Whatever you type into \py|input()| is \textbf{writing} to Python, even if it looks like a number. \texttt{"9"} is writing; \texttt{9} is a number. Scratch quietly turns the writing into a number for you. Python wants you to say so: \py|int(age)| turns the writing \texttt{"9"} into the number \texttt{9}. (\texttt{int} is short for \emph{integer}, which means a whole number.) Then \py|str( )| turns the answer back into writing so it can be joined with \texttt{+}, just as you did in Part 4.
+
+You can do both jobs in one line, and you will see this a lot:
+\begin{codenonum}
+age = int(input("How old are you? "))
+\end{codenonum}
+
+\needspace{12\baselineskip}
+\begin{watchout}[What if you type a word?]
+Run the program and type \texttt{nine} instead of \texttt{9}. Python can't turn \texttt{nine} into a number, so it stops with a clue note. Read the \textbf{last line} first:
+\begin{errorbox}
+ValueError: invalid literal for int() with base 10: 'nine'
+\end{errorbox}
+It means: ``\texttt{int()} was given \texttt{'nine'}, and that isn't a number I can read.'' Nothing is broken. Press \playbtn{} again and type digits.
+\end{watchout}
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{If this, then that}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center, raster force size=false, raster column 1/.style={width=0.36\linewidth}, raster column 2/.style={width=0.64\linewidth-12pt}]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center, left=0pt, right=0pt]
+\setscratch{scale=0.8}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blocksensing{ask \ovalnum{Do you like cats?} and wait}
+\blockif{if \booloperator{\ovalsensing{answer} = \ovalnum{yes}} then}{
+  \blocklook{say \ovalnum{Me too!} for \ovalnum{2} seconds}
+}
+\blocklook{say \ovalnum{Bye!}}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+answer = input("Do you like cats? ")
+if answer == "yes":
+    print("Me too!")
+print("Bye!")
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works.} \py|if| works just like the C-shaped \chip[control]{if then} block. The \textbf{colon} at the end opens the mouth of the C, and the lines with \textbf{four spaces} in front go inside it, exactly like a \py|for| loop. Python checks the question once. If it is true, it runs the inside lines; if not, it skips them. \py|print("Bye!")| is back at the left edge, so it is \textbf{under} the C and always runs. Remember: \textbf{two} equals signs \texttt{==} \textbf{check}; one \texttt{=} \textbf{sets}.
+
+\begin{watchout}[Capitals count]
+Type \texttt{Yes} with a capital Y. Python says only \texttt{Bye!}, because \texttt{"Yes"} and \texttt{"yes"} are different to Python. Scratch thinks they are the same! You will learn the fix, \py|.lower()|, in Mission 3.
+\end{watchout}
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{If this, else that}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center, raster force size=false, raster column 1/.style={width=0.36\linewidth}, raster column 2/.style={width=0.64\linewidth-12pt}]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center, left=0pt, right=0pt]
+\setscratch{scale=0.8}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blocksensing{ask \ovalnum{How old are you?} and wait}
+\blockifelse{if \booloperator{\ovalsensing{answer} > \ovalnum{9}} then}{
+  \blocklook{say \ovalnum{Double figures!}}
+}{
+  \blocklook{say \ovalnum{Not double figures yet}}
+}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+age = int(input("How old are you? "))
+if age >= 10:
+    print("Double figures!")
+else:
+    print("Not double figures yet")
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works.} \py|else:| is the second mouth of the \chip[control]{if then else} block. It means ``otherwise''. \py|else| lines up with \py|if| (no spaces in front) and needs its own colon. Exactly \textbf{one} of the two mouths runs, never both. Scratch has no ``bigger or equal'' block, so Scratch uses \texttt{> 9}; Python can say \py|>= 10| (``10 or more''). Both mean the same thing for whole numbers.
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{A Python shortcut: elif}
+
+\begin{center}
+\setscratch{scale=0.8}
+\begin{scratch}
+\blocksensing{ask \ovalnum{Your score out of 10?} and wait}
+\blockifelse{if \booloperator{\ovalsensing{answer} = \ovalnum{10}} then}{
+  \blocklook{say \ovalnum{Perfect!}}
+}{
+  \blockifelse{if \booloperator{\ovalsensing{answer} > \ovalnum{6}} then}{
+    \blocklook{say \ovalnum{Great job!}}
+  }{
+    \blockifelse{if \booloperator{\ovalsensing{answer} > \ovalnum{3}} then}{
+      \blocklook{say \ovalnum{Good try!}}
+    }{
+      \blocklook{say \ovalnum{Keep practising!}}
+    }
+  }
+}
+\end{scratch}
+\end{center}
+\vspace{-4pt}
+\begin{code}
+score = int(input("Your score out of 10? "))
+if score == 10:
+    print("Perfect!")
+elif score >= 7:
+    print("Great job!")
+elif score >= 4:
+    print("Good try!")
+else:
+    print("Keep practising!")
+\end{code}
+
+\textbf{How it works.} In Scratch, to choose between more than two things you put an \chip[control]{if then else} inside the \textbf{else} mouth of another one, and the script gets wider and wider. Python has a shortcut that Scratch doesn't: \py|elif|, short for ``else if''. Python checks the questions \textbf{from the top} and runs only the \textbf{first} one that is true, then jumps past all the rest. If none is true, the \py|else| part runs. All the \py|if|, \py|elif| and \py|else| lines line up, so the code stays neat and narrow.
+
+\begin{think}[Why does 8 not say ``Good try!'' too?]
+8 is bigger than 4, so \py|score >= 4| is true. But Python already found \py|score >= 7| was true, ran \texttt{Great job!}, and skipped everything below it. Only one part ever runs.
+\end{think}
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{Repeat until: Python flips the question}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center, raster force size=false, raster column 1/.style={width=0.36\linewidth}, raster column 2/.style={width=0.64\linewidth-12pt}]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center, left=0pt, right=0pt]
+\setscratch{scale=0.8}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blockrepeat{repeat until \booloperator{\ovalsensing{answer} = \ovalnum{please}}}{
+  \blocksensing{ask \ovalnum{Magic word?} and wait}
+}
+\blocklook{say \ovalnum{Thank you!}}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+answer = ""
+while answer != "please":
+    answer = input("Magic word? ")
+print("Thank you!")
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works.} Python has no ``repeat until''. It has \py|while|, which means ``keep going \textbf{as long as} this is true''. So you flip the question. Scratch says repeat \textbf{until} the answer \textbf{is} ``please''. Python says keep going \textbf{while} the answer is \textbf{not} ``please''. \texttt{!=} means ``is not equal to''. It is like ``stay outside until it rains'' and ``stay outside while it isn't raining'': the same plan, said the other way round.
+
+You can also flip it with the word \py|not|, which matches the green \chip[operators]{not} block:
+\begin{codenonum}
+while not answer == "please":
+\end{codenonum}
+Both lines do the same thing. Most Python coders use \texttt{!=} because it is shorter.
+
+\begin{think}[Why \texttt{answer = ""} on line 1?]
+\py|while| checks its question \textbf{before} the first go, just like \chip[control]{repeat until}. Python needs a box called \py|answer| to look in. \py|""| is empty writing: a box with nothing in it yet. It is not ``please'', so the loop starts.
+\end{think}
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{Your own stopwatch: the timer}
+
+\begin{center}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blocksensing{reset timer}
+\blocksensing{ask \ovalnum{Count to 10, then press Enter} and wait}
+\blocklook{say \ovaloperator{join \ovalnum{That took } \ovalsensing{timer}}}
+\end{scratch}
+\end{center}
+\vspace{-4pt}
+\begin{code}
+import time
+start = time.time()
+input("Count to 10 in your head, then press Enter ")
+taken = time.time() - start
+print("That took " + str(round(taken, 1)) + " seconds")
+\end{code}
+
+\textbf{How it works.} Python has no timer that starts by itself. Instead, \py|time.time()| tells you what time it is right now, as a huge number of seconds. (It counts from 1 January 1970!) So you make your own stopwatch: write down the time at the start (\py|start = time.time()|, that is \chip[sensing]{reset timer}), and later take it away from the new time. \py|time.time() - start| is the \chip[sensing]{timer} block: the seconds since you started. \py|round(taken, 1)| keeps one number after the dot.
+
+\begin{think}[Reset the timer]
+To reset your stopwatch, just do \py|start = time.time()| again. You can have lots of stopwatches at once, too: \py|start1|, \py|start2|\ldots{} Scratch has only one timer.
+\end{think}
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{Wait until}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center, raster force size=false, raster column 1/.style={width=0.36\linewidth}, raster column 2/.style={width=0.64\linewidth-12pt}]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center, left=0pt, right=0pt]
+\setscratch{scale=0.8}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blocksensing{reset timer}
+\blocklook{say \ovalnum{Wait for it...}}
+\blockcontrol{wait until \booloperator{\ovalsensing{timer} > \ovalnum{3}}}
+\blocklook{say \ovalnum{3 seconds are up!}}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+import time
+start = time.time()
+print("Wait for it...")
+while not time.time() - start > 3:
+    time.sleep(0.1)
+print("3 seconds are up!")
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works.} \chip[control]{wait until} is a \py|while not| loop that does nothing but wait. Each time round, \py|time.sleep(0.1)| has a tiny nap of a tenth of a second, then Python checks the question again. When the timer passes 3, the question \py|not ... > 3| is false, the loop ends, and line 6 runs. The nap stops the computer from asking ``are we there yet?'' millions of times a second.
+
+\begin{watchout}[Something must change]
+In Scratch, another sprite might make the question true. In Python only one script runs, so a \py|while| loop waits for ever if nothing inside it can change the answer. Waiting for the clock, or for an \py|input()|, is safe. If a cell runs for ever, press \stopbtn.
+\end{watchout}
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{What year is it? What time is it?}
+
+\begin{center}
+\setscratch{scale=0.85}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blocklook{say \ovaloperator{join \ovalnum{The year is } \ovalsensing{current \selectmenu{year}}} for \ovalnum{2} seconds}
+\blockifelse{if \booloperator{\ovalsensing{current \selectmenu{hour}} < \ovalnum{12}} then}{
+  \blocklook{say \ovalnum{Good morning!}}
+}{
+  \blocklook{say \ovalnum{Good afternoon!}}
+}
+\end{scratch}
+\end{center}
+\vspace{-4pt}
+\begin{code}
+import datetime
+now = datetime.datetime.now()
+print("The year is " + str(now.year))
+if now.hour < 12:
+    print("Good morning!")
+else:
+    print("Good afternoon!")
+\end{code}
+
+\textbf{How it works.} \py|import datetime| brings in Python's calendar tools. \py|datetime.datetime.now()| reads the clock once and keeps the answer in \py|now|. Then \py|now.year|, \py|now.month|, \py|now.day|, \py|now.hour|, \py|now.minute| and \py|now.second| work like the menu in the \chip[sensing]{current year} block. (Yes, \texttt{datetime} is written twice: the first is the toolbox, the second is the tool inside it.)
+
+\begin{watchout}[Colab's clock may be in another country]
+Your code runs on a Google computer, which is often set to \textbf{UTC} (London's winter time), not your home time. If Colab says \texttt{Good afternoon!} at breakfast, your code is fine: the computer is just somewhere else in the world. The year and the date are almost always right.
+\end{watchout}
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{Touching? Use a measuring tape}
+
+Now the turtle comes back. Scratch checks whether two pictures overlap. The turtle can't see pictures, but it can \textbf{measure}: \py|distance(x, y)| tells you how many steps away a spot is. If it is very close, say less than 20 steps, we say it is touching.
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center, raster force size=false, raster column 1/.style={width=0.36\linewidth}, raster column 2/.style={width=0.64\linewidth-12pt}]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center, left=0pt, right=0pt]
+\setscratch{scale=0.8}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blockmove{go to x: \ovalnum{-200} y: \ovalnum{0}}
+\blockrepeat{repeat until \boolsensing{touching \selectmenu{Spot}?}}{
+  \blockmove{move \ovalnum{10} steps}
+}
+\blocklook{say \ovalnum{Touched it!}}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+from ColabTurtlePlus.Turtle import *
+clearscreen()
+initializeTurtle((480, 360))
+dot(20, "red")
+penup()
+goto(-200, 0)
+pendown()
+while distance(0, 0) >= 20:
+    forward(10)
+print("Touched it!")
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works.} Line 4 draws a red spot in the middle, at $(0, 0)$. \py|distance(0, 0)| measures from the turtle to that spot. ``Repeat \textbf{until} touching'' flips into ``keep going \textbf{while} the distance is 20 or more''. It's like pretending each sprite has an invisible bubble around it.
+
+\needspace{20\baselineskip}
+To check whether two \textbf{sprites} touch, make a second turtle with \py|Turtle()| and measure to where it is. \py|dog.pos()| gives the dog's position, its $x$ and $y$ together.
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center, raster force size=false, raster column 1/.style={width=0.36\linewidth}, raster column 2/.style={width=0.64\linewidth-12pt}]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center, left=0pt, right=0pt]
+\setscratch{scale=0.8}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blockrepeat{repeat until \boolsensing{touching \selectmenu{Dog}?}}{
+  \blockmove{move \ovalnum{10} steps}
+}
+\blocklook{say \ovalnum{Got you, dog!}}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+from ColabTurtlePlus.Turtle import *
+clearscreen()
+initializeTurtle((480, 360))
+shape("turtle")
+dog = Turtle()
+dog.shape("circle")
+dog.penup()
+dog.goto(150, 0)
+while distance(dog.pos()) >= 20:
+    forward(10)
+print("Got you, dog!")
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works.} \py|dog = Turtle()| makes a new sprite and gives it the name \py|dog|. Commands with \py|dog.| in front move only the dog; plain commands move the first turtle, as always. Line 9 measures from the turtle to the dog's position. If you make two named sprites, the check looks like \py|cat.distance(dog.pos()) < 20|.
+
+\begin{watchout}[Don't forget \texttt{.pos()}]
+In ColabTurtlePlus you must measure to the dog's \textbf{position}, \py|dog.pos()|. Writing \py|distance(dog)| gives a \texttt{ValueError}, because the measuring tape wants numbers, not a whole sprite.
+\end{watchout}
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{Key pressed? Mouse down? Take turns instead}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center, raster force size=false, raster column 1/.style={width=0.36\linewidth}, raster column 2/.style={width=0.64\linewidth-12pt}]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center, left=0pt, right=0pt]
+\setscratch{scale=0.7}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blockrepeat{repeat \ovalnum{5}}{
+  \blockif{if \boolsensing{key \selectmenu{left arrow} pressed?} then}{
+    \blockmove{turn \turnleft{} \ovalnum{90} degrees}
+  }
+  \blockif{if \boolsensing{key \selectmenu{right arrow} pressed?} then}{
+    \blockmove{turn \turnright{} \ovalnum{90} degrees}
+  }
+  \blockmove{move \ovalnum{50} steps}
+}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+from ColabTurtlePlus.Turtle import *
+clearscreen()
+initializeTurtle((480, 360))
+shape("turtle")
+for i in range(5):
+    key = input("f, l or r? ")
+    if key == "l":
+        left(90)
+    elif key == "r":
+        right(90)
+    forward(50)
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works.} Colab's turtle can't hear the keyboard or feel the mouse, so \chip[sensing]{key pressed?} and \chip[sensing]{mouse down?} don't work there. Instead we take \textbf{turns}: each time round the loop, \py|input()| waits for you to type a letter and press Enter, and \py|if| and \py|elif| decide what to do. Any other letter, like \texttt{f}, just goes forward. (Real key-press games are coming later, in Thonny.)
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{Make your own ``if on edge, bounce''}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center, raster force size=false, raster column 1/.style={width=0.28\linewidth}, raster column 2/.style={width=0.72\linewidth-12pt}]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center, left=0pt, right=0pt]
+\setscratch{scale=0.8}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blockmove{point in direction \ovalnum{60}}
+\blockrepeat{repeat \ovalnum{300}}{
+  \blockmove{move \ovalnum{10} steps}
+  \blockmove{if on edge, bounce}
+}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+from ColabTurtlePlus.Turtle import *
+clearscreen()
+initializeTurtle((480, 360))
+speed(13)
+setheading(30)
+for i in range(300):
+    forward(10)
+    if xcor() > 230 or xcor() < -230:
+        setheading(180 - heading())
+    if ycor() > 170 or ycor() < -170:
+        setheading(0 - heading())
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works.} The turtle has no bounce block and no walls: it would happily walk off the stage. So we build the walls with \py|if|. \py|xcor()| is the turtle's $x$ position. If it is past 230 (the right wall) or past $-230$ (the left wall), we turn it round. \py|heading()| tells you which way the turtle points right now. Line 5 uses the 90 minus rule: Scratch direction 60 is Python \py|90 - 60|, which is 30.
+
+\needspace{12\baselineskip}
+\begin{think}[The bounce maths]
+A ball bouncing off a side wall keeps going up (or down) but swaps right for left. That is \py|180 - heading()|. Bouncing off the floor or ceiling keeps going right (or left) but swaps up for down. That is \py|0 - heading()|.
+\begin{center}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{lll}
+\toprule
+\textbf{Pointing} & \textbf{Hits} & \textbf{New heading} \\
+\midrule
+30 (up and right) & right wall & $180 - 30 = 150$ (up and left) \\
+150 (up and left) & ceiling & $0 - 150 = -150$ (down and left) \\
+$-150$ (down and left) & left wall & $180 - (-150) = 330$ (down and right) \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{think}
+
+% =====================================================================
+\mission{Say hello}{\texttt{input}, joining words, and keeping more than one answer}
+
+The computer asks your name and your favourite food, then tells everyone what you love.
+
+\step{Step 1: Build it in Scratch}
+Make a variable called \textbf{name}, then build:
+
+\begin{center}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blocksensing{ask \ovalnum{What's your name?} and wait}
+\blockvariable{set \selectmenu{name} to \ovalsensing{answer}}
+\blocklook{say \ovaloperator{join \ovalnum{Hello } \ovalvariable{name}} for \ovalnum{2} seconds}
+\blocksensing{ask \ovalnum{What's your favourite food?} and wait}
+\blocklook{say \ovaloperator{join \ovalvariable{name} \ovaloperator{join \ovalnum{ loves } \ovalsensing{answer}}}}
+\end{scratch}
+\end{center}
+
+Why the \textbf{name} variable? Scratch has only one \chip[sensing]{answer}. The second question wipes out the first answer, so you have to save the name somewhere safe first.
+
+\step{Step 2: Type it in Colab}
+This one doesn't draw, so you don't need the starting lines.
+
+\begin{typethis}
+name = input("What's your name? ")
+print("Hello " + name)
+food = input("What's your favourite food? ")
+print(name + " loves " + food + "!")
+\end{typethis}
+
+\step{Step 3: Read it line by line}
+
+\begin{longtable}{>{\centering\arraybackslash}p{1.1cm} P{5.3cm} P{9.1cm}}
+\toprule
+\textbf{Line} & \textbf{Scratch block} & \textbf{What it means} \\
+\midrule
+--- & \chip[events]{when green flag clicked} & No code needed. The play button \playbtn{} starts it. \\
+1 & \chip[sensing]{ask and wait}\newline\chip[variables]{set name to answer} & Two blocks in one line! \py|input()| asks and waits, and the reply goes straight into the box called \py|name|. \\
+2 & \chip[looks]{say join Hello name} & \texttt{+} joins writing together, like \chip[operators]{join}. \\
+3 & \chip[sensing]{ask and wait} & A second question with its own box, \py|food|. Python can keep as many answers as you like. \\
+4 & \chip[looks]{say join name join \ldots} & Four pieces joined in a row. Scratch needs a \chip[operators]{join} inside a \chip[operators]{join}; Python just adds another \texttt{+}. \\
+\bottomrule
+\end{longtable}
+
+\step{Step 4: Run it}
+Press \playbtn. Type your name in the box and press Enter, then type a food and press Enter.
+
+\begin{outputbox}
+What's your name? Ada\\
+Hello Ada\\
+What's your favourite food? pizza\\
+Ada loves pizza!
+\end{outputbox}
+
+\begin{think}
+Look at the spaces inside \py|" loves "|: one before and one after. Without them you would get \texttt{Adalovespizza!}
+\end{think}
+
+\begin{challenge}
+\tick Ask a third question, like your favourite animal, and add it to the last sentence.\par
+\tick Ask \py|age = int(input("How old are you? "))| and print how old you will be in 10 years. Don't forget \py|str( )| when you join a number!\par
+\tick Use an \py|if| to give a special reply when the food is \texttt{"broccoli"}.\par
+\tick \textbf{Super challenge:} leave out the \py|int( )| in the age question and run it. Read the last line of the red writing. Which kind of error is it?
+\end{challenge}
+
+% =====================================================================
+\mission{Guess my number}{\texttt{random}, \texttt{while}, \texttt{if} and \texttt{elif}, \texttt{int}, and counting tries}
+
+The computer picks a secret number from 1 to 10. You keep guessing until you get it. It tells you ``too low'' or ``too high'', and at the end it tells you how many tries you took.
+
+\step{Step 1: Build it in Scratch}
+Make three variables called \textbf{secret}, \textbf{guess} and \textbf{tries}, then build:
+
+\begin{center}
+\setscratch{scale=0.8}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blockvariable{set \selectmenu{secret} to \ovaloperator{pick random \ovalnum{1} to \ovalnum{10}}}
+\blockvariable{set \selectmenu{guess} to \ovalnum{0}}
+\blockvariable{set \selectmenu{tries} to \ovalnum{0}}
+\blockrepeat{repeat until \booloperator{\ovalvariable{guess} = \ovalvariable{secret}}}{
+  \blocksensing{ask \ovalnum{Guess 1 to 10:} and wait}
+  \blockvariable{set \selectmenu{guess} to \ovalsensing{answer}}
+  \blockvariable{change \selectmenu{tries} by \ovalnum{1}}
+  \blockifelse{if \booloperator{\ovalvariable{guess} < \ovalvariable{secret}} then}{
+    \blocklook{say \ovalnum{Too low} for \ovalnum{1} seconds}
+  }{
+    \blockif{if \booloperator{\ovalvariable{guess} > \ovalvariable{secret}} then}{
+      \blocklook{say \ovalnum{Too high} for \ovalnum{1} seconds}
+    }
+  }
+}
+\blocklook{say \ovaloperator{join \ovalnum{You got it in } \ovaloperator{join \ovalvariable{tries} \ovalnum{ tries!}}}}
+\end{scratch}
+\end{center}
+
+\step{Step 2: Type it in Colab}
+
+\begin{typethis}
+import random
+secret = random.randint(1, 10)
+guess = 0
+tries = 0
+while guess != secret:
+    guess = int(input("Guess 1 to 10: "))
+    tries += 1
+    if guess < secret:
+        print("Too low")
+    elif guess > secret:
+        print("Too high")
+print("You got it in " + str(tries) + " tries!")
+\end{typethis}
+
+\step{Step 3: Read it line by line}
+
+\begin{longtable}{>{\centering\arraybackslash}p{1.1cm} P{5.3cm} P{9.1cm}}
+\toprule
+\textbf{Line} & \textbf{Scratch block} & \textbf{What it means} \\
+\midrule
+1 & (Extensions) & Brings in Python's random number tools. \\
+2 & \chip[variables]{set secret to pick random} & \py|random.randint(1, 10)| picks a whole number from 1 to 10. It can pick 1 or 10. \\
+3--4 & \chip[variables]{set guess to 0}\newline\chip[variables]{set tries to 0} & Make the two boxes. \py|guess| starts at 0, which can never be the secret, so the loop is sure to start. \\
+5 & \chip[control]{repeat until guess = secret} & Flipped! Keep going \textbf{while} the guess is \textbf{not} the secret. \\
+6 & \chip[sensing]{ask}\newline\chip[variables]{set guess to answer} & Ask, turn the writing into a number with \py|int( )|, and keep it in \py|guess|. \\
+7 & \chip[variables]{change tries by 1} & \py|tries += 1| is the short way to write \py|tries = tries + 1|. \\
+8--9 & \chip[control]{if guess < secret then} & Too small? Say so. \\
+10--11 & \chip[control]{else} \chip[control]{if guess > secret then} & \py|elif| means ``otherwise, if''. If the guess is neither too low nor too high, nothing is printed, because it must be right! \\
+12 & \chip[looks]{say join You got it in \ldots} & No spaces in front, so it runs once, after the loop. \py|str(tries)| turns the number into writing so it can be joined. \\
+\bottomrule
+\end{longtable}
+
+\step{Step 4: Run it}
+Press \playbtn{} and type a guess into the box. Press Enter after each one.
+
+\begin{outputbox}[You might see]
+Guess 1 to 10: 5\\
+Too low\\
+Guess 1 to 10: 8\\
+Too high\\
+Guess 1 to 10: 7\\
+You got it in 3 tries!
+\end{outputbox}
+
+\begin{think}[Can you always win in 4 tries?]
+Always guess the middle of the numbers that are left. 1 to 10: guess 5. Too low? Now it's 6 to 10: guess 8. This trick is called a \textbf{binary search}, and real programmers use it all the time.
+\end{think}
+
+\begin{challenge}
+\tick Make it harder: pick a number from 1 to \textbf{100}. Change the question too!\par
+\tick Change the last line so it says \texttt{try} (not \texttt{tries}) when you get it first time. Use \py|if tries == 1:| and \py|else:|.\par
+\tick Give the player only 5 tries. Change line 5 to \py|while guess != secret and tries < 5:|. After the loop, use \py|if|/\py|else| to say whether they won or ran out, and tell them the secret.\par
+\tick Type \texttt{cat} as a guess. Read the last line of the red writing. What went wrong?
+\end{challenge}
+
+% =====================================================================
+\mission{Quiz with a score}{\texttt{if}/\texttt{else}, \texttt{.lower()} and keeping score with \texttt{+=}}
+
+Make a three-question quiz. Each right answer adds one to your score, and at the end the computer tells you how you did.
+
+\step{Step 1: Build it in Scratch}
+Make a variable called \textbf{score}. Here is the first question. Questions 2 and 3 are built the same way, one under the other.
+
+\begin{center}
+\setscratch{scale=0.8}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blockvariable{set \selectmenu{score} to \ovalnum{0}}
+\blocksensing{ask \ovalnum{What is 6 x 7?} and wait}
+\blockifelse{if \booloperator{\ovalsensing{answer} = \ovalnum{42}} then}{
+  \blocklook{say \ovalnum{Correct!} for \ovalnum{1} seconds}
+  \blockvariable{change \selectmenu{score} by \ovalnum{1}}
+}{
+  \blocklook{say \ovalnum{Oops! It was 42.} for \ovalnum{1} seconds}
+}
+\blockspace[0.6]
+\blocklook{say \ovaloperator{join \ovalnum{You scored } \ovaloperator{join \ovalvariable{score} \ovalnum{ out of 3}}}}
+\end{scratch}
+\end{center}
+
+\step{Step 2: Type it in Colab}
+
+\begin{typethis}
+score = 0
+
+answer = int(input("What is 6 x 7? "))
+if answer == 42:
+    print("Correct!")
+    score += 1
+else:
+    print("Oops! It was 42.")
+
+answer = input("What colour is a banana? ")
+if answer.lower() == "yellow":
+    print("Correct!")
+    score += 1
+else:
+    print("Oops! It was yellow.")
+
+answer = input("Which animal says moo? ")
+if answer.lower() == "cow":
+    print("Correct!")
+    score += 1
+else:
+    print("Oops! It was a cow.")
+
+print("You scored " + str(score) + " out of 3")
+\end{typethis}
+
+\step{Step 3: Read it line by line}
+
+\begin{longtable}{>{\centering\arraybackslash}p{1.1cm} P{5.3cm} P{9.1cm}}
+\toprule
+\textbf{Line} & \textbf{Scratch block} & \textbf{What it means} \\
+\midrule
+1 & \chip[variables]{set score to 0} & The score starts at 0. Blank lines (2, 9, 16, 23) don't do anything; they just make the code easier to read. \\
+3 & \chip[sensing]{ask and wait} & The answer should be a number, so \py|int( )| turns it into one. \\
+4 & \chip[control]{if answer = 42 then} & Is the number 42? Two equals signs to check. \\
+5--6 & \chip[looks]{say Correct!}\newline\chip[variables]{change score by 1} & Both lines are inside the \py|if|. \py|score += 1| adds one to the score. \\
+7--8 & \chip[control]{else} & Otherwise, tell them the right answer. \\
+10 & \chip[sensing]{ask} & A word answer this time, so no \py|int( )|. We reuse the box \py|answer|; the new reply replaces the old one, just like in Scratch. \\
+11 & \chip[control]{if answer = yellow then} & \py|answer.lower()| turns the reply into small letters first, so \texttt{Yellow}, \texttt{YELLOW} and \texttt{yellow} all count. \\
+12--15 & & The same pattern as lines 5 to 8. \\
+17--22 & & Question 3, built the same way. \\
+24 & \chip[looks]{say join You scored \ldots} & At the left edge, so it always runs at the end. \\
+\bottomrule
+\end{longtable}
+
+\begin{watchout}[Why \texttt{.lower()}?]
+Scratch thinks \texttt{Yellow} and \texttt{yellow} are the same. Python doesn't: capital letters count! \py|.lower()| makes a small-letter copy of the writing, so it doesn't matter how the player types. Make sure the word you check against, like \py|"yellow"|, is in small letters too, or it can never match.
+\end{watchout}
+
+\step{Step 4: Run it}
+
+\begin{outputbox}[You might see]
+What is 6 x 7? 42\\
+Correct!\\
+What colour is a banana? Yellow\\
+Correct!\\
+Which animal says moo? sheep\\
+Oops! It was a cow.\\
+You scored 2 out of 3
+\end{outputbox}
+
+\begin{challenge}
+\tick Change the questions to be about something you love: football, dinosaurs, space\ldots\par
+\tick Add a fourth question. Remember to change \texttt{3} to \texttt{4} on the last line.\par
+\tick At the end, use \py|if|, \py|elif| and \py|else| to give a message: \texttt{Quiz champion!} for 3, \texttt{Well done!} for 1 or 2, and \texttt{Better luck next time!} for 0.\par
+\tick \textbf{Super challenge:} time the whole quiz with a stopwatch, and print how many seconds it took.
+\end{challenge}
+
+% =====================================================================
+\mission{Reaction timer}{the timer, \texttt{time.sleep}, \texttt{random} and \texttt{if}/\texttt{else}}
+
+How fast are you? The computer waits a surprise amount of time, then shouts GO! Press Enter as fast as you can, and it measures how long you took.
+
+\step{Step 1: Build it in Scratch}
+Make a variable called \textbf{taken}, then build:
+
+\begin{center}
+\setscratch{scale=0.8}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blocksensing{ask \ovalnum{Press Enter to start} and wait}
+\blocklook{say \ovalnum{Get ready...}}
+\blockcontrol{wait \ovaloperator{pick random \ovalnum{2} to \ovalnum{5}} seconds}
+\blocksensing{reset timer}
+\blocksensing{ask \ovalnum{GO! Press Enter!} and wait}
+\blockvariable{set \selectmenu{taken} to \ovalsensing{timer}}
+\blocklook{say \ovaloperator{join \ovalnum{Your time: } \ovalvariable{taken}} for \ovalnum{2} seconds}
+\blockifelse{if \booloperator{\ovalvariable{taken} < \ovalnum{0.5}} then}{
+  \blocklook{say \ovalnum{Lightning fast!}}
+}{
+  \blocklook{say \ovalnum{Good! Try again to beat it.}}
+}
+\end{scratch}
+\end{center}
+
+\step{Step 2: Type it in Colab}
+
+\begin{typethis}
+import time
+import random
+input("Press Enter to start ")
+print("Get ready...")
+time.sleep(random.randint(2, 5))
+start = time.time()
+input("GO! Press Enter! ")
+taken = time.time() - start
+taken = round(taken, 2)
+print("Your time: " + str(taken) + " seconds")
+if taken < 0.5:
+    print("Lightning fast!")
+else:
+    print("Good! Try again to beat it.")
+\end{typethis}
+
+\step{Step 3: Read it line by line}
+
+\begin{longtable}{>{\centering\arraybackslash}p{1.1cm} P{5.3cm} P{9.1cm}}
+\toprule
+\textbf{Line} & \textbf{Scratch block} & \textbf{What it means} \\
+\midrule
+1--2 & (Extensions) & Bring in the clock tools and the random tools. \\
+3 & \chip[sensing]{ask and wait} & We don't keep the answer, so there is no \py|answer =|. \py|input()| is used just for its waiting. \\
+4 & \chip[looks]{say Get ready...} & \\
+5 & \chip[control]{wait pick random seconds} & \py|time.sleep( )| is \chip[control]{wait}. A random wait means you can't guess when GO is coming. \\
+6 & \chip[sensing]{reset timer} & Start the stopwatch. \\
+7 & \chip[sensing]{ask GO! and wait} & Waits until you press Enter. \\
+8 & \chip[variables]{set taken to timer} & Now minus start: the seconds you took. \\
+9 & & \py|round(taken, 2)| keeps two numbers after the dot, so \texttt{0.4371825} becomes \texttt{0.44}. \\
+10 & \chip[looks]{say join Your time: taken} & Turn the number into writing and join it. \\
+11--14 & \chip[control]{if then else} & Under half a second? Lightning! Otherwise, encourage another go. \\
+\bottomrule
+\end{longtable}
+
+\step{Step 4: Run it}
+Press \playbtn, then press Enter in the box. Get ready, and when you see GO!, press Enter as fast as you can.
+
+\begin{outputbox}[You might see]
+Press Enter to start\\
+Get ready...\\
+GO! Press Enter!\\
+Your time: 0.62 seconds\\
+Good! Try again to beat it.
+\end{outputbox}
+
+\begin{think}[Why is Colab a bit slow?]
+Colab runs on a computer far away. Your Enter press has to travel there over the internet, so your time includes the journey. Compare your times with each other, not with a friend's on a different computer. If \texttt{0.5} is too hard, change line 11 to \texttt{0.8}.
+\end{think}
+
+\begin{challenge}
+\tick Ask for the player's name first, and print it with their time.\par
+\tick Add an \py|elif| so there are three messages: under 0.5, under 1, and the rest.\par
+\tick \textbf{Best of three:} put lines 3 to 8 inside \py|for i in range(3):| (with four more spaces). Before the loop, set \py|best = 100|. Inside, after line 8, add \py|if taken < best:| and \py|best = taken|. Print the best time at the end.\par
+\tick Make it sneakier: change the wait to \py|random.randint(1, 8)|.
+\end{challenge}
+
+% =====================================================================
+\needspace{30\baselineskip}
+\subsection*{Translate it yourself}
+Here is a Scratch script you haven't seen before. Write the Python on the lines, then type it into Colab and run it. Does it do the same thing?
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=top]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt]
+\setscratch{scale=0.85}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blocksensing{ask \ovalnum{What's the password?} and wait}
+\blockrepeat{repeat until \booloperator{\ovalsensing{answer} = \ovalnum{banana}}}{
+  \blocklook{say \ovalnum{Wrong! Try again.} for \ovalnum{1} seconds}
+  \blocksensing{ask \ovalnum{What's the password?} and wait}
+}
+\blocklook{say \ovalnum{Come in!}}
+\end{scratch}
+\end{tcolorbox}
+\begin{tcolorbox}[colback=white, colframe=codeframe, arc=5pt, title=\textbf{My Python}, coltitle=ink, colbacktitle=codebg]
+\vspace{4pt}
+\foreach \n in {1,...,7}{\rule{\linewidth}{0.4pt}\par\vspace{9pt}}
+\end{tcolorbox}
+\end{tcbraster}
+
+\begin{think}[Two clues]
+\chip[control]{repeat until} flips into \py|while| \ldots\ \texttt{!=}. And for \chip[looks]{say Wrong! Try again.} a \py|print| is enough.
+\end{think}
+
+% ---------------------------------------------------------------------
+\needspace{12\baselineskip}
+\begin{puzzle}
+Write \textbf{two lines} of Python that ask ``How old are you?'' and then print how old you will be next year, like \texttt{Next year you will be 10}.
+
+\vspace{4pt}
+\rule{\linewidth}{0.4pt}\par\vspace{12pt}
+\rule{\linewidth}{0.4pt}
+\end{puzzle}
+
+% ---------------------------------------------------------------------
+\needspace{10\baselineskip}
+\subsection*{Part 5 checklist}
+\begingroup\setlength{\parskip}{5pt}
+\tick I can ask a question with \py|input()| and keep the answer in a variable.\par
+\tick I can turn writing into a number with \py|int( )|, and I know a \texttt{ValueError} means I typed a word.\par
+\tick I can make choices with \py|if|, \py|else| and \py|elif|, with a colon and four spaces.\par
+\tick I can flip ``repeat until'' into a \py|while| loop with \texttt{!=} or \py|not|.\par
+\tick I can make a stopwatch with \py|time.time()| and read the year with \py|datetime|.\par
+\tick I can check ``touching'' with \py|distance()| and make a turtle bounce off the walls.\par
+\endgroup

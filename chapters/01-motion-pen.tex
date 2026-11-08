@@ -1,0 +1,819 @@
+% =====================================================================
+% PART 1: Motion and Pen
+% =====================================================================
+\partopener{motion}{PART 1}{Motion and Pen}{Make the turtle walk, turn and draw, just like a sprite with the Pen extension.}
+
+In Scratch, the blue \textbf{Motion} blocks move your sprite around the stage, and the green \textbf{Pen} blocks let it draw. In Python, the \textbf{turtle} does both jobs. It is a sprite that always carries a pen.
+
+In this part you will learn the Python for blocks like these:
+
+{\raggedright \chip[motion]{move 10 steps} \chip[motion]{turn right 15 degrees} \chip[motion]{go to x: 0 y: 0} \chip[motion]{glide 1 secs to x: 0 y: 0} \chip[motion]{point in direction 90} \chip[motion]{change x by 10} \chip[motion]{x position} \chip[pen]{pen down} \chip[pen]{pen up} \chip[pen]{set pen color to} \chip[pen]{set pen size to 1} \chip[pen]{erase all} \chip[pen]{stamp}\par}
+
+And you will learn some Python tricks that Scratch \textbf{can't} do, like circles, dots, filled-in shapes and writing words on the stage.
+
+\subsection*{Before you start}
+
+Every drawing program in this part begins with the \textbf{three starting lines}. They are like \chip[events]{when green flag clicked}. They bring in the turtle, wipe the stage and make it the same size as the Scratch stage.
+
+\begin{typethis}[The three starting lines]
+from ColabTurtlePlus.Turtle import *
+clearscreen()
+initializeTurtle((480, 360))
+\end{typethis}
+
+On the concept pages below, the boxes show only the new lines. Type the three starting lines first, then the new lines underneath, and press \playbtn.
+
+\begin{think}[Where does the turtle start?]
+\begin{itemize}
+  \item In the middle of the stage, at $(0, 0)$, just like a new sprite.
+  \item Pointing to the \textbf{right}, just like a new sprite (Scratch direction 90).
+  \item With its pen \textbf{down}. This is different! A Scratch sprite only draws after \chip[pen]{pen down}, but the turtle draws a line every time it moves.
+\end{itemize}
+\end{think}
+
+% ---------------------------------------------------------------------
+\needspace{10\baselineskip}
+\subsection*{Move and turn}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blockmove{move \ovalnum{100} steps}
+\blockmove{turn \turnright{} \ovalnum{90} degrees}
+\blockmove{move \ovalnum{100} steps}
+\blockmove{turn \turnleft{} \ovalnum{45} degrees}
+\blockmove{move \ovalnum{-50} steps}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+forward(100)
+right(90)
+forward(100)
+left(45)
+backward(50)
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works:} \py|forward(100)| is \chip[motion]{move 100 steps}. The number goes inside the round brackets \texttt{( )}, just like it goes inside the white bubble on the block. One step is one pixel in both, so your Scratch numbers work in Python too. To walk backwards, Scratch uses a minus number, but Python has its own word, \py|backward|.
+
+\py|right(90)| turns clockwise, like the $\circlearrowright$ arrow, and \py|left(45)| turns anticlockwise, like the $\circlearrowleft$ arrow. The good news: turning works \textbf{exactly} the same in Scratch and Python.
+
+\begin{watchout}[Watch out: lowercase only]
+Python is fussy about capital letters. \py|forward(100)| works, but \py|Forward(100)| gives an error. Every command in this part is written in lowercase letters.
+\end{watchout}
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{Go to a spot}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blockmove{go to x: \ovalnum{100} y: \ovalnum{50}}
+\blockmove{go to x: \ovalnum{-100} y: \ovalnum{50}}
+\blockmove{go to x: \ovalnum{0} y: \ovalnum{0}}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+goto(100, 50)
+goto(-100, 50)
+goto(0, 0)
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works:} \py|goto(100, 50)| means ``go to x: 100, y: 50''. The x number always comes first, then a comma, then the y number. The stage is the same as in Scratch: $(0, 0)$ is the middle, x goes from $-240$ to $240$ and y goes from $-180$ to $180$. Because the pen is down, this program draws a triangle!
+
+% ---------------------------------------------------------------------
+\needspace{13\baselineskip}
+\subsection*{Glide slowly}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blockmove{glide \ovalnum{3} secs to x: \ovalnum{150} y: \ovalnum{100}}
+\blockmove{glide \ovalnum{0.2} secs to x: \ovalnum{-150} y: \ovalnum{100}}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+speed(1)
+goto(150, 100)
+speed(13)
+goto(-150, 100)
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works:} The turtle always glides when it moves. You choose how fast with \py|speed()|. It takes a number from \textbf{1} (slowest, like a snail) to \textbf{13} (fastest, like a rocket). Python doesn't use seconds, so you pick the speed that looks right. The speed stays the same until you change it, so put \py|speed(13)| near the top when you want a big drawing to finish quickly.
+
+\begin{watchout}[Watch out: don't use speed 0]
+You might think \py|speed(0)| means ``stand still''. It doesn't! In Colab it means ``don't show anything until the end'', so your stage stays empty. Stick to 1 to 13.
+\end{watchout}
+
+% ---------------------------------------------------------------------
+\needspace{13\baselineskip}
+\subsection*{Point in a direction}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blockmove{point in direction \ovalnum{0}}
+\blockmove{move \ovalnum{100} steps}
+\blockmove{point in direction \ovalnum{180}}
+\blockmove{move \ovalnum{50} steps}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+setheading(90 - 0)
+forward(100)
+setheading(90 - 180)
+forward(50)
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works:} \py|setheading| means ``point in direction''. But Python's compass is turned round! In Scratch, 0 points \textbf{up} and the numbers go clockwise. In Python, 0 points \textbf{right} and the numbers go anticlockwise. Python can do sums inside the brackets, so we let it do the translating for us.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.7]
+  \foreach \cx/\title/\up/\right/\down/\left in {0/Scratch/0/90/180/-90, 7/Python/90/0/-90/180}{
+    \begin{scope}[shift={(\cx,0)}]
+      \draw[ink, line width=1pt] (0,0) circle (1.3);
+      \foreach \a in {0,90,180,270} \draw[-{Stealth}, line width=1.2pt, motion] (0,0) -- (\a:1.2);
+      \node[above, font=\bfseries] at (0,1.35) {\up};
+      \node[right, font=\bfseries] at (1.35,0) {\right};
+      \node[below, font=\bfseries] at (0,-1.35) {\down};
+      \node[left, font=\bfseries] at (-1.35,0) {\left};
+      \node[font=\bfseries] at (0,-2.7) {\title};
+    \end{scope}}
+\end{tikzpicture}
+\end{center}
+
+\begin{think}[The secret rule]
+\begin{center}\textbf{Python direction} $=$ \textbf{90} $-$ \textbf{Scratch direction}\end{center}
+So \chip[motion]{point in direction 30} becomes \py|setheading(90 - 30)|. Write the Scratch number after the \texttt{90 -} and Python works out the rest. You never have to do the sum in your head!
+\end{think}
+
+\needspace{12\baselineskip}
+\textbf{Fill in the table.} Work out each Python direction. Then try it in Colab with \py|forward(100)| after it, and check the turtle goes the way you expected.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{P{2.8cm} P{6.0cm} P{3.0cm} P{2.8cm}}
+\toprule
+\textbf{Scratch direction} & \textbf{Python code} & \textbf{Python direction} & \textbf{Which way?} \\
+\midrule
+90 & \py|setheading(90 - 90)| & 0 & right \\
+0 & \py|setheading(90 - 0)| & 90 & up \\
+-90 & \py|setheading(90 - -90)| & \rule{2cm}{0.5pt} & \rule{2cm}{0.5pt} \\
+45 & \py|setheading(90 - 45)| & \rule{2cm}{0.5pt} & \rule{2cm}{0.5pt} \\
+135 & \py|setheading(90 - 135)| & \rule{2cm}{0.5pt} & \rule{2cm}{0.5pt} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+% ---------------------------------------------------------------------
+\needspace{13\baselineskip}
+\subsection*{Point towards something}
+
+\begin{tcbraster}[raster columns=5, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[raster multicolumn=2, colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blockmove{point towards \selectmenu{Star}}
+\blockmove{move \ovalnum{100} steps}
+\end{scratch}
+\end{tcolorbox}
+\begin{tcolorbox}[raster multicolumn=3, blank]
+\begin{code}
+setheading(towards(100, 100))
+forward(100)
+\end{code}
+\end{tcolorbox}
+\end{tcbraster}
+
+\textbf{How it works:} In Scratch you point towards another sprite, like a Star sitting at x: 100, y: 100. In Python you point towards a \textbf{spot}. \py|towards(100, 100)| works out which direction the spot is in, and \py|setheading( )| turns the turtle to face it. One command sits inside the other, like a round block dropped into a white bubble.
+
+\begin{think}[No 90 minus this time]
+\py|towards| already gives the answer in Python's directions, so you don't need the secret rule here. You only need \texttt{90 -} when \textbf{you} type a Scratch direction number.
+\end{think}
+
+% ---------------------------------------------------------------------
+\needspace{13\baselineskip}
+\subsection*{Change x and y, set x and y}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blockmove{change x by \ovalnum{50}}
+\blockmove{change y by \ovalnum{50}}
+\blockmove{set x to \ovalnum{-100}}
+\blockmove{set y to \ovalnum{0}}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+setx(xcor() + 50)
+sety(ycor() + 50)
+setx(-100)
+sety(0)
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works:} \py|setx(-100)| is \chip[motion]{set x to -100}, and \py|sety(0)| is \chip[motion]{set y to 0}. Python has no ``change x'' command, so we build one. \py|xcor()| means ``my x position''. So \py|setx(xcor() + 50)| says: ``set x to (my x position + 50)''. That moves the turtle 50 steps to the right, which is exactly what \chip[motion]{change x by 50} does!
+
+\begin{watchout}
+\py|xcor()| needs its empty brackets. They tell Python ``go and get the answer now''. Without them, Python gets confused.
+\end{watchout}
+
+% ---------------------------------------------------------------------
+\needspace{13\baselineskip}
+\subsection*{Where am I? Which way am I facing?}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blockmove{move \ovalnum{100} steps}
+\blockmove{turn \turnleft{} \ovalnum{90} degrees}
+\blocklook{say \ovalmove{x position} for \ovalnum{2} seconds}
+\blocklook{say \ovalmove{y position} for \ovalnum{2} seconds}
+\blocklook{say \ovalmove{direction} for \ovalnum{2} seconds}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+forward(100)
+left(90)
+print(xcor())
+print(ycor())
+print(heading())
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works:} The round blocks \chip[motion]{x position}, \chip[motion]{y position} and \chip[motion]{direction} become \py|xcor()|, \py|ycor()| and \py|heading()|. \py|print( )| shows an answer underneath the cell, a bit like a sprite saying it.
+
+\begin{outputbox}
+100.0\\
+0.0\\
+90
+\end{outputbox}
+
+\begin{think}[Two things to spot]
+\begin{itemize}
+  \item \texttt{100.0} is just 100 written with a decimal point. Python likes to show positions that way.
+  \item Scratch would say the direction is \textbf{0}, because the sprite points up. Python says \textbf{90}, because \py|heading()| answers in \textbf{Python} directions. To get the Scratch number, use the secret rule again: \py|print(90 - heading())|.
+\end{itemize}
+\end{think}
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{Sneak peek: go to a random spot}
+
+\begin{tcbraster}[raster columns=5, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[raster multicolumn=2, colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blockmove{go to \selectmenu{random position}}
+\end{scratch}
+\end{tcolorbox}
+\begin{tcolorbox}[raster multicolumn=3, blank]
+\begin{code}
+import random
+goto(random.randint(-240, 240),
+     random.randint(-180, 180))
+\end{code}
+\end{tcolorbox}
+\end{tcbraster}
+
+\textbf{How it works:} \py|import random| brings in Python's dice. \py|random.randint(-240, 240)| picks a whole number from $-240$ to $240$, so it is a surprise x. The second one picks a surprise y. The line was too long, so it carries on to the next line. Python allows that while a bracket is still open. You will meet \py|random| properly in Part 4.
+
+% ---------------------------------------------------------------------
+\needspace{10\baselineskip}
+\subsection*{If on edge, bounce}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blockmove{if on edge, bounce}
+\end{scratch}
+\end{tcolorbox}
+\begin{tcolorbox}[colback=warnbg, colframe=warnframe, boxrule=0.6pt, arc=5pt]
+Python has no command for this one.
+\end{tcolorbox}
+\end{tcbraster}
+
+There is no wall around the turtle's stage. Try \py|forward(1000)|: the turtle walks right off the edge and keeps going! In \textbf{Part 5} you will build your own ``if on edge, bounce'' with an \py|if|. Then you will know the secret of what Scratch's block does.
+
+% ---------------------------------------------------------------------
+\needspace{13\baselineskip}
+\subsection*{Pen up, pen down}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blockpen{pen down}
+\blockmove{move \ovalnum{50} steps}
+\blockpen{pen up}
+\blockmove{move \ovalnum{50} steps}
+\blockpen{pen down}
+\blockmove{move \ovalnum{50} steps}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+forward(50)
+penup()
+forward(50)
+pendown()
+forward(50)
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works:} \py|penup()| lifts the pen off the paper, so the turtle moves without drawing. \py|pendown()| puts it back. The brackets are empty because these commands need no number, but Python still wants the brackets. They mean ``do it now!''. The turtle starts with its pen down, so the first \chip[pen]{pen down} needs no line of Python.
+
+\begin{think}[Moving without a line]
+To jump to a new place without drawing, use three lines: \py|penup()|, then \py|goto(x, y)|, then \py|pendown()|. You will use this trick a lot in the missions.
+\end{think}
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{Choose a pen colour}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blockpen{set pen color to \ovalnum{red}}
+\blockmove{move \ovalnum{100} steps}
+\blockpen{set pen color to \ovalnum{orange}}
+\blockmove{move \ovalnum{100} steps}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+pencolor("red")
+forward(100)
+pencolor("#ff8800")
+forward(100)
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works:} In Scratch you click a colour. In Python you type its name in \textbf{quote marks}, all in lowercase: \py|"red"|, \py|"gold"|, \py|"skyblue"|, \py|"hotpink"|. The quote marks tell Python ``this is a word, not a command''. There are 140 colour names to try!
+
+For any colour at all, use a \textbf{hex code}, like \py|"#ff8800"| (orange). It is a \texttt{\#} and six digits or letters. The first two say how much red, the middle two how much green and the last two how much blue. \texttt{00} is none and \texttt{ff} is the most.
+
+\begin{watchout}[Watch out: American spelling]
+In this book we write ``colour'', but Python spells it the American way: \py|pencolor|, with no \texttt{u}. If you type \py|pencolour|, Python won't know the word.
+\end{watchout}
+
+% ---------------------------------------------------------------------
+\needspace{10\baselineskip}
+\subsection*{Pen size and erase all}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blockpen{set pen size to \ovalnum{10}}
+\blockmove{move \ovalnum{100} steps}
+\blockpen{erase all}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+pensize(10)
+forward(100)
+clear()
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works:} A bigger number in \py|pensize| gives a fatter line. The turtle starts at size 1, just like Scratch. The size must be more than 0: \py|pensize(0)| gives an error.
+
+\py|clear()| rubs out everything the turtle has drawn. The turtle stays where it is, and keeps its colour and size, just like \chip[pen]{erase all}. (The starting line \py|clearscreen()| is the bigger eraser that wipes the whole stage and starts again.)
+
+% ---------------------------------------------------------------------
+\needspace{13\baselineskip}
+\subsection*{Stamp}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blockpen{stamp}
+\blockmove{move \ovalnum{100} steps}
+\blockpen{stamp}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+shape("turtle")
+stamp()
+forward(100)
+stamp()
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works:} \py|stamp()| prints a copy of the turtle onto the stage, like a rubber stamp. In Scratch the stamp looks like your costume. In Python it looks like the turtle's \textbf{shape}. \py|shape("turtle")| makes it look like a real turtle. You can also try the shapes \texttt{arrow}, \texttt{circle}, \texttt{square}, \texttt{triangle} and \texttt{classic} (the arrow it starts with). Remember the quote marks!
+
+% ---------------------------------------------------------------------
+\needspace{18\baselineskip}
+\subsection*{Python superpowers that Scratch doesn't have}
+
+Scratch's Pen can only draw lines. The turtle can do more!
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{P{5.4cm} P{10.4cm}}
+\toprule
+\textbf{Python} & \textbf{What it does} \\
+\midrule
+\py|circle(50)| & Draws a whole circle with a radius of 50 (that is the distance from the middle to the edge). The middle of the circle is on the turtle's \textbf{left}. A minus number, \py|circle(-50)|, puts it on the right. \\
+\py|dot(30, "gold")| & Draws a filled-in dot, 30 across, right where the turtle is. It works even when the pen is up. \\
+\py|fillcolor("skyblue")|\newline \py|begin_fill()|\newline \ldots\newline \py|end_fill()| & Colours in a shape. Choose the colour, say \py|begin_fill()|, draw the shape, then say \py|end_fill()|. The inside gets painted. \\
+\py|write("Hi!")| & Writes words on the stage where the turtle is. \\
+\py|shape("turtle")| & Changes how the turtle looks. A bit like choosing a costume. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\needspace{12\baselineskip}
+Try them all at once:
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{code}
+shape("turtle")
+circle(50)
+dot(30, "gold")
+fillcolor("skyblue")
+begin_fill()
+circle(-40)
+end_fill()
+write("Hi!")
+\end{code}
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+You should see an empty circle above the turtle, a blue filled-in circle below it, a gold dot where they touch, and the word \texttt{Hi!} on top. It looks a bit like a snowman!
+\end{tcolorbox}
+\end{tcbraster}
+
+% =====================================================================
+\mission{A square the long way}{\texttt{forward}, \texttt{right}, \texttt{pencolor}, \texttt{pensize} and \texttt{shape}, all in one program}
+
+Time to put the blocks together. You will draw a blue square, one side at a time.
+
+\step{Step 1: Build it in Scratch}
+Add the \textbf{Pen} extension, then build:
+
+\begin{center}
+\begin{tabular}{c@{\hspace{1cm}}c}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blockpen{erase all}
+\blockpen{pen down}
+\blockpen{set pen color to \ovalnum{blue}}
+\blockpen{set pen size to \ovalnum{3}}
+\blockmove{move \ovalnum{100} steps}
+\blockmove{turn \turnright{} \ovalnum{90} degrees}
+\end{scratch}
+&
+\begin{scratch}
+\blockmove{move \ovalnum{100} steps}
+\blockmove{turn \turnright{} \ovalnum{90} degrees}
+\blockmove{move \ovalnum{100} steps}
+\blockmove{turn \turnright{} \ovalnum{90} degrees}
+\blockmove{move \ovalnum{100} steps}
+\blockmove{turn \turnright{} \ovalnum{90} degrees}
+\end{scratch}
+\end{tabular}
+\end{center}
+The right-hand blocks join on underneath the left-hand ones.
+
+\step{Step 2: Type it in Colab}
+
+\begin{typethis}
+from ColabTurtlePlus.Turtle import *
+clearscreen()
+initializeTurtle((480, 360))
+shape("turtle")
+pencolor("blue")
+pensize(3)
+forward(100)
+right(90)
+forward(100)
+right(90)
+forward(100)
+right(90)
+forward(100)
+right(90)
+\end{typethis}
+
+\step{Step 3: Read it line by line}
+
+\begin{longtable}{>{\centering\arraybackslash}p{1.1cm} P{5.3cm} P{9.1cm}}
+\toprule
+\textbf{Line} & \textbf{Scratch block} & \textbf{What it means} \\
+\midrule
+1--3 & \chip[events]{when green flag clicked} \chip[pen]{erase all} & The three starting lines. \py|clearscreen()| wipes the stage, so it does the job of \chip[pen]{erase all} too. \\
+--- & \chip[pen]{pen down} & No line needed. The turtle's pen starts down. \\
+4 & (choosing a costume) & \py|shape("turtle")| makes the turtle look like a turtle. \\
+5 & \chip[pen]{set pen color to blue} & The colour name goes in quote marks. \\
+6 & \chip[pen]{set pen size to 3} & A slightly fatter line. \\
+7--8 & \chip[motion]{move 100 steps} \chip[motion]{turn right 90 degrees} & The first side, then a turn at the corner. \\
+9--10 & the same again & The second side. \\
+11--12 & the same again & The third side. \\
+13--14 & the same again & The fourth side. The last turn makes the turtle face the way it started. \\
+\bottomrule
+\end{longtable}
+
+\step{Step 4: Run it}
+Press \playbtn. The turtle walks right, turns, walks down, and so on. You should see a blue square below the middle of the stage, with the turtle back where it started, facing right.
+
+\begin{think}[Phew, that was long!]
+Lines 7 and 8 are typed \textbf{four times}. In Scratch you would use \chip[control]{repeat 4} so you only build them once. Python has a shortcut just like that, and \textbf{Part 2} shows you how. For now, typing it the long way helps you see every step.
+\end{think}
+
+\step{Step 5: Make it yours}
+
+\begin{challenge}
+\tick Change \py|"blue"| to your favourite colour, and the pen size to 8.\par
+\tick Make a bigger square: change all four \texttt{100}s to \texttt{150}.\par
+\tick Make each side a different colour. Add a \py|pencolor(...)| line before each \py|forward|.\par
+\tick Change every \py|right| to \py|left|. Where does the square go now? Predict first, then run it.
+\end{challenge}
+
+% =====================================================================
+\mission{Draw a house}{moving without drawing with \texttt{penup} and \texttt{goto}, and filling shapes with colour}
+
+Now you will draw a house with a roof, a door and a round window. You will use \py|goto| for every corner, and \py|penup()| to move between the parts without leaving a line.
+
+\step{Step 1: Build it in Scratch}
+Scratch can't fill shapes with colour, so the Scratch house is just outlines. Here are the walls and the roof:
+
+\begin{center}
+\begin{tabular}{c@{\hspace{1cm}}c}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blockpen{erase all}
+\blockpen{set pen size to \ovalnum{3}}
+\blockpen{pen up}
+\blockmove{go to x: \ovalnum{-100} y: \ovalnum{-150}}
+\blockpen{pen down}
+\blockmove{go to x: \ovalnum{100} y: \ovalnum{-150}}
+\blockmove{go to x: \ovalnum{100} y: \ovalnum{50}}
+\blockmove{go to x: \ovalnum{-100} y: \ovalnum{50}}
+\blockmove{go to x: \ovalnum{-100} y: \ovalnum{-150}}
+\end{scratch}
+&
+\begin{scratch}
+\blockpen{pen up}
+\blockmove{go to x: \ovalnum{-120} y: \ovalnum{50}}
+\blockpen{pen down}
+\blockmove{go to x: \ovalnum{120} y: \ovalnum{50}}
+\blockmove{go to x: \ovalnum{0} y: \ovalnum{150}}
+\blockmove{go to x: \ovalnum{-120} y: \ovalnum{50}}
+\end{scratch}
+\end{tabular}
+\end{center}
+
+The right-hand blocks join on underneath the left-hand ones. The door works the same way.
+
+\step{Step 2: Type it in Colab}
+The empty lines split the program into parts: walls, roof, door and window. Python doesn't mind empty lines, and they make it easier to read.
+
+\begin{typethis}
+from ColabTurtlePlus.Turtle import *
+clearscreen()
+initializeTurtle((480, 360))
+speed(8)
+pensize(3)
+\end{typethis}
+\begin{tcbraster}[raster columns=2, raster column skip=10pt, raster valign=top]
+\begin{tcblisting}{listing only, enhanced, colback=codebg, colframe=codeframe, boxrule=0.8pt, arc=6pt, left=22pt, right=8pt, top=4pt, bottom=4pt, title={\textbf{\ldots and carry on in the same cell}}, coltitle=white, colbacktitle=ink, fonttitle=\small, listing options={style=py, firstnumber=7}}
+penup()
+goto(-100, -150)
+pendown()
+fillcolor("tan")
+begin_fill()
+goto(100, -150)
+goto(100, 50)
+goto(-100, 50)
+goto(-100, -150)
+end_fill()
+
+penup()
+goto(-120, 50)
+pendown()
+fillcolor("firebrick")
+begin_fill()
+goto(120, 50)
+goto(0, 150)
+goto(-120, 50)
+end_fill()
+\end{tcblisting}
+\begin{tcblisting}{listing only, enhanced, colback=codebg, colframe=codeframe, boxrule=0.8pt, arc=6pt, left=22pt, right=8pt, top=4pt, bottom=4pt, title={\textbf{\ldots and carry on in the same cell}}, coltitle=white, colbacktitle=ink, fonttitle=\small, listing options={style=py, firstnumber=28}}
+penup()
+goto(-25, -150)
+pendown()
+fillcolor("saddlebrown")
+begin_fill()
+goto(-25, -70)
+goto(25, -70)
+goto(25, -150)
+end_fill()
+
+penup()
+goto(55, -10)
+dot(40, "skyblue")
+hideturtle()
+\end{tcblisting}
+\end{tcbraster}
+
+\step{Step 3: Read it line by line}
+
+\begin{longtable}{>{\centering\arraybackslash}p{1.1cm} P{5.3cm} P{9.1cm}}
+\toprule
+\textbf{Line} & \textbf{Scratch block} & \textbf{What it means} \\
+\midrule
+1--3 & \chip[events]{when green flag clicked} & The three starting lines. \\
+4 & (none) & \py|speed(8)| makes the turtle quicker, so you don't wait too long. \\
+5 & \chip[pen]{set pen size to 3} & Fatter lines for the outline. \\
+7--9 & \chip[pen]{pen up} \chip[motion]{go to x: -100 y: -150} \chip[pen]{pen down} & The ``moving without a line'' trick. The turtle hops to the bottom-left corner of the walls. \\
+10--16 & \chip[motion]{go to x: 100 y: -150} and the other corners & Choose the paint colour and say \py|begin_fill()|: ``start remembering this shape''. Walk round the four corners and back to the start. Then \py|end_fill()| paints the inside tan. Scratch can't fill! \\
+18--26 & the roof & The same pattern again: hop, choose a colour, draw three corners, fill. A triangle only needs three corners! \\
+28--36 & the door & The same pattern a third time. The door starts at the bottom of the walls. \\
+38--41 & \chip[looks]{hide} & Hop to the window spot and drop a big blue dot. Then \py|hideturtle()| hides the turtle so you can admire your house. \\
+\bottomrule
+\end{longtable}
+
+\step{Step 4: Run it}
+You should see a tan house with a red roof, a brown door and a round blue window.
+
+\begin{watchout}[If a line goes across your house]
+You probably forgot a \py|penup()|, so the turtle drew a line as it moved. Check lines 7, 18, 28 and 38.
+\end{watchout}
+
+\step{Step 5: Make it yours}
+
+\begin{challenge}
+\tick Paint your house in your own colours.\par
+\tick Add a second window on the left. Copy lines 38 to 40 to the end, and change the x number.\par
+\tick Add a sun in the top corner: hop to \py|goto(-190, 140)| and use a big \mbox{\texttt{dot(60, "gold")}}.\par
+\tick Write your house number on the door. Hop to the door, then use \py|write("12")|.
+\end{challenge}
+
+% =====================================================================
+\mission{Robot face}{\texttt{circle}, \texttt{dot}, \texttt{write} and \texttt{stamp}: the Python superpowers}
+
+Meet Robo! You will draw a robot head with a round face, big eyes, a mouth and an antenna. Then Robo gets a little pet turtle.
+
+\step{Step 1: Build it in Scratch}
+Scratch has no circle block, so the head and eyes are hard to make in Scratch. Here is the part Scratch \textbf{can} do: the mouth, the antenna and the pet.
+
+\begin{center}
+\begin{tabular}{c@{\hspace{1cm}}c}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blockpen{erase all}
+\blockpen{set pen size to \ovalnum{4}}
+\blockpen{pen up}
+\blockmove{go to x: \ovalnum{-50} y: \ovalnum{-40}}
+\blockpen{pen down}
+\blockpen{set pen color to \ovalnum{red}}
+\blockmove{go to x: \ovalnum{50} y: \ovalnum{-40}}
+\end{scratch}
+&
+\begin{scratch}
+\blockpen{pen up}
+\blockmove{go to x: \ovalnum{0} y: \ovalnum{100}}
+\blockpen{pen down}
+\blockpen{set pen color to \ovalnum{grey}}
+\blockmove{go to x: \ovalnum{0} y: \ovalnum{140}}
+\blockpen{pen up}
+\blockmove{go to x: \ovalnum{-150} y: \ovalnum{-120}}
+\blockpen{stamp}
+\blocklook{hide}
+\end{scratch}
+\end{tabular}
+\end{center}
+
+\step{Step 2: Type it in Colab}
+
+\begin{typethis}
+from ColabTurtlePlus.Turtle import *
+clearscreen()
+initializeTurtle((480, 360))
+speed(10)
+pensize(4)
+pencolor("slategray")
+\end{typethis}
+\begin{tcbraster}[raster columns=2, raster column skip=10pt, raster valign=top]
+\begin{tcblisting}{listing only, enhanced, colback=codebg, colframe=codeframe, boxrule=0.8pt, arc=6pt, left=22pt, right=8pt, top=4pt, bottom=4pt, title={\textbf{\ldots and carry on in the same cell}}, coltitle=white, colbacktitle=ink, fonttitle=\small, listing options={style=py, firstnumber=8}}
+penup()
+goto(0, -100)
+pendown()
+fillcolor("lightgray")
+begin_fill()
+circle(100)
+end_fill()
+
+penup()
+goto(-40, 30)
+dot(40, "white")
+dot(16, "black")
+goto(40, 30)
+dot(40, "white")
+dot(16, "black")
+\end{tcblisting}
+\begin{tcblisting}{listing only, enhanced, colback=codebg, colframe=codeframe, boxrule=0.8pt, arc=6pt, left=22pt, right=8pt, top=4pt, bottom=4pt, title={\textbf{\ldots and carry on in the same cell}}, coltitle=white, colbacktitle=ink, fonttitle=\small, listing options={style=py, firstnumber=24}}
+goto(-50, -40)
+pendown()
+pencolor("red")
+goto(50, -40)
+
+penup()
+goto(0, 100)
+pendown()
+pencolor("slategray")
+goto(0, 140)
+dot(20, "gold")
+
+penup()
+goto(120, -150)
+write("I am Robo!")
+shape("turtle")
+color("seagreen")
+goto(-150, -120)
+stamp()
+hideturtle()
+\end{tcblisting}
+\end{tcbraster}
+
+\step{Step 3: Read it line by line}
+
+\begin{longtable}{>{\centering\arraybackslash}p{1.1cm} P{5.3cm} P{9.1cm}}
+\toprule
+\textbf{Line} & \textbf{Scratch block} & \textbf{What it means} \\
+\midrule
+1--3 & \chip[events]{when green flag clicked} & The three starting lines. \\
+4--6 & \chip[pen]{set pen size to 4} \chip[pen]{set pen color to} & Fast drawing, a thick line and a grey-blue colour called \py|"slategray"|. \\
+8--10 & \chip[pen]{pen up} \chip[motion]{go to x: 0 y: -100} \chip[pen]{pen down} & Hop to the bottom of where the face will be. \\
+11--14 & (Scratch can't do this) & \py|circle(100)| draws the face. The middle of the circle is 100 steps to the turtle's left. The turtle faces right, so its left is \textbf{up}, and the middle lands at $(0, 0)$. The fill paints it light grey. \\
+16--22 & \chip[pen]{pen up} \chip[motion]{go to x: -40 y: 30} & Hop to the left eye. A big white dot with a small black dot on top makes an eyeball. Then the same for the right eye. Dots work with the pen up. \\
+24--27 & \chip[motion]{go to x: -50 y: -40} \ldots & The mouth: pen down, red, and a straight line across. \\
+29--34 & \chip[motion]{go to x: 0 y: 100} \ldots & The antenna: a short line up from the top of the head, and a gold dot on the end. \\
+36--38 & (Scratch can't do this) & Hop below the face and \py|write| a message. Words go in quote marks. \\
+39--40 & (choosing a costume) & Turn into a turtle shape. \py|color("seagreen")| sets the pen colour \textbf{and} the fill colour at once, so the turtle becomes green. \\
+41--42 & \chip[motion]{go to x: -150 y: -120} \chip[pen]{stamp} & Walk to the bottom-left and stamp a copy of the turtle: Robo's pet! \\
+43 & \chip[looks]{hide} & Hide the real turtle. The stamp stays behind. \\
+\bottomrule
+\end{longtable}
+
+\step{Step 4: Run it}
+You should see a grey round robot face with two big eyes, a straight red mouth and an antenna with a gold ball on top. ``I am Robo!'' is written in the bottom-right, and a green turtle stamp sits in the bottom-left.
+
+
+\step{Step 5: Make it yours}
+
+\begin{challenge}
+\tick Give Robo different coloured eyes, like \py|"lime"| or \py|"hotpink"|.\par
+\tick Change the message to your own robot's name.\par
+\tick Make a smile: replace line 27 with \py|goto(0, -60)| and add \py|goto(50, -40)| after it. Now the mouth is a V shape.\par
+\tick Stamp a whole family of pets. After line 42, add more \py|goto(...)| and \py|stamp()| pairs. Try changing \py|color(...)| between stamps.
+\end{challenge}
+
+% =====================================================================
+\needspace{20\baselineskip}
+\subsection*{Translate it yourself}
+
+Here is a Scratch script you haven't seen. Write the Python for it on the lines below. Start with the three starting lines. Then type it into Colab to check. Hints: remember the secret rule for \chip[motion]{point in direction}, and remember that the turtle's pen starts down. (The answer is at the back of the book.)
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blockpen{pen up}
+\blockmove{go to x: \ovalnum{-100} y: \ovalnum{0}}
+\blockpen{pen down}
+\blockpen{set pen color to \ovalnum{red}}
+\blockpen{set pen size to \ovalnum{4}}
+\blockmove{point in direction \ovalnum{0}}
+\blockmove{move \ovalnum{80} steps}
+\blockmove{turn \turnright{} \ovalnum{90} degrees}
+\blockmove{move \ovalnum{80} steps}
+\blockpen{stamp}
+\end{scratch}
+\end{tcolorbox}
+\begin{tcolorbox}[colback=white, colframe=codeframe, arc=5pt, title=\textbf{My Python}, coltitle=ink, colbacktitle=codebg]
+\vspace{4pt}
+\foreach \n in {1,...,13}{\rule{\linewidth}{0.4pt}\par\vspace{9pt}}
+\end{tcolorbox}
+\end{tcbraster}
+
+
+% =====================================================================
+\needspace{12\baselineskip}
+\begin{puzzle}
+The turtle is in the middle, facing right, as always. Make it point \textbf{straight down} and walk \textbf{100 steps}. You may use only \textbf{two lines} of Python after the three starting lines. (Hint: Scratch's direction for down is 180.)
+
+\vspace{6pt}
+\rule{\linewidth}{0.4pt}\par\vspace{12pt}
+\rule{\linewidth}{0.4pt}
+\end{puzzle}
+
+% =====================================================================
+\needspace{14\baselineskip}
+\subsection*{Part 1 checklist}
+
+Tick each one you can do.
+
+\tick I can move the turtle with \py|forward| and \py|backward|, and turn it with \py|right| and \py|left|.\par
+\tick I can send the turtle to a spot with \py|goto(x, y)|, and choose how fast it goes with \py|speed|.\par
+\tick I can turn a Scratch direction into Python with \py|setheading(90 - d)|.\par
+\tick I can move without drawing using \py|penup()| and \py|pendown()|.\par
+\tick I can choose a pen colour and size, \py|clear()| the drawing and \py|stamp()| the turtle.\par
+\tick I can use a Python superpower: \py|circle|, \py|dot|, \py|begin_fill| or \py|write|.

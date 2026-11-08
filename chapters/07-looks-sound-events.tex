@@ -1,0 +1,1005 @@
+% =====================================================================
+% PART 7: Looks, Sound and Events
+% =====================================================================
+\partopener{events}{PART 7}{Looks, Sound and Events}{Make your sprites dress up, sing a tune and pass messages, then race them all in one loop.}
+
+This is the last Part, and it is a fun one. You will dress your turtle up, make Colab play music, and learn how Python does the job of Scratch's yellow hat blocks. Here are some of the blocks you will meet:
+
+\begin{center}
+\chip[looks]{say Hello! for 2 seconds}\quad
+\chip[looks]{next costume}\quad
+\chip[looks]{set size to 200 \%}\quad
+\chip[looks]{switch backdrop to blue sky}\par\vspace{6pt}
+\chip[sound]{start sound Meow}\quad
+\chip[sound]{play sound Meow until done}\par\vspace{6pt}
+\chip[events]{when green flag clicked}\quad
+\chip[events]{broadcast message1}\quad
+\chip[events]{when I receive message1}
+\end{center}
+
+Some of these work almost the same in Python. A few need a clever trick. And one big idea is different: Scratch looks as if it runs lots of scripts at once, but Python does \textbf{one thing at a time}. By the end of this Part you will know how to make one loop move every sprite.
+
+% ---------------------------------------------------------------------
+\needspace{18\baselineskip}
+\subsection*{Saying things: \texttt{print}}
+
+You met \py|print| right at the start of the book. It is Python's \chip[looks]{say} block. The words appear under the code cell instead of in a speech bubble.
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blocklook{say \ovalnum{Hello!} for \ovalnum{2} seconds}
+\blocklook{say \ovalnum{Bye!}}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+import time
+print("Hello!")
+time.sleep(2)
+print("Bye!")
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works:} \py|print("Hello!")| is the \chip[looks]{say} part. The ``for 2 seconds'' part is a wait, so it becomes \py|time.sleep(2)|, which you met with the \chip[control]{wait} block. \py|import time| at the top brings in the clock tools. In Scratch, the bubble disappears after 2 seconds. Printed words stay on the page, so you will see \texttt{Hello!} and then, 2 seconds later, \texttt{Bye!} underneath it.
+
+\begin{think}[What about think?]
+Python has no cloud bubble, so \chip[looks]{think Hmm...} is just \py|print("Hmm...")| too. If you want people to know it is a thought, you could write \py|print("(thinks) Hmm...")|.
+\end{think}
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{Words on the stage: a speech turtle}
+
+Do you want the words to appear \textbf{on the stage}, next to your sprite? The turtle has a \py|write()| command that writes words where it is standing. The trick is to make a second, \textbf{invisible} turtle whose only job is to write. Let's call it \py|speech|.
+
+\begin{center}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blocklook{switch costume to \selectmenu{turtle}}
+\blocklook{say \ovalnum{Hello!} for \ovalnum{2} seconds}
+\end{scratch}
+\end{center}
+
+\begin{typethis}
+from ColabTurtlePlus.Turtle import *
+clearscreen()
+initializeTurtle((480, 360))
+import time
+
+shape("turtle")
+speech = Turtle()
+speech.hideturtle()
+speech.penup()
+speech.goto(0, 30)
+speech.write("Hello!", align="center",
+             font=("Arial", 20, "normal"))
+time.sleep(2)
+speech.clear()
+\end{typethis}
+
+\textbf{How it works:} lines 7 to 10 make a new sprite called \py|speech|, hide it, lift its pen and move it just above the turtle. Lines 11 and 12 are the \chip[looks]{say} part: \py|write| writes the words where \py|speech| is standing. \py|align="center"| puts the middle of the words there, and \py|font=| gives the letter style, the size (20) and \py|"normal"|. It is one command split over two lines: Python knows it isn't finished until the bracket is closed. Line 13 waits, and line 14 makes the ``bubble'' go away: \py|clear()| rubs out everything \py|speech| has written or drawn.
+
+\begin{watchout}[Why a separate speech turtle?]
+\py|clear()| wipes \textbf{all} of that turtle's drawing, not just the words. If your main turtle wrote the words and then cleared them, its lines would vanish too! A speech turtle is like a friend holding a whiteboard: to change the sign, the friend wipes the whiteboard and writes again, and your drawing is safe. For a thought, change \py|"normal"| to \py|"italic"| and the words come out slanted, like thinking.
+\end{watchout}
+
+% ---------------------------------------------------------------------
+\needspace{20\baselineskip}
+\subsection*{Costumes: \texttt{shape}}
+
+In Scratch, a sprite can change its costume. The turtle can too, with \py|shape()|. You give it the name of a costume in quote marks.
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blocklook{switch costume to \selectmenu{turtle}}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+shape("turtle")
+\end{code}
+\end{tcbraster}
+
+The turtle has nine costumes. Try them all!
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lll}
+\toprule
+\py|"classic"| (the one you start with) & \py|"arrow"| & \py|"triangle"| \\
+\py|"square"| & \py|"circle"| & \py|"turtle"| \\
+\py|"turtle2"| (a pointy turtle) & \py|"ring"| & \py|"blank"| (invisible) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{How it works:} the costume name is writing, so it needs quote marks, and it must be spelled exactly. If you type a name that isn't on the list, Python stops with a \texttt{ValueError} and shows you the list of names it knows. That is a helpful clue note!
+
+\begin{watchout}[No picture costumes in Colab]
+In Scratch you can paint a costume or pick a cat. The Colab turtle only has the shapes in the table: it can't load pictures. Instead, make your costumes different by changing their \textbf{shape}, \textbf{colour} and \textbf{size}. That's what the rest of this page is about.
+\end{watchout}
+
+% ---------------------------------------------------------------------
+\needspace{12\baselineskip}
+\subsection*{Next costume: a list and a hanger}
+
+Scratch keeps a wardrobe of costumes for you. In Python you build the wardrobe yourself, as a \textbf{list}. A number called \py|n| is the hanger you are pointing at.
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center, raster force size=false, raster column 1/.style={add to width=-2.2cm}, raster column 2/.style={add to width=2.2cm}]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blockrepeat{repeat \ovalnum{6}}{
+  \blockcontrol{wait \ovalnum{1} seconds}
+  \blocklook{next costume}
+}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+costumes = ["turtle", "circle",
+            "square"]
+n = 0
+shape(costumes[n])
+for i in range(6):
+    time.sleep(1)
+    n = (n + 1) % len(costumes)
+    shape(costumes[n])
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works:} \py|costumes[n]| picks the costume on hanger \py|n|. Remember that lists start counting at 0, so hanger 0 is \py|"turtle"|. Line 7 is the clever part. \py|n + 1| moves to the next hanger. \py|len(costumes)| is 3, the number of costumes. The \texttt{\%} sign is Scratch's \chip[operators]{mod} block: it gives the remainder after dividing. So when \py|n + 1| reaches 3, \py|3 % 3| is 0 and you are back at the first hanger, just like Scratch going from the last costume back to the first.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{cccc}
+\toprule
+\py|n| before & \py|n + 1| & \py|(n + 1) % 3| & costume \\
+\midrule
+0 & 1 & 1 & \py|"circle"| \\
+1 & 2 & 2 & \py|"square"| \\
+2 & 3 & 0 & \py|"turtle"| \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Scratch's \chip[looks]{costume number} counts from 1, so in Python it is \py|n + 1|.
+
+% ---------------------------------------------------------------------
+\needspace{16\baselineskip}
+\subsection*{Size: \texttt{shapesize}}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blocklook{set size to \ovalnum{200} \%}
+\blockrepeat{repeat \ovalnum{5}}{
+  \blocklook{change size by \ovalnum{50}}
+}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+shapesize(2)
+size = 200
+for i in range(5):
+    size = size + 50
+    shapesize(size / 100)
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works:} Scratch measures size in percent, and 100\,\% is normal. Python uses ``how many times as big'', so \py|shapesize(1)| is normal (100\,\%), \py|shapesize(2)| is double (200\,\%) and \py|shapesize(0.5)| is half (50\,\%). To change the size bit by bit, keep your own \py|size| variable in percent, just like Scratch, and divide it by 100 when you give it to \py|shapesize|.
+
+\begin{watchout}[Never size 0]
+\py|shapesize(0)| makes Python stop with a \texttt{ValueError}. Scratch quietly stops your sprite getting too small, but Python doesn't. If your size goes down in a loop, make sure it never reaches 0. Use 0.1 for a tiny turtle.
+\end{watchout}
+
+% ---------------------------------------------------------------------
+\needspace{16\baselineskip}
+\subsection*{Show and hide}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blockrepeat{repeat \ovalnum{3}}{
+  \blocklook{hide}
+  \blockcontrol{wait \ovalnum{0.5} seconds}
+  \blocklook{show}
+  \blockcontrol{wait \ovalnum{0.5} seconds}
+}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+for i in range(3):
+    hideturtle()
+    time.sleep(0.5)
+    showturtle()
+    time.sleep(0.5)
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works:} \py|hideturtle()| makes the turtle invisible and \py|showturtle()| brings it back. The brackets are empty because there is nothing to tell it, but you still need them: they are what makes Python \textbf{do} the command. A hidden turtle can still move and draw. That's how the speech turtle works!
+
+% ---------------------------------------------------------------------
+\needspace{18\baselineskip}
+\subsection*{Backdrops and colours}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blocklook{switch backdrop to \selectmenu{blue sky}}
+\blockrepeat{repeat \ovalnum{4}}{
+  \blocklook{change \selectmenu{color} effect by \ovalnum{25}}
+  \blockcontrol{wait \ovalnum{0.5} seconds}
+}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+bgcolor("skyblue")
+rainbow = ["red", "orange",
+           "gold", "green"]
+for c in rainbow:
+    color(c)
+    time.sleep(0.5)
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works:} \py|bgcolor()| (``background colour'') paints the whole stage. Colab backdrops are plain colours only, not pictures, so choose a colour that feels right: \py|"skyblue"| for the sky, \py|"black"| for space, \py|"lightgreen"| for a field. \py|color(c)| colours the turtle itself. The loop goes through the \py|rainbow| list and gives the turtle each colour in turn, which is a simple way to do Scratch's colour effect. Python spells it \texttt{color}, the American way, so we do too in code. Remember: colour names are all small letters.
+
+% ---------------------------------------------------------------------
+\needspace{16\baselineskip}
+\subsection*{Sound in Colab: the sound cell}
+
+Colab runs on Google's computers, far away, so Python can't reach your speakers. But it \textbf{can} send a sound to the web page, and your browser plays it. To do that, run this \textbf{sound cell} once, after the magic first cell. It makes a new block called \py|beep|.
+
+\begin{typethis}[Sound cell: run it once each time you open Colab]
+import numpy as np
+from IPython.display import Audio, display
+
+def beep(freq=440, secs=0.5):
+    times = np.linspace(0, secs, int(22050 * secs))
+    sound = np.sin(2 * np.pi * freq * times)
+    display(Audio(sound, rate=22050, autoplay=True))
+\end{typethis}
+
+You don't need to understand every line of this. It is a recipe card that someone else wrote, and you just use it, like a block from an extension. Here is the idea. Lines 1 and 2 bring in two extensions: \py|numpy| (super-fast maths) and the tools that put a sound player on the page. Line 4 makes your own block, \py|beep|, with two inputs: how high the note is (\py|freq|, short for \emph{frequency}) and how long it lasts (\py|secs|). \py|freq=440| means ``if nobody says, use 440''. Lines 5 and 6 work out the shape of the sound wave, and line 7 puts a little sound player on the page and plays it straight away (\py|autoplay=True|).
+
+\begin{watchout}[No sound?]
+\begin{itemize}
+  \item Check that your computer's volume is up.
+  \item Some browsers block sounds that play by themselves. If you see a small player with a \playbtn{} button under the cell but hear nothing, press its play button.
+  \item \texttt{NameError: name 'beep' is not defined}? Run the sound cell first.
+\end{itemize}
+\end{watchout}
+
+% ---------------------------------------------------------------------
+\needspace{18\baselineskip}
+\subsection*{Start sound, and play until done}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blocksound{play sound \selectmenu{Low C} until done}
+\blocksound{play sound \selectmenu{E} until done}
+\blocksound{start sound \selectmenu{Long G}}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+import time
+beep(262)
+time.sleep(0.5)
+beep(330)
+time.sleep(0.5)
+beep(392, 1)
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works:} \py|beep(262)| is \chip[sound]{start sound}: it starts the note and Python carries straight on to the next line. \chip[sound]{play sound until done} waits for the sound to finish. Colab can't tell when a sound has finished, so you wait yourself: the note lasts 0.5 seconds, so \py|time.sleep(0.5)| waits 0.5 seconds. \py|beep(392, 1)| gives the second input too, so that note lasts 1 second.
+
+\begin{think}[The doorbell and the radio]
+\chip[sound]{start sound} is like switching on the radio and walking off to do something else. \chip[sound]{play sound until done} is like waiting by the radio until the song ends. Take the two \py|time.sleep| lines out and run it again. The notes all start at once and play on top of each other!
+\end{think}
+
+% ---------------------------------------------------------------------
+\needspace{12\baselineskip}
+\subsection*{Notes are numbers}
+
+The number you give \py|beep| decides how high the note is. Bigger numbers are higher. Here are the notes of a scale, starting at middle C:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{l*{8}{c}}
+\toprule
+\textbf{Note} & C & D & E & F & G & A & B & high C \\
+\textbf{Number} & 262 & 294 & 330 & 349 & 392 & 440 & 494 & 523 \\
+\textbf{Scratch Music note} & 60 & 62 & 64 & 65 & 67 & 69 & 71 & 72 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+A tune is a list of notes, so you can play it with a \py|for| loop:
+
+\begin{code}
+notes = [262, 294, 330, 349, 392, 440, 494, 523]
+for note in notes:
+    beep(note, 0.3)
+    time.sleep(0.4)
+\end{code}
+
+This plays the whole scale, from C up to high C. Each note lasts 0.3 seconds, and the 0.4-second wait leaves a tiny gap before the next one.
+
+\begin{think}[For grown-ups: if all the notes play at the end]
+On most computers each note plays as soon as \py|beep| runs. If yours saves them all up and plays them together when the cell finishes, join the notes into one sound and play that instead. Paste this under the sound cell and use \py|play_tune([262, 294, 330])|:
+\begin{codenonum}
+def play_tune(notes, secs=0.4):
+    parts = []
+    for note in notes:
+        times = np.linspace(0, secs, int(22050 * secs))
+        parts.append(np.sin(2 * np.pi * note * times))
+    song = np.concatenate(parts)
+    display(Audio(song, rate=22050, autoplay=True))
+\end{codenonum}
+\end{think}
+
+% ---------------------------------------------------------------------
+\needspace{12\baselineskip}
+\subsection*{The green flag: running the cell}
+
+Every Scratch script starts with a hat block. The one you use most is \chip[events]{when green flag clicked}. In Colab the green flag is the play button \playbtn: running a cell starts everything in it, from the top. That is why your drawing programs start with the three starting lines. They do the jobs a green flag script does at the start: clear the stage and get the sprite ready.
+
+Scratch's other hat blocks need different tricks in Python. Here they are:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{P{5.6cm} P{9.6cm}}
+\toprule
+\textbf{Scratch} & \textbf{Python in Colab} \\
+\midrule
+\chip[events]{when green flag clicked} & Press \playbtn{} to run the cell. \\
+\chip[events]{when I receive message1} & Make a function: \py|def message1():| \\
+\chip[events]{broadcast message1} & Call the function: \py|message1()| \\
+\chip[events]{when space key pressed} & Not in Colab. Ask with \py|input()| instead, or use Thonny (page at the end of this Part). \\
+\chip[events]{when this sprite clicked} & Not in Colab. Ask with \py|input()| instead. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+% ---------------------------------------------------------------------
+\needspace{12\baselineskip}
+\subsection*{Broadcasts are function calls}
+
+In Scratch, one script can \textbf{broadcast} a message, and another script that starts with \chip[events]{when I receive} does its job. In Python, the receiving script is a \textbf{function}, and broadcasting is \textbf{calling} it.
+
+\begin{center}
+\begin{tabular}{c@{\hspace{1cm}}c}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blocklook{say \ovalnum{Ready...}}
+\blockevent{broadcast \selectmenu{go} and wait}
+\blocklook{say \ovalnum{Done!}}
+\end{scratch}
+&
+\begin{scratch}
+\blockinit{when I receive \selectmenu{go}}
+\blocklook{say \ovalnum{Go, go, go!}}
+\end{scratch}
+\end{tabular}
+\end{center}
+
+\begin{code}
+def go():
+    print("Go, go, go!")
+
+print("Ready...")
+go()
+print("Done!")
+\end{code}
+
+\begin{outputbox}
+Ready...\\
+Go, go, go!\\
+Done!
+\end{outputbox}
+
+\textbf{How it works:} lines 1--2 are the \chip[events]{when I receive go} script. Python learns the recipe but doesn't do it yet. Line 4 runs first. Line 5 is the broadcast: Python jumps into \py|go|, does everything inside it, then comes back and carries on with line 6.
+
+\begin{think}[A call always waits]
+Scratch has two broadcast blocks. \chip[events]{broadcast} sends the message and carries on at once. \chip[events]{broadcast and wait} waits until the other script has finished. A Python function call \textbf{always waits}: Python finishes \py|go()| before it moves to the next line. So a plain call is like \chip[events]{broadcast and wait}. Good news: that makes it easy to know what happens in which order.
+\end{think}
+
+% ---------------------------------------------------------------------
+\needspace{12\baselineskip}
+\subsection*{Key presses become questions}
+
+The Colab turtle can't hear the keyboard or the mouse while a program runs. So instead of \chip[events]{when f key pressed}, you \textbf{ask} which key, with \py|input()|. The player types a letter and presses Enter. It's like a board game: one move per turn.
+
+\begin{center}
+\begin{tabular}{c@{\hspace{0.6cm}}c@{\hspace{0.6cm}}c}
+\begin{scratch}
+\blockinit{when \selectmenu{f} key pressed}
+\blockmove{move \ovalnum{50} steps}
+\end{scratch}
+&
+\begin{scratch}
+\blockinit{when \selectmenu{l} key pressed}
+\blockmove{turn \turnleft{} \ovalnum{90} degrees}
+\end{scratch}
+&
+\begin{scratch}
+\blockinit{when \selectmenu{r} key pressed}
+\blockmove{turn \turnright{} \ovalnum{90} degrees}
+\end{scratch}
+\end{tabular}
+\end{center}
+
+\begin{typethis}
+from ColabTurtlePlus.Turtle import *
+clearscreen()
+initializeTurtle((480, 360))
+
+shape("turtle")
+for turn in range(5):
+    key = input("f, l or r? ")
+    if key == "f":
+        forward(50)
+    elif key == "l":
+        left(90)
+    elif key == "r":
+        right(90)
+\end{typethis}
+
+\textbf{How it works:} three Scratch scripts become one loop with five turns. Each turn, \py|input| waits for a letter. Then the \py|if| checks which letter it was and does the job of the matching hat block. \py|elif| means ``else, if'': it is only checked when the lines above it were not true. Try typing \texttt{f}, \texttt{l}, \texttt{f}, \texttt{r}, \texttt{f}. The turtle draws a zigzag step!
+
+\begin{watchout}[Watch out: always give your loop a way out]
+In Scratch, \chip[control]{forever} is safe because you can click the red stop sign. In Colab, \py|while True:| with no way out makes the cell run for ever, and nothing else can happen. Use a \py|for| loop like \py|for turn in range(5):|, or a \py|while| whose condition will become false, like the one in the Turtle race later in this Part. If a cell does get stuck, press the stop button \stopbtn.
+\end{watchout}
+
+% ---------------------------------------------------------------------
+\needspace{12\baselineskip}
+\subsection*{Many sprites, one loop}
+
+In Scratch, every sprite can have its own \chip[events]{when green flag clicked} script, and they all seem to run at the same time. Here a cat walks right while a dog walks up:
+
+\begin{center}
+\begin{tabular}{c@{\hspace{1cm}}c}
+\textbf{Cat sprite} & \textbf{Dog sprite} \\[4pt]
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blockrepeat{repeat \ovalnum{20}}{
+  \blockmove{move \ovalnum{10} steps}
+}
+\end{scratch}
+&
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blockmove{point in direction \ovalnum{0}}
+\blockrepeat{repeat \ovalnum{20}}{
+  \blockmove{move \ovalnum{5} steps}
+}
+\end{scratch}
+\end{tabular}
+\end{center}
+
+Python does \textbf{one thing at a time}. If you wrote the cat's loop and then the dog's loop, the cat would finish its whole walk before the dog even started. Instead, write \textbf{one loop that moves every sprite a little}:
+
+\begin{typethis}
+from ColabTurtlePlus.Turtle import *
+clearscreen()
+initializeTurtle((480, 360))
+
+hideturtle()
+cat = Turtle()
+cat.shape("turtle")
+dog = Turtle()
+dog.shape("circle")
+dog.left(90)
+for step in range(20):
+    cat.forward(10)
+    dog.forward(5)
+\end{typethis}
+
+\textbf{How it works:} each time round the loop, the cat takes one small step, then the dog takes one small step. It happens so fast that they seem to move together. This is called a \textbf{game loop}, and every real computer game has one. Scratch has one too, hidden inside it, like a juggler giving each ball a little push.
+
+
+% =====================================================================
+\mission{Costume parade}{lists of costumes and colours, \texttt{shapesize}, \texttt{\%} and \texttt{time.sleep}}
+
+Your turtle is going to put on a fashion show! It changes costume, colour and size every half a second, then takes a bow and disappears.
+
+\step{Step 1: Build it in Scratch}
+Give a sprite four costumes, then build:
+
+\begin{center}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blocklook{switch backdrop to \selectmenu{lavender}}
+\blocklook{switch costume to \selectmenu{turtle}}
+\blocklook{set size to \ovalnum{100} \%}
+\blockrepeat{repeat \ovalnum{8}}{
+  \blocklook{change \selectmenu{color} effect by \ovalnum{25}}
+  \blockcontrol{wait \ovalnum{0.5} seconds}
+  \blocklook{next costume}
+  \blocklook{change size by \ovalnum{50}}
+}
+\blocklook{hide}
+\blocklook{say \ovalnum{Ta-da!}}
+\end{scratch}
+\end{center}
+
+\step{Step 2: Type it in Colab}
+
+\begin{typethis}
+from ColabTurtlePlus.Turtle import *
+clearscreen()
+initializeTurtle((480, 360))
+import time
+
+costumes = ["turtle", "circle", "square", "triangle"]
+colours = ["green", "red", "blue", "orange"]
+n = 0
+size = 100
+bgcolor("lavender")
+for i in range(8):
+    shape(costumes[n])
+    color(colours[n])
+    shapesize(size / 100)
+    print("Costume", n + 1, costumes[n])
+    time.sleep(0.5)
+    n = (n + 1) % len(costumes)
+    size = size + 50
+hideturtle()
+print("Ta-da!")
+\end{typethis}
+
+\step{Step 3: Read it line by line}
+
+\begin{longtable}{>{\centering\arraybackslash}p{1.1cm} P{5.3cm} P{9.1cm}}
+\toprule
+\textbf{Line} & \textbf{Scratch block} & \textbf{What it means} \\
+\midrule
+1--4 & \chip[events]{when green flag clicked} & The three starting lines, plus the clock tools. \\
+6 & (the costumes tab) & The wardrobe: a list of four costumes. \\
+7 & \chip[looks]{change color effect} & A list of four colours, one for each costume. \\
+8 & \chip[looks]{switch costume to turtle} & The hanger starts at 0, the first costume. \\
+9 & \chip[looks]{set size to 100 \%} & Your own size variable, in percent like Scratch. \\
+10 & \chip[looks]{switch backdrop to lavender} & Paint the stage a pale purple. \\
+11 & \chip[control]{repeat 8} & Do the inside lines 8 times. \\
+12--14 & & Put on costume number \py|n|, in colour number \py|n|, at the right size. \\
+15 & (the costume number) & Say which costume it is. \py|print| can show several things at once if you put commas between them, and it adds spaces for you. \py|n + 1| because Scratch counts costumes from 1. \\
+16 & \chip[control]{wait 0.5 seconds} & Pause so you can see the costume. \\
+17 & \chip[looks]{next costume} & Move to the next hanger, and back to 0 after the last one. \\
+18 & \chip[looks]{change size by 50} & Grow by 50\,\% for next time. \\
+19 & \chip[looks]{hide} & Disappear\ldots \\
+20 & \chip[looks]{say Ta-da!} & \ldots and take a bow. \\
+\bottomrule
+\end{longtable}
+
+\step{Step 4: Run it}
+The stage turns pale purple. The turtle changes costume and colour every half a second, and gets bigger each time. Then it vanishes. Under the cell you will see:
+
+\begin{outputbox}
+Costume 1 turtle\\
+Costume 2 circle\\
+Costume 3 square\\
+Costume 4 triangle\\
+Costume 1 turtle\\
+Costume 2 circle\\
+Costume 3 square\\
+Costume 4 triangle\\
+Ta-da!
+\end{outputbox}
+
+\begin{think}
+The costume and the colour always go together: costume 2 is always red. That is because both lists use the same hanger number \py|n|. The two lists are like two clothes rails standing side by side.
+\end{think}
+
+\begin{challenge}
+\tick Add a fifth costume, \py|"arrow"|, to the end of the costume list. What else do you need to add, so that line 13 doesn't crash? (Hint: count the colours.)\par
+\tick Make the turtle \textbf{shrink} instead: start with \py|size = 400| and take 40 away each time. Check that it never reaches 0!\par
+\tick Add a list of backdrop colours, like \py|["lavender", "pink", "skyblue", "lightyellow"]|, and change the backdrop every time too.\par
+\tick Use a speech turtle to write the costume name on the stage above the turtle, instead of printing it. Remember to \py|clear()| the old name first.
+\end{challenge}
+
+% =====================================================================
+\mission{Make music}{playing a tune from a list of notes, and \texttt{range(len(...))}}
+
+Now let's make Colab sing. You will play the first line of ``Twinkle, Twinkle, Little Star''. Before you start, run the magic first cell and the \textbf{sound cell}.
+
+\step{Step 1: Build it in Scratch}
+Click \textbf{Extensions} and add \textbf{Music}. Its blocks are green in Scratch. This book draws them in pink, with the sound blocks.
+
+\begin{center}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blocksound{set tempo to \ovalnum{150}}
+\blocksound{play note \ovalnum{60} for \ovalnum{1} beats}
+\blocksound{play note \ovalnum{60} for \ovalnum{1} beats}
+\blocksound{play note \ovalnum{67} for \ovalnum{1} beats}
+\blocksound{play note \ovalnum{67} for \ovalnum{1} beats}
+\blocksound{play note \ovalnum{69} for \ovalnum{1} beats}
+\blocksound{play note \ovalnum{69} for \ovalnum{1} beats}
+\blocksound{play note \ovalnum{67} for \ovalnum{2} beats}
+\blocklook{say \ovalnum{Twinkle, twinkle, little star!}}
+\end{scratch}
+\end{center}
+
+\step{Step 2: Type it in Colab}
+
+\begin{typethis}
+import time
+C = 262
+D = 294
+E = 330
+F = 349
+G = 392
+A = 440
+
+tune = [C, C, G, G, A, A, G]
+beats = [1, 1, 1, 1, 1, 1, 2]
+for i in range(len(tune)):
+    secs = beats[i] * 0.4
+    beep(tune[i], secs)
+    time.sleep(secs + 0.1)
+print("Twinkle, twinkle, little star!")
+\end{typethis}
+
+\step{Step 3: Read it line by line}
+
+\begin{longtable}{>{\centering\arraybackslash}p{1.1cm} P{5.3cm} P{9.1cm}}
+\toprule
+\textbf{Line} & \textbf{Scratch block} & \textbf{What it means} \\
+\midrule
+--- & \chip[events]{when green flag clicked} & No turtle needed, so no starting lines. The sound cell must have been run already. \\
+1 & & The clock tools, for waiting. \\
+2--7 & (the note numbers) & Six variables, one for each note. Now you can write \py|G| instead of remembering 392. Capital letters are fine for variable names, and they look like real music. \\
+9 & the seven \chip[sound]{play note} blocks & The tune is a list of notes, in order. \\
+10 & the beats & How many beats each note lasts. The last note is twice as long. \\
+11 & \chip[control]{repeat 7} & \py|len(tune)| is 7, so \py|range(7)| gives \py|i| = 0, 1, 2 \ldots{} 6: one number for each note. \\
+12 & \chip[sound]{set tempo to 150} & One beat lasts 0.4 seconds. Multiply to get the length of this note. \\
+13 & \chip[sound]{play note for beats} & Play note number \py|i| for the right time. \\
+14 & (``until done'') & Wait for the note to finish, plus a tiny gap so you can hear two Cs, not one long one. \\
+15 & \chip[looks]{say} & Printed when the tune is over. \\
+\bottomrule
+\end{longtable}
+
+\begin{think}[Why \texttt{range(len(tune))}?]
+Line 11 counts through the positions, 0 to 6, instead of the notes themselves. That's because you need the \textbf{same position} from two lists: \py|tune[i]| is the note and \py|beats[i]| is how long it lasts. It's the same trick as the two clothes rails in the Costume parade.
+\end{think}
+
+\step{Step 4: Run it}
+You should hear ``Twinkle, twinkle, little star'' and see a small sound player appear for each note. Then the words appear under the cell:
+
+\begin{outputbox}
+Twinkle, twinkle, little star!
+\end{outputbox}
+
+If you hear nothing, look back at the \textbf{No sound?} box on the sound cell page.
+
+\begin{challenge}
+\tick Make it faster: change \py|0.4| in line 12 to \py|0.25|. That's like \chip[sound]{set tempo to 240}.\par
+\tick Add the next line of the song, ``how I wonder what you are'': the notes are F F E E D D C, and the last one is long. Add them to the end of both lists.\par
+\tick \textbf{Happy Birthday!} Add \py|B = 494| and \py|C2 = 523|, then play \py|[G, G, A, G, C2, B]| with beats \py|[0.75, 0.25, 1, 1, 1, 2]|.\par
+\tick Make a dancing turtle: add the three starting lines at the top and put \py|right(30)| inside the loop, so the turtle turns on every note.
+\end{challenge}
+
+% =====================================================================
+\mission{Turtle race}{two sprites in one loop, a function that makes sprites, and \texttt{if}/\texttt{else}}
+
+Two turtles race across the stage. Each step of the loop, both move forward by a random amount. Who will win? Even the computer doesn't know!
+
+\step{Step 1: Build it in Scratch}
+Make two sprites called \textbf{Red} and \textbf{Blue}. The red one gets this script, and the blue one gets the same script with $y = -50$:
+
+\begin{center}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blocklook{switch costume to \selectmenu{turtle}}
+\blockpen{pen up}
+\blockmove{go to x: \ovalnum{-200} y: \ovalnum{50}}
+\blockpen{pen down}
+\blockrepeat{repeat until \booloperator{\ovalmove{x position} > \ovalnum{200}}}{
+  \blockmove{change x by \ovaloperator{pick random \ovalnum{1} to \ovalnum{20}}}
+}
+\blocklook{say \ovalnum{I win!}}
+\end{scratch}
+\end{center}
+
+In Scratch, each sprite runs its own script \textbf{at the same time}. In Python, \textbf{one loop moves both turtles}, one step each, again and again. And because both sprites are set up in the same way, a function can do the setting up for you.
+
+\step{Step 2: Type it in Colab}
+
+\begin{typethis}
+from ColabTurtlePlus.Turtle import *
+clearscreen()
+initializeTurtle((480, 360))
+import random
+
+def make_racer(colour, y):
+    racer = Turtle()
+    racer.shape("turtle")
+    racer.color(colour)
+    racer.penup()
+    racer.goto(-200, y)
+    racer.pendown()
+    return racer
+
+hideturtle()
+red = make_racer("red", 50)
+blue = make_racer("blue", -50)
+
+while red.xcor() < 200 and blue.xcor() < 200:
+    red.forward(random.randint(1, 20))
+    blue.forward(random.randint(1, 20))
+
+if red.xcor() > blue.xcor():
+    print("Red wins!")
+    red.write("I win!", font=("Arial", 16, "bold"))
+else:
+    print("Blue wins!")
+    blue.write("I win!", font=("Arial", 16, "bold"))
+\end{typethis}
+
+\step{Step 3: Read it line by line}
+
+\begin{longtable}{>{\centering\arraybackslash}p{1.1cm} P{5.3cm} P{9.1cm}}
+\toprule
+\textbf{Line} & \textbf{Scratch block} & \textbf{What it means} \\
+\midrule
+1--4 & \chip[events]{when green flag clicked} & The three starting lines, plus the random number tools. \\
+6 & (a sprite factory) & A function with two inputs: the racer's colour and how high up it starts. \\
+7 & (a new sprite) & Make a brand-new sprite and call it \py|racer| for now. \\
+8--9 & \chip[looks]{switch costume to turtle} & The turtle costume, in the colour you asked for. \\
+10--12 & \chip[pen]{pen up}\newline\chip[motion]{go to x: -200 y: 50}\newline\chip[pen]{pen down} & Go to the start line without drawing, then put the pen down so it leaves a trail. \\
+13 & & \py|return| hands the finished sprite back to whoever asked for it. \\
+15 & \chip[looks]{hide} & Hide the plain turtle in the middle: it isn't racing. \\
+16--17 & (two sprites) & Use the factory twice. Each call makes a new sprite, and you give it a name. \\
+19 & \chip[control]{repeat until x position > 200} & Keep going \textbf{while} red has not reached 200 \textbf{and} blue has not reached 200. This is the game loop, and it has a way out: as soon as one turtle crosses the line, it stops. \\
+20--21 & \chip[motion]{change x by pick random} & One small step for each turtle, every time round. \\
+23 & \chip[control]{if then else} & Is red further right than blue? \\
+24--25 & \chip[looks]{say I win!} & Red wins: print it, and write it on the stage next to red, in bold. \\
+26--28 & (the else part) & Otherwise blue wins. \\
+\bottomrule
+\end{longtable}
+
+\begin{think}[Why a function?]
+Without \py|make_racer|, you would type the six setting-up lines twice, once for red and once for blue. With it, adding a green racer is just one more line: \py|green = make_racer("green", 0)|. A function is a recipe card you can use again and again.
+\end{think}
+
+\step{Step 4: Run it}
+Watch the turtles race! The winner writes \textbf{I win!} at the finish, and under the drawing you will see one of these:
+
+\begin{outputbox}
+Red wins!
+\end{outputbox}
+
+Run it again. Do you get the same winner every time?
+
+\begin{challenge}
+\tick Add a third racer: \py|green = make_racer("green", 0)|. Then change line 19 so the race stops when \textbf{any} of the three crosses the line, and add a \py|forward| line for green. (Hint: three turtles means \texttt{and} twice.)\par
+\tick Make one turtle a cheater: let it move \py|random.randint(1, 25)|. Run the race 5 times. Who wins most?\par
+\tick Give \py|make_racer| a third input, \py|costume|, so one racer can be a \py|"circle"| and the other a \py|"triangle"|.\par
+\tick Play a sound when the race is over: run the sound cell first, then add \py|beep(523, 1)| at the very end.
+\end{challenge}
+
+% =====================================================================
+\mission{Story with messages}{functions as broadcasts, and choices with \texttt{input()}}
+
+In Scratch, big stories are often built with messages. The stage broadcasts \texttt{scene 1}, then asks a question, then broadcasts a different message depending on the answer. In Python, each message is a function, and each broadcast is a function call.
+
+\step{Step 1: Build it in Scratch}
+These scripts can go on the stage or on a sprite. The left one runs the story. The others wait for their messages. (The \texttt{left path} and \texttt{the end} scripts look like the \texttt{right path} one.)
+
+\begin{center}
+\begin{tabular}{c@{\hspace{0.8cm}}c}
+\begin{scratch}[scale=0.9]
+\blockinit{when \greenflag clicked}
+\blockevent{broadcast \selectmenu{scene 1} and wait}
+\blocksensing{ask \ovalnum{Go left or right?} and wait}
+\blockifelse{if \booloperator{\ovalsensing{answer} = \ovalnum{left}} then}{
+  \blockevent{broadcast \selectmenu{left path} and wait}
+}{
+  \blockevent{broadcast \selectmenu{right path} and wait}
+}
+\blockevent{broadcast \selectmenu{the end} and wait}
+\end{scratch}
+&
+\begin{tabular}{c}
+\begin{scratch}[scale=0.9]
+\blockinit{when I receive \selectmenu{scene 1}}
+\blocklook{say \ovalnum{A little turtle wakes up...} for \ovalnum{2} seconds}
+\blocklook{say \ovalnum{Two paths lead away...}}
+\end{scratch}
+\\[8pt]
+\begin{scratch}[scale=0.9]
+\blockinit{when I receive \selectmenu{right path}}
+\blocklook{say \ovalnum{You meet a friendly dragon!}}
+\end{scratch}
+\end{tabular}
+\end{tabular}
+\end{center}
+
+\step{Step 2: Type it in Colab}
+
+\begin{typethis}
+import time
+
+def scene1():
+    print("A little turtle wakes up in a forest.")
+    time.sleep(2)
+    print("Two paths lead away from here.")
+
+def left_path():
+    print("You find a river full of fish. Yum!")
+
+def right_path():
+    print("You meet a friendly dragon!")
+
+def the_end():
+    time.sleep(1)
+    print("THE END")
+
+scene1()
+choice = input("Go left or right? ")
+if choice == "left":
+    left_path()
+else:
+    right_path()
+the_end()
+\end{typethis}
+
+\step{Step 3: Read it line by line}
+
+\begin{longtable}{>{\centering\arraybackslash}p{1.1cm} P{5.3cm} P{9.1cm}}
+\toprule
+\textbf{Line} & \textbf{Scratch block} & \textbf{What it means} \\
+\midrule
+1 & & The clock tools. No turtle needed: this story is all words. \\
+3--6 & \chip[events]{when I receive scene 1} & The \texttt{scene 1} script. Python learns it now, and does it later when it is called. \\
+8--9 & \chip[events]{when I receive left path} & The \texttt{left path} script. Function names can't have spaces, so we use an underscore: \py|left_path|. \\
+11--12 & \chip[events]{when I receive right path} & The \texttt{right path} script. \\
+14--16 & \chip[events]{when I receive the end} & The \texttt{the end} script. \\
+18 & \chip[events]{broadcast scene 1 and wait} & The story starts here! Call \py|scene1|, and wait until it has finished. \\
+19 & \chip[sensing]{ask and wait} & Ask the question and keep the answer in \py|choice|. \\
+20--23 & \chip[control]{if then else} with two broadcasts & Call the function that matches the answer. \\
+24 & \chip[events]{broadcast the end and wait} & This line is back at the edge, so it happens whichever path you chose. \\
+\bottomrule
+\end{longtable}
+
+\begin{watchout}[The story starts at line 18, not line 1]
+Lines 3 to 16 only \textbf{teach} Python the scenes. Nothing is printed until line 18 calls the first one. If you forget the calls at the bottom, you will run the cell and see\ldots{} nothing at all! That's like building \chip[events]{when I receive} scripts and never broadcasting.
+\end{watchout}
+
+\step{Step 4: Run it}
+Type \texttt{left} or \texttt{right} when the question appears, then press Enter.
+
+\begin{outputbox}[You might see]
+A little turtle wakes up in a forest.\\
+Two paths lead away from here.\\
+Go left or right? left\\
+You find a river full of fish. Yum!\\
+THE END
+\end{outputbox}
+
+\begin{think}
+What happens if you type \texttt{Left} with a capital L? Python thinks \texttt{"Left"} and \texttt{"left"} are different, so you go right! You can fix it by changing line 19 to \py|choice = input("Go left or right? ").lower()|, which turns the answer into small letters.
+\end{think}
+
+\begin{challenge}
+\tick Add a third choice, \texttt{straight on}, with its own function. You will need an \py|elif|.\par
+\tick Inside \py|right_path|, ask another question (``Will you be friends? yes or no'') and call a different function for each answer.\par
+\tick Make the story musical: run the sound cell, then put a \py|beep| inside each scene. A low note (\py|beep(262)|) for scary bits, a high one (\py|beep(523)|) for happy bits.\par
+\tick Add a backdrop: put the three starting lines at the top, and call \py|bgcolor("darkgreen")| inside \py|scene1| for the forest and \py|bgcolor("skyblue")| inside \py|left_path| for the river.
+\end{challenge}
+
+% =====================================================================
+\banner{events}{BONUS}{Key presses on your computer: Thonny}
+
+The Colab turtle can't hear key presses, but Python on your own computer can. \textbf{Thonny} (\texttt{thonny.org}) is a free Python editor made for beginners. It works offline and needs no account. Ask a grown-up to install it. Thonny comes with Python's own \texttt{turtle}, which opens its own window and \textbf{can} listen to the keyboard.
+
+This is \chip[events]{when space key pressed} in Thonny:
+
+\begin{center}
+\begin{tabular}{c}
+\begin{scratch}
+\blockinit{when \selectmenu{space} key pressed}
+\blockmove{turn \turnleft{} \ovalnum{90} degrees}
+\blockmove{move \ovalnum{50} steps}
+\blockmove{move \ovalnum{-50} steps}
+\blockmove{turn \turnright{} \ovalnum{90} degrees}
+\end{scratch}
+\end{tabular}
+\end{center}
+
+\begin{typethis}[Type this into Thonny, then press the green Run button]
+import turtle
+
+t = turtle.Turtle()
+t.shape("turtle")
+screen = turtle.Screen()
+
+def jump():
+    t.left(90)
+    t.forward(50)
+    t.back(50)
+    t.right(90)
+
+screen.onkeypress(jump, "space")
+screen.listen()
+turtle.mainloop()
+\end{typethis}
+
+\begin{longtable}{>{\centering\arraybackslash}p{1.1cm} P{14.4cm}}
+\toprule
+\textbf{Line} & \textbf{What it means} \\
+\midrule
+1--5 & Thonny's starting lines. There is no \texttt{pip install}: the turtle is already there. The turtle is called \py|t|, so each command starts with \py|t.|, and \py|screen| is the window. \\
+7--11 & A function: the script under the hat block. \\
+13 & ``When the space key is pressed, run \py|jump|.'' This is the hat block! Key names are fussy: \py|"space"|, \py|"Right"|, \py|"Left"|, \py|"Up"|, \py|"Down"|, or a letter like \py|"a"|. \\
+14 & Tell the window to start listening to the keyboard. \\
+15 & Keep the window open and keep waiting for key presses. This must be the \textbf{last} line. \\
+\bottomrule
+\end{longtable}
+
+Run it, then \textbf{click on the turtle window} so it knows you are talking to it, and press space. The turtle jumps! Can you add a \py|go_right| function for the \py|"Right"| arrow key?
+
+\begin{watchout}[Three things that catch everyone]
+\begin{itemize}
+  \item \textbf{No brackets after the function name.} Write \py|screen.onkeypress(jump, "space")|, not \py|jump()|. You are telling Python \emph{which} block to run later, not running it now.
+  \item \textbf{Use \texttt{onkeypress}, not \texttt{onkey}.} \py|onkey| waits until you let go of the key, which feels slow. \py|onkeypress| works the moment you press it, like Scratch.
+  \item \textbf{Click the turtle window first}, or your key presses go to the code instead.
+\end{itemize}
+\end{watchout}
+
+In Thonny, \py|t.setheading()| uses the same compass as Colab, so the \textbf{90 minus} rule still works.
+
+% =====================================================================
+\needspace{30\baselineskip}
+\subsection*{Translate it yourself}
+
+Here is a Scratch script you haven't seen before. Write the Python on the lines. Start with the three starting lines and \py|import time|. Then type it into Colab and check that the turtle does the same as the Scratch sprite.
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=top]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt]
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blocklook{switch costume to \selectmenu{turtle}}
+\blocklook{set size to \ovalnum{300} \%}
+\blockrepeat{repeat \ovalnum{3}}{
+  \blocklook{hide}
+  \blockcontrol{wait \ovalnum{0.5} seconds}
+  \blocklook{show}
+  \blockcontrol{wait \ovalnum{0.5} seconds}
+}
+\blocklook{say \ovalnum{Boo!} for \ovalnum{2} seconds}
+\end{scratch}
+\end{tcolorbox}
+\begin{tcolorbox}[colback=white, colframe=codeframe, arc=5pt, title=\textbf{My Python}, coltitle=ink, colbacktitle=codebg]
+\vspace{4pt}
+\foreach \n in {1,...,13}{\rule{\linewidth}{0.4pt}\par\vspace{9pt}}
+\end{tcolorbox}
+\end{tcbraster}
+
+% ---------------------------------------------------------------------
+\needspace{12\baselineskip}
+\subsection*{Two-line puzzle}
+
+\begin{puzzle}
+Write the Python for this Scratch script. It needs only two lines!
+\begin{center}
+\begin{scratch}
+\blockinit{when I receive \selectmenu{cheer}}
+\blocklook{say \ovalnum{Hooray!}}
+\end{scratch}
+\end{center}
+Then add a third line that \textbf{broadcasts} \texttt{cheer}, and run it.
+\end{puzzle}
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{Part 7 checklist}
+
+\tick I can make the turtle say things with \py|print|, and on the stage with a speech turtle.\par
+\tick I can change the turtle's costume, size, colour and backdrop, and make it hide and show.\par
+\tick I can use a list and \texttt{\%} to do \chip[looks]{next costume}.\par
+\tick I can play notes and a tune in Colab with \py|beep| and \py|time.sleep|.\par
+\tick I can turn \chip[events]{when I receive} into a function and \chip[events]{broadcast} into a call.\par
+\tick I can move two sprites with one loop, and I always give my loops a way out.

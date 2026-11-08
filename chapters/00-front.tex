@@ -1,0 +1,495 @@
+% =====================================================================
+% 00-front.tex : cover, Hello coder, Meet Colab, Scratch words, habits,
+% how Colab is different.  (No answers file.)
+% =====================================================================
+
+% ---------- COVER ----------
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture, overlay]
+  \fill[codebg] (current page.north west) rectangle (current page.south east);
+  % a turtle-drawn star
+  \begin{scope}[shift={($(current page.center)+(0,-1.2)$)}, line width=3pt, line join=round]
+    \draw[looks] (-3.2,0.6) -- ++(0:6.4) -- ++(-144:6.4) -- ++(72:6.4) -- ++(-72:6.4) -- cycle;
+  \end{scope}
+  \foreach \c/\x in {motion/0, looks/1, events/2, control/3, operators/4, variables/5, myblocks/6, pen/7}
+    \fill[\c] ($(current page.south west)+(\x*2.625,0)$) rectangle ++(2.625,1.1);
+\end{tikzpicture}
+
+\vspace*{1.2cm}
+{\color{muted}\Large\bfseries A workbook for young coders}\par\vspace{6pt}
+{\fontsize{46}{52}\selectfont\bfseries From Scratch\\[2pt] to Python}\par\vspace{10pt}
+{\Large Using Google Colab}\par
+\vspace{11.5cm}
+\begin{tcolorbox}[colback=white, colframe=ink, arc=8pt, width=11cm, boxrule=1pt]
+\Large This book belongs to:\par\vspace{9mm}\rule{9.5cm}{0.6pt}\par\vspace{2mm}
+\end{tcolorbox}
+
+% =====================================================================
+\banner{events}{START HERE}{Hello, coder!}
+
+You already know how to code. Every time you snap Scratch blocks together, you are writing a program. You tell the computer what to do, step by step.
+
+In this book you will learn \textbf{Python}. Python is a real programming language. Grown-up programmers use it to build websites, games, robots and even space missions. The great news is that Python uses the \textbf{same ideas} as Scratch:
+
+\begin{itemize}
+  \item a \chip[motion]{move 100 steps} block becomes \py|forward(100)|
+  \item a \chip[control]{repeat 4} block becomes \py|for i in range(4):|
+  \item a \chip[looks]{say Hello!} block becomes \py|print("Hello!")|
+\end{itemize}
+
+The difference is that in Python you \textbf{type} the words instead of dragging blocks. That is the only big new thing. Everything else, like loops, variables and making your own blocks, you already understand.
+
+\subsection*{How to use this book}
+
+Go through the book in order. Each \textbf{mission} has five steps:
+
+\begin{enumerate}[label=\textbf{\arabic*.}]
+  \item \textbf{Build it in Scratch.} Make the program in Scratch first, so you know what it should do.
+  \item \textbf{Type it in Colab.} Copy the Python code into Colab, letter by letter.
+  \item \textbf{Read it line by line.} Find out which Scratch block each line matches.
+  \item \textbf{Run it.} Press the play button and check that it worked.
+  \item \textbf{Make it yours.} Change the program and see what happens.
+\end{enumerate}
+
+\needspace{12\baselineskip}
+\subsection*{Look out for these boxes}
+
+\noindent
+\begin{minipage}[t]{0.485\linewidth}\vspace{0pt}
+\begin{typethis}[Type this]
+print("Hi!")
+\end{typethis}
+\begin{think}
+Something clever to spot in the code.
+\end{think}
+\begin{puzzle}
+A tiny puzzle at the end of each Part. The answer is two lines of Python.
+\end{puzzle}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\linewidth}\vspace{0pt}
+\begin{watchout}
+A mistake lots of people make, so you can avoid it.
+\end{watchout}
+\begin{challenge}
+Ideas for changing the program. Tick each one you finish!
+\end{challenge}
+\end{minipage}
+
+Answers to the puzzles, and to the ``Translate it yourself'' pages, are at the back of the book. Try first, then check!
+
+\needspace{20\baselineskip}
+\subsection*{Map of the book}
+
+The book has seven \textbf{Parts}. Each Part takes one family of Scratch blocks and shows you the Python for it. After the Parts come four special sections at the back.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{l P{5.4cm} P{8.6cm}}
+\toprule
+ & \textbf{Part} & \textbf{What you will do} \\
+\midrule
+1 & \chip[motion]{Motion and Pen} & Move the turtle and draw shapes. \\
+2 & \chip[control]{Loops} & Repeat things without typing them again. \\
+3 & \chip[variables]{Variables and Lists} & Keep scores, names and lists of things. \\
+4 & \chip[operators]{Operators} & Do maths, pick random numbers, join words. \\
+5 & \chip[sensing]{Sensing and Decisions} & Ask questions and make the program choose. \\
+6 & \chip[myblocks]{My Blocks (functions)} & Make your own super-blocks. \\
+7 & \chip[looks]{Looks, Sound and Events} & Shapes, colours, sounds and reacting. \\
+\midrule
+ & \textbf{Big Projects} & Bigger programs that use everything. \\
+ & \textbf{Bug Zoo} & Python error messages, and how to catch each bug. \\
+ & \textbf{Block Dictionary} & Look up any Scratch block and find its Python. \\
+ & \textbf{For grown-ups} & Notes for the person helping you. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+% =====================================================================
+\banner{sensing}{GETTING READY}{Meet Google Colab}
+
+\textbf{Google Colab} is a website where you can write Python and run it straight away. You don't have to install anything. Colab saves your work in Google Drive, so it will be there next time.
+
+\step{Step 1: Open Colab}
+Ask a grown-up to open this website and sign in with a Google account:
+\begin{center}\Large\texttt{colab.research.google.com}\end{center}
+
+\step{Step 2: Make a new notebook}
+Click \textbf{New notebook}. A notebook is like a Scratch project: it is where your code lives.
+
+At the top it says \texttt{Untitled0.ipynb}. Click on that name and change it to \textbf{My Python Adventures}.
+
+\step{Step 3: Find the code cell}
+You will see a grey box with a round button on the left. This box is called a \textbf{code cell}. You type Python into it.
+
+\begin{center}
+\begin{tikzpicture}
+  \draw[codeframe, fill=codebg, rounded corners=6pt] (0,0) rectangle (12,1.4);
+  \fill[ink] (0.75,0.7) circle (0.38);
+  \fill[white] (0.62,0.5) -- (0.62,0.9) -- (0.98,0.7) -- cycle;
+  \node[anchor=west, font=\ttfamily\large] at (1.5,0.7) {print("Hello!")};
+  \draw[-{Stealth[length=3mm]}, line width=1.2pt, operators!70!black] (0.75,-1.1) -- (0.75,0.2);
+  \node[anchor=north, font=\bfseries, text=operators!60!black] at (0.75,-1.1) {The play button};
+  \node[anchor=north west, align=left, font=\small] at (3.3,-0.6) {This is your green flag!\\ Click it to run the code in the cell.};
+\end{tikzpicture}
+\end{center}
+
+\step{Step 4: Say hello}
+Click inside the cell and type this exactly:
+
+\begin{typethis}
+print("Hello!")
+\end{typethis}
+
+Now click the play button \playbtn. You can also hold \textbf{Shift} and press \textbf{Enter}. The first time, it may take a few seconds to start. Then you will see this underneath:
+
+\begin{outputbox}
+Hello!
+\end{outputbox}
+
+\textbf{You just ran your first Python program!}
+
+\step{Step 5: Add more cells}
+Click \textbf{+ Code} at the top to get a new empty cell. Use a new cell for each program. You can run any cell again whenever you like.
+
+\needspace{16\baselineskip}
+\subsection*{The magic first cell: getting the turtle}
+
+In Scratch, you get the pen blocks by clicking the \textbf{Extensions} button in the bottom corner. Python works the same way: we add the drawing tools we need. In Python, the sprite that draws is called a \textbf{turtle}. It walks around the stage and leaves a line behind it, just like a Scratch sprite after \chip[pen]{pen down}.
+
+Each time you open your notebook, run this cell first:
+
+\begin{typethis}[Magic first cell: run it once every time you open Colab]
+!pip install ColabTurtlePlus
+\end{typethis}
+
+The \texttt{!} at the start means: ``this isn't Python. It is an instruction for Colab to download the turtle tools.'' Lots of text will scroll past. That is fine. Wait until it stops.
+
+\begin{watchout}[Watch out: Plus!]
+It must say \textbf{ColabTurtlePlus}, with \textbf{Plus} on the end. There is a different, older library called \texttt{ColabTurtle}. It has a black stage, a different size, and (0, 0) in the wrong corner, so none of the programs in this book would work with it.
+\end{watchout}
+
+\needspace{20\baselineskip}
+\subsection*{The three starting lines}
+
+Every program that draws starts with these three lines. They do the same job as this Scratch block:\par\chip[events]{when green flag clicked}
+
+\begin{typethis}[Start every drawing with these lines]
+from ColabTurtlePlus.Turtle import *
+clearscreen()
+initializeTurtle((480, 360))
+\end{typethis}
+
+\begin{longtable}{>{\centering\arraybackslash}p{0.8cm} P{14.5cm}}
+\toprule
+\textbf{Line} & \textbf{What it does} \\
+\midrule
+1 & \textbf{Bring in the turtle tools.} This is like clicking Extensions and choosing Pen. The \texttt{*} means ``bring in all of them''. \\
+2 & \textbf{Clear the stage.} It wipes away the old drawing and the old turtles, so you can start fresh every time you run the cell. \\
+3 & \textbf{Make the stage 480 wide and 360 tall, and get the turtle ready.} That is exactly the same size as the Scratch stage! The two numbers sit in their own extra pair of brackets, \texttt{(480, 360)}, because the width and the height travel together as one thing. \\
+\bottomrule
+\end{longtable}
+
+After these lines, you can just tell the turtle what to do. The turtle is like the \textbf{selected sprite} in Scratch: when you click a sprite, the blocks you snap together belong to it. In Python, you simply write \py|forward(100)|, and the turtle knows you mean it.
+
+\needspace{14\baselineskip}
+Try it! Type the three starting lines, then one more:
+
+\begin{typethis}
+from ColabTurtlePlus.Turtle import *
+clearscreen()
+initializeTurtle((480, 360))
+forward(100)
+\end{typethis}
+
+The turtle starts in the middle of the stage, at (0, 0), facing \textbf{right}, just like a new Scratch sprite. When you run the cell, it walks 100 steps to the right and draws a line.
+
+When you run the starting lines, Colab may also print a short note about \py|clearscreen()|. That is fine. It is just a reminder, and you can ignore it.
+
+\begin{watchout}[If Colab gets stuck or forgets]
+\begin{itemize}
+  \item \textbf{A cell keeps running forever?} Click the \stopbtn{} button where the play button was. This is just like the red stop sign in Scratch.
+  \item \textbf{You see \texttt{No module named 'ColabTurtlePlus'}?} Colab forgets everything when you close it or leave it alone for a while. Run the magic first cell again.
+  \item \textbf{You see a \texttt{NameError}?} Python doesn't know a word yet, because a cell above has not run. Run the cells above it first, starting from the top. Or click \textbf{Runtime}, then \textbf{Run all}, to run every cell in order.
+\end{itemize}
+\end{watchout}
+
+\begin{think}[Tip: switch on line numbers]
+The line-by-line tables in this book talk about ``line 3'' and ``line 4''. Colab can number the lines in your cells too. Click \textbf{Tools}, then \textbf{Settings}, then \textbf{Editor}, and tick \textbf{Show line numbers}.
+\end{think}
+
+% =====================================================================
+\banner{motion}{THE BIG PICTURE}{Scratch words, Python words}
+
+Here are the Scratch things you know, and what Python calls them.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{P{3.9cm} P{4.6cm} P{7.0cm}}
+\toprule
+\textbf{In Scratch} & \textbf{In Python with Colab} & \textbf{Example} \\
+\midrule
+The selected sprite & The turtle & \py|forward(100)| \\
+Another sprite & A new turtle with its own name & \py|cat = Turtle()| \\
+The stage & The drawing area & \lstinline[style=inl,basicstyle=\ttfamily\small]|initializeTurtle((480, 360))| \\
+The green flag & The play button \playbtn & or Shift + Enter \\
+The stop sign & The stop button \stopbtn & \\
+A block & A line of code & \py|forward(10)| \\
+Extensions button & \texttt{import} & \py|import random| \\
+A white input bubble & Brackets \texttt{( )} & \py|right(90)| \\
+Words in a bubble & Words in quote marks & \py|"Hello!"| \\
+Make a Variable & Just give it a value & \py|score = 0| \\
+My Blocks & A function & \py|def jump():| \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{think}[More than one sprite]
+Most programs only need the one turtle, so you just write \py|forward(100)|. When you want a second sprite, you make a new turtle and give it a name: \py|cat = Turtle()|. Then you tell that one what to do by putting its name and a dot first: \py|cat.forward(10)| means ``cat, move 10 steps''.
+\end{think}
+
+\needspace{20\baselineskip}
+\subsection*{The stage is the same}
+
+Good news: the turtle's stage has the same coordinates as the Scratch stage. The middle is (0, 0). \textbf{x} goes from −240 on the left to 240 on the right. \textbf{y} goes from −180 at the bottom to 180 at the top.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.016]
+  \draw[ink, line width=1pt, fill=white] (-240,-180) rectangle (240,180);
+  \draw[muted!50, -{Stealth}] (-240,0) -- (255,0) node[right, font=\small, text=ink] {x};
+  \draw[muted!50, -{Stealth}] (0,-180) -- (0,195) node[above, font=\small, text=ink] {y};
+  \fill[motion] (0,0) circle (7);
+  \node[font=\small, anchor=south west] at (5,5) {(0, 0)};
+  \node[font=\small, anchor=east] at (-245,0) {−240};
+  \node[font=\small, anchor=west] at (262,-18) {240};
+  \node[font=\small, anchor=north] at (0,-185) {−180};
+  \node[font=\small, anchor=south west] at (6,182) {180};
+  \fill[looks] (100,80) circle (7) node[right, font=\small, text=ink] {\ (100, 80)};
+\end{tikzpicture}
+\end{center}
+
+So \chip[motion]{go to x: 100 y: 80} is \py|goto(100, 80)|, and the turtle lands on the purple dot, the very same spot as in Scratch.
+
+\needspace{12\baselineskip}
+\subsection*{But the compass is turned!}
+
+\begin{watchout}[Watch out: the compass is turned]
+In Scratch, \chip[motion]{point in direction 90} points to the \textbf{right}, and 0 points \textbf{up}.
+
+In Python, \py|setheading(0)| points to the \textbf{right}, and 90 points \textbf{up}.
+\end{watchout}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.1]
+  \foreach \cx/\title/\up/\right/\down/\left in {0/Scratch/0/90/180/-90, 7/Python/90/0/270/180}{
+    \begin{scope}[shift={(\cx,0)}]
+      \draw[ink, line width=1pt] (0,0) circle (1.3);
+      \draw[-{Stealth}, line width=1.2pt, motion] (0,0) -- (0,1.2);
+      \draw[-{Stealth}, line width=1.2pt, motion] (0,0) -- (1.2,0);
+      \draw[-{Stealth}, line width=1.2pt, motion] (0,0) -- (0,-1.2);
+      \draw[-{Stealth}, line width=1.2pt, motion] (0,0) -- (-1.2,0);
+      \node[above, font=\bfseries] at (0,1.35) {\up};
+      \node[right, font=\bfseries] at (1.35,0) {\right};
+      \node[below, font=\bfseries] at (0,-1.35) {\down};
+      \node[left, font=\bfseries] at (-1.35,0) {\left};
+      \node[font=\Large\bfseries] at (0,-2.4) {\title};
+    \end{scope}}
+\end{tikzpicture}
+\end{center}
+
+\begin{think}[The secret rule]
+To turn any Scratch direction into a Python direction, take it away from 90:
+\begin{center}\textbf{Python direction = 90 − Scratch direction}\end{center}
+You don't even have to do the sum yourself. Python can do it for you!
+\end{think}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blockmove{point in direction \ovalnum{180}}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+setheading(90 - 180)
+\end{code}
+\end{tcbraster}
+
+90 − 180 is −90. Python understands −90 too: it points \textbf{down}, the same as Scratch's 180.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{lll}
+\toprule
+\textbf{Scratch direction} & \textbf{Python} & \textbf{Points} \\
+\midrule
+0 & \py|setheading(90 - 0)| & up \\
+90 & \py|setheading(90 - 90)| & right \\
+180 & \py|setheading(90 - 180)| & down \\
+−90 & \py|setheading(90 - -90)| & left \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The good news is that \textbf{turning} works the same. \chip[motion]{turn right 90 degrees} is \py|right(90)|, and \chip[motion]{turn left 90 degrees} is \py|left(90)|. Most of the time you will use turning, not directions.
+
+% =====================================================================
+\banner{control}{THE BIG PICTURE}{Four new habits}
+
+Python understands the same ideas as Scratch. But because you type instead of snapping blocks, there are four new habits to learn.
+
+\subsection*{Habit 1: Spaces show what is inside}
+
+In Scratch, a block goes \textbf{inside} a loop when you drop it into the C-shaped mouth.
+
+In Python, two things do that job:
+\begin{enumerate}
+  \item a \textbf{colon} \texttt{:} at the end of the line opens the mouth.
+  \item \textbf{four spaces} at the start of a line put it inside.
+\end{enumerate}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blockrepeat{repeat \ovalnum{4}}{
+  \blockmove{move \ovalnum{100} steps}
+  \blockmove{turn \turnright{} \ovalnum{90} degrees}
+}
+\blockpen{pen up}
+\end{scratch}
+\end{tcolorbox}
+\begin{spaces}
+for i in range(4):
+    forward(100)
+    right(90)
+penup()
+\end{spaces}
+\end{tcbraster}
+
+The little \texttt{\textvisiblespace} marks show the spaces, which are normally invisible. Lines 2 and 3 have four spaces, so they are \textbf{inside} the loop and repeat 4 times. Line 4 has no spaces, so it is \textbf{outside} the loop. It happens once, after the loop has finished.
+
+\begin{think}[Colab helps you]
+When you type a colon \texttt{:} and press Enter, Colab adds the four spaces for you. To come back out of the loop, press \textbf{Backspace} once.
+\end{think}
+
+\needspace{14\baselineskip}
+\subsection*{Habit 2: Spell it exactly}
+
+Blocks are already spelled for you. In Python, you do the spelling, and Python is very fussy. Capital letters, brackets and quote marks must all be just right.
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blockmove{move \ovalnum{100} steps}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+forward(100)
+\end{code}
+\end{tcbraster}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{P{4.2cm} P{11cm}}
+\toprule
+\py|forward(100)| & \textbf{Works!} \\
+\py|Forward(100)| & \textbf{Error:} capital F. Python thinks \texttt{Forward} and \texttt{forward} are different words. \\
+\py|foward(100)| & \textbf{Error:} missing r. Python can't guess what you meant. \\
+\py|forward 100| & \textbf{Error:} no brackets around 100. \\
+\py|forward(100| & \textbf{Error:} the closing bracket is missing. \\
+\py|print("Hi)| & \textbf{Error:} the closing quote mark is missing. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{think}[Rule of pairs]
+Brackets and quotes always come in pairs, just like socks! Every \texttt{(} needs a \texttt{)}, and every \texttt{"} needs another \texttt{"}.
+\end{think}
+
+\needspace{20\baselineskip}
+\subsection*{Habit 3: One line at a time, from the top}
+
+In Scratch, you can have lots of scripts that all start when you click the green flag. They all run at the same time.
+
+Python is different. It reads your cell like a book: line 1, then line 2, then line 3, all the way to the bottom. It only jumps around when a loop or one of your own functions tells it to.
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blocklook{say \ovalnum{first}}
+\blocklook{say \ovalnum{second}}
+\blocklook{say \ovalnum{third}}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+print("first")
+print("second")
+print("third")
+\end{code}
+\end{tcbraster}
+
+\needspace{24\baselineskip}
+\subsection*{Habit 4: One = sets, two == checks}
+
+Scratch has two different blocks: one to \textbf{set} a variable and one to \textbf{check} whether it equals something. Python uses equals signs for both, so it needs a way to tell them apart:
+
+\begin{itemize}
+  \item \textbf{One} equals sign \texttt{=} means ``put this value in the box''. It is like \chip[variables]{set score to 0}.
+  \item \textbf{Two} equals signs \texttt{==} mean ``are these the same?''. It is like the green \chip[operators]{\ = \ } block.
+\end{itemize}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blockvariable{set \selectmenu{score} to \ovalnum{5}}
+\blockif{if \booloperator{\ovalvariable{score} = \ovalnum{5}} then}{
+  \blocklook{say \ovalnum{You win!}}
+}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+score = 5
+if score == 5:
+    print("You win!")
+\end{code}
+\end{tcbraster}
+
+% =====================================================================
+\banner{pen}{THE BIG PICTURE}{How Colab is different from Scratch}
+
+\subsection*{Colab asks instead of listening}
+
+Colab can't hear key presses or mouse clicks. So instead of \chip[events]{when space key pressed}, your program \textbf{asks} you with \py|input()|, and you type your answer in a box under the cell.
+
+\begin{typethis}
+answer = input("Do you like cats? ")
+if answer == "yes":
+    print("Me too!")
+\end{typethis}
+
+Type \texttt{yes}, press Enter, and Python answers you. Later in the book you will meet a program that can hear keys, for real key-press games.
+
+\subsection*{One loop moves all the sprites}
+
+\noindent
+\begin{minipage}[c]{0.64\linewidth}
+\begin{typethis}[Type this]
+from ColabTurtlePlus.Turtle import *
+clearscreen()
+initializeTurtle((480, 360))
+cat = Turtle()
+dog = Turtle()
+dog.left(90)
+for i in range(10):
+    cat.forward(10)
+    dog.forward(10)
+\end{typethis}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.33\linewidth}\raggedright
+Python does one line at a time, so \textbf{one loop moves every sprite} a little bit each time round.
+
+Here the cat walks right and the dog walks up. In Scratch, this would be two scripts.
+\end{minipage}
+
+\subsection*{Shapes and colours instead of costumes}
+
+There are no costume pictures in Colab, but the turtle can wear lots of \textbf{shapes}, like \texttt{"turtle"}, \texttt{"arrow"} or \texttt{"circle"}, in any colour you like: \py|shape("turtle")| and \py|color("gold")|. (Python spells colour \texttt{color}, with no \texttt{u}, and colour names use small letters.) And it can draw anything you can imagine, line by line. \textbf{You are ready. Let's go!}

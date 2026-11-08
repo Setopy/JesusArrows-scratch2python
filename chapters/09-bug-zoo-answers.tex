@@ -1,0 +1,22 @@
+\subsection*{The Bug Zoo: bug hunt}
+Every error below is the real last line from Python 3.13. Your fix may look a little different and still be right: if the program now does what it should, you caught the bug!
+
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{longtable}{P{1.1cm} P{6.4cm} P{8.1cm}}
+\toprule
+\textbf{Bug} & \textbf{The clue} & \textbf{The fix} \\
+\midrule
+1 & \texttt{IndentationError: expected an indented block after 'while' statement on line 2} (the Wobbly Stack) & Line 3 needs four spaces in front, so both lines 3 and 4 are inside the loop. \\
+2 & \texttt{NameError: name 'Print' is not defined} (the Capital Copycat) & Use a small p: \py|print("Your score is", score)| \\
+3 & \texttt{TypeError: can only concatenate str (not "int") to str} (the Glue Goblin) & \py|input()| always gives text. Turn it into a number: \py|age = int(input("How old are you? "))| \\
+4 & \texttt{SyntaxError: invalid syntax. Maybe you meant '==' or ':=' instead of '='?} (the Equals Eel) & To ask a question, use two equals: \py|if password == "cat123":| \\
+5 & No error on line 2, but it prints \texttt{First: banana} (the Zero Hero). Then \texttt{IndexError: list index out of range} (the Off-by-One Owl). & Python counts from 0: use \py|fruits[0]| for the first and \py|fruits[2]| (or \py|fruits[-1]|) for the last. \\
+6 & \texttt{ZeroDivisionError: division by zero} (the Zero Zombie) & Check first:\newline \py|if friends == 0:|\newline \py|    print("Nobody to share with!")|\newline \py|else:|\newline \py|    print("Each gets", sweets / friends)| \\
+7 & No error, but nothing is printed (the Silent Recipe). & Add the brackets to cook the recipe: \py|cheer()| \\
+8 & No error, but it prints \texttt{5} forever (the Forever Phantom). Press the stop button; you then see \texttt{KeyboardInterrupt}. & \texttt{n} never changes. Add \py|n = n - 1| inside the loop, after \py|print(n)|. \\
+9 & No error, but the turtle draws one long line of 200 steps instead of a square (the Lost Hooray's cousin). & \py|right(90)| has no spaces, so it is outside the loop and happens only once. Put four spaces in front of it. \\
+10 & \texttt{SyntaxError: unterminated string literal (detected at line 3)} (the Quote Thief) & Add the closing quote: \py|print("Nice to meet you!")|. Because it is a grammar bug, nothing runs, not even the question on line 1. \\
+\bottomrule
+\end{longtable}
+\normalsize

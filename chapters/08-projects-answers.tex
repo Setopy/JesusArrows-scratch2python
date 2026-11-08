@@ -1,0 +1,42 @@
+% =====================================================================
+% 08-projects-answers.tex : hints for the Big Projects "Level up" ideas
+% =====================================================================
+
+\subsection*{Big Projects: hints for ``Level up''}
+There is no single right answer for a level up. If your program does what you wanted, it is right! These hints help if you get stuck.
+
+\textbf{Animate your name.} Change \py|range(8)| to \py|range(20)| on line 20 and the number in \py|time.sleep()| on line 29. For growing letters, change the font on line 27 to \py|font=("Arial", 20 + frame * 5, "bold")|. For the rainbow, replace \py|random.choice(colours)| on line 24 with \py|colours[frame % 7]| (there are 7 colours in the list).
+
+\textbf{Pen flower.} \py|petal(150)| makes bigger petals that may go off the stage. For a flower inside a flower, copy lines 18--21 and use \py|petal(50)| in the copy. For the garden, this works (it replaces lines 17--31):
+\begin{codenonum}
+def flower(x, y):
+    penup()
+    goto(x, y)
+    pendown()
+    for p in range(petals):
+        color(colours[p % 6])
+        petal(50)
+        left(360 / petals)
+
+petals = int(input("How many petals? (3 to 20) "))
+flower(-150, 0)
+flower(0, 0)
+flower(150, 0)
+hideturtle()
+\end{codenonum}
+
+\textbf{Maths quiz.} For 10 questions change \py|range(5)| on line 16 and the \py|5| in the messages (lines 22 and 24). For a seven-times-table quiz, line 17 becomes \py|a = 7|. For the sounds: \py|beep(523)| goes after \py|print("Correct!")| and \py|beep(196)| after the \texttt{Oops} line.
+
+\textbf{Guess the number deluxe.} Halving 1000: 500, 250, 125, 63, 32, 16, 8, 4, 2, 1. That is 10 tries. Add \py|elif level == "4":| with \py|top = 1000| and \py|tries = 10| before the \py|else:|. To count wins, set \py|wins = 0| before the big loop, add \py|wins = wins + 1| inside \py|if won:|, and print it after the loop. For ``Hot!'': \py|if guess != secret and guess - secret < 6 and secret - guess < 6:|. For ``too big'': check \py|if guess > top:| straight after the \py|input| line, print a message, and add 1 back to \py|tries|.
+
+\textbf{Choose-your-own story.} A third choice needs a different helper, or you can ask two questions in a row: first \py|choose("Row or swim?", ...)|, and inside the \texttt{swim} part, \py|choose("Swim or cross the bridge?", "swim", "bridge")|, which calls \py|bridge()|. Put \py|def bridge():| near the top with the other scenes, so Python has read it before the story starts.
+
+\textbf{Virtual pet.} Add \py|energy = 7| at the top, a new \py|elif choice == "sleep":| that sets \py|energy = 10|, and \py|energy = energy - 2| in the \texttt{play} part. A mood message: \py|if happy >= 8:| then \py|print("(purring)")|. For winning: \py|if day == 15:| print your certificate, then \py|break|.
+
+\textbf{Chase game.} Put \py|cat_step = 25| next to \py|score = 0|, use \py|cat.forward(cat_step)|, and add \py|cat_step = cat_step + 5| inside the star's \py|if|. A fast cat can jump right over you, so also change the catch test to \py|cat.distance(pos()) < cat_step + 5|. A second cat: copy lines 11--16 with the name \py|cat2| and \py|cat2.goto(-200, -140)|, then copy lines 49--53 for \py|cat2|.
+
+\textbf{Catch game.} For a wider start, line 23 becomes \py|x = random.randint(-160, 160)|; to keep the apple on the stage, use \py|drift = random.choice([-10, 0, 10])|. For the computer player, replace line 30 with
+\begin{codenonum}
+    spot = apple.xcor() + 4 * drift
+\end{codenonum}
+The apple has 4 more steps to fall, and it drifts by \py|drift| on each step. The computer catches every apple! For the stamps, put \py|apple.stamp()| after line 35.

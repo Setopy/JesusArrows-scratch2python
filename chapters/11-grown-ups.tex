@@ -1,0 +1,248 @@
+\partopener{myblocks}{FOR GROWN-UPS}{Helping your coder}{You don't need to know Python to help. These pages tell you how.}
+
+This book is made for two people: your child at the keyboard and you beside them. You do not need to know Python. Your job is to be the coach and the audience: ask questions, read error messages out loud together, and be impressed when something works.
+
+Some of the advice below comes from research on children moving from block coding to text coding. Where a piece of advice is only our own experience and not a research finding, it is marked \textit{(judgement)}. The papers are listed at the end of this section.
+
+\subsection*{How the book works}
+
+The book has seven Parts. They do \textbf{not} follow the order of the block colours in Scratch. They follow the order that research suggests for moving from blocks to text:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{l P{4.6cm} P{9.4cm}}
+\toprule
+ & \textbf{Part} & \textbf{Why it comes here} \\
+\midrule
+1 & \chip[motion]{Motion and Pen} & Drawing gives a picture straight away, and it matches blocks your child already knows. Running a cell plays the part of the green flag. \\
+2 & \chip[control]{Loops} & Shapes need \chip[control]{repeat} at once. Loops are harder in text than in blocks, so they get early practice. \\
+3 & \chip[variables]{Variables and Lists} & Scores, names and sizes, as soon as a project needs them. \\
+4 & \chip[operators]{Operators} & Maths, random numbers and comparisons, which the next Part needs. \\
+5 & \chip[sensing]{Sensing and Decisions} & \texttt{input()} and \texttt{if}: quizzes and guessing games. \\
+6 & \chip[myblocks]{My Blocks} & Your child's own super-blocks, written with \texttt{def}. \\
+7 & \chip[looks]{Looks, Sound and Events} & Last, on purpose (see below). \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Why events come last.} In Scratch, \chip[events]{when green flag clicked}, \chip[events]{when space key pressed} and many scripts running at once cost nothing. In text code they are the hardest part. When Dann and colleagues (2012) taught students to move from the block language Alice to Java, events and scripts running at the same time were the hardest things to carry across. In Python, a key press needs a \emph{function} that runs when the key is pressed, so functions (Part 6) must come first.
+
+After the seven Parts come three sections your child can use at any time:
+\begin{itemize}
+  \item \textbf{Big Projects}: longer programs that use everything, for when the Parts are done.
+  \item \textbf{Bug Zoo}: the common Python error messages, what they mean and how to fix them. Keep it open from the first day.
+  \item \textbf{Block Dictionary}: look up a Scratch block and find its Python.
+\end{itemize}
+
+Every Part has the same shape: short pages that put each Scratch block next to its Python, then two to four \textbf{missions}, then \textbf{Translate it yourself}, a \textbf{Two-line puzzle} and an ``I can\ldots'' checklist. Answers are at the back of the book.
+
+\subsection*{Running a session}
+
+\begin{itemize}
+  \item \textbf{Keep it short: 20 to 30 minutes.} End while something is working and can be shown to someone. Stop before frustration builds. A mission usually takes two sessions: one to get it working, one for the ``Make it yours'' challenges. \textit{(judgement: the research gives no session lengths)}
+  \item \textbf{Scratch first, every time.} Step 1 of each mission is building it in Scratch. Then the only new thing is the typing, and the jump feels small. \textit{(judgement)}
+  \item \textbf{Say the links out loud.} This is the step that matters most. Weintrop and Wilensky (2019) followed students who had started with blocks: their head start had faded once they moved to a text language, in a class where nobody linked the blocks to the code. The method with the best evidence is to put the blocks and the code side by side, point from each block to the line that does the same job, and then translate a script you have not seen before (Dann et al., 2012). The side-by-side pages, the ``Read it line by line'' tables and the \textbf{Translate it yourself} page in every Part are built for exactly this. Say things like ``\texttt{for i in range(4):} is the repeat~4 block, and the spaces are the mouth of the C''.
+  \item \textbf{Predict, then run, then change.} Starting from code that works is easier than starting from an empty cell. Two well-known teaching methods use this order. PRIMM (Sentance, Waite and Kallia, 2019) has five steps: \textbf{P}redict what the code will do, \textbf{R}un it, \textbf{I}nvestigate (``what does this line do?''), \textbf{M}odify (change one number, colour or word), \textbf{M}ake (add something new). Use-Modify-Create (Lee et al., 2011) is the same idea in three steps. Before your child runs anything, ask ``What do you think will happen?''
+  \item \textbf{Let them type.} Copying code letter by letter is how children learn colons, brackets and spaces. Try not to take the keyboard or fix typos for them. \textit{(judgement)}
+  \item \textbf{Errors are normal.} Scratch never shows an error message, so your child has probably never seen one. Red text is a clue, not a failure. Read the \textbf{last line} out loud together, find the line number, and look the error up in the Bug Zoo. ``Take a break'' is a real debugging strategy that children reported to Brennan and Resnick (2012), so you can teach it as one.
+  \item \textbf{Celebrate ``real programmer'' moments.} Students who moved to text code said they felt like real programmers, and that feeling motivates (Weintrop and Wilensky, 2017).
+\end{itemize}
+
+\subsection*{The four-question check at the end of a Part}
+
+There are no tests in this book. Instead, when your child finishes a Part, pick one of their programs and ask four questions. They come from the interviews Brennan and Resnick (2012) used to see what children really understood:
+
+\begin{tcolorbox}[enhanced, colback=myblocks!10, colframe=myblocks!80!black, arc=6pt, boxrule=0.8pt, left=8pt]
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Explain:} ``What does your program do? Show me the line that does \ldots''
+  \item \textbf{Extend:} ``How could you make it bigger or better?''
+  \item \textbf{Fix a bug:} change one thing secretly (take away a colon, a space or a bracket) and ask them to find it.
+  \item \textbf{Remix:} ``Add one new thing of your own.''
+\end{enumerate}
+\end{tcolorbox}
+
+If one of the four is hard, spend another session on that Part before moving on. Knowing what a loop \emph{is} matters less than being able to use it, change it and fix it.
+
+\needspace{19\baselineskip}
+\subsection*{A suggested pace}
+
+This is only a guide \textit{(judgement)}. It assumes two or three sessions of 20 to 30 minutes a week. Go slower if a Part is hard; that is time well spent.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{l P{7.4cm} c c}
+\toprule
+ & \textbf{Part} & \textbf{Sessions} & \textbf{Weeks} \\
+\midrule
+ & Getting ready (Colab, the starting lines) & 1--2 & 1 \\
+1 & Motion and Pen & 6--8 & 2--3 \\
+2 & Loops & 5--7 & 2--3 \\
+3 & Variables and Lists & 6--8 & 2--3 \\
+4 & Operators & 5--7 & 2--3 \\
+5 & Sensing and Decisions & 6--8 & 2--3 \\
+6 & My Blocks (functions) & 6--8 & 2--3 \\
+7 & Looks, Sound and Events & 6--8 & 2--3 \\
+ & Big Projects & 6--10 & 3--4 \\
+\midrule
+ & \textbf{Total} & \textbf{about 50--65} & \textbf{about 5 months} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Parts 2 and 6 often need extra time. In studies of older students, questions about loops and about calling functions were answered better in blocks than in text (Weintrop and Wilensky, 2017).
+
+\subsection*{Colab tips}
+
+\begin{itemize}
+  \item \textbf{Google account.} Colab needs one. Accounts for children (Family Link or some school accounts) may be blocked from Colab. If so, sign in with your own account.
+  \item \textbf{Saving.} Notebooks save automatically to your Google Drive, in a folder called \textbf{Colab Notebooks}. \textbf{File}, \textbf{Save a copy in Drive} makes a copy, which is handy before a big change.
+  \item \textbf{When Colab resets.} After a while without use, Colab forgets everything, including the installed library. If you see \texttt{No module named 'ColabTurtlePlus'} or a \texttt{NameError} for something that worked before, open the \textbf{Runtime} menu and choose \textbf{Run all}. This is not your child's mistake.
+  \item \textbf{Line numbers.} Turn them on so they match the book: \textbf{Tools}, \textbf{Settings}, \textbf{Editor}, \textbf{Show line numbers}.
+  \item \textbf{The library.} The turtle in this book comes from \textbf{ColabTurtlePlus}. We tested everything in Colab on 7 November 2026 with Python 3.13 and ColabTurtlePlus 2.2.0. The magic first cell installs it once per session, and every drawing program starts with the same three lines:
+\end{itemize}
+
+\begin{code}
+!pip install ColabTurtlePlus
+\end{code}
+\begin{code}
+from ColabTurtlePlus.Turtle import *
+clearscreen()
+initializeTurtle((480, 360))
+\end{code}
+
+\texttt{initializeTurtle((480, 360))} makes a stage exactly like Scratch's: (0,~0) in the middle, x from $-240$ to 240, y from $-180$ to 180.
+
+\begin{watchout}[Four things that go wrong]
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Install the right library.} There is an older library with a very similar name, \textbf{ColabTurtle} (without ``Plus''). It is a different library: it has no \texttt{Turtle()}, it draws in a black 800 by 500 window, and its (0,~0) is at the top-left corner. If your drawing looks like that, check the first cell says \texttt{ColabTurtlePlus}.
+  \item \textbf{Do not use} \py|mode("logo")|. Some tutorials online use it to make directions match Scratch. In ColabTurtlePlus it has a bug: we confirmed in Colab that \py|setheading(90)| then points \emph{down}. The book stays in the normal mode and uses the rule ``Python direction = 90 minus Scratch direction''.
+  \item \textbf{Use} \py|speed(13)| \textbf{for fast drawing, not} \py|speed(0)|. With 0, nothing appears until the program calls \py|done()|.
+  \item \textbf{Colour names are lowercase:} \py|"red"|, \py|"skyblue"|, not \py|"Red"|.
+\end{itemize}
+\end{watchout}
+
+\textbf{What Colab cannot do.} ColabTurtlePlus draws a picture inside the notebook. It cannot listen for key presses, mouse clicks or timers, and it has no sound or picture costumes. So in Colab the book uses \texttt{input()} (typing an answer and pressing Enter) for interaction. Real key-press games are for Thonny, below. Please tell your child this plainly, so they don't think they did something wrong.
+
+\subsection*{Sound in Colab}
+
+Colab runs on Google's computers, so Python cannot reach your speakers directly. It can send a sound to the web page, though. Part~7 uses this helper. Run it once in a cell (it does not need ColabTurtlePlus):
+
+\begin{code}
+import numpy as np
+from IPython.display import Audio, display
+
+def beep(freq=440, secs=0.5):
+    times = np.linspace(0, secs, int(22050 * secs))
+    sound = np.sin(2 * np.pi * freq * times)
+    display(Audio(sound, rate=22050, autoplay=True))
+\end{code}
+
+Then \py|beep(262)| plays middle C, and \py|beep(523, 1)| plays the C above it for one second. Some notes to try: C 262, D 294, E 330, F 349, G 392.
+
+\begin{itemize}
+  \item \textbf{Autoplay.} The sound starts by itself because running the cell counts as a click. Some browsers (often Safari), or a muted tab, block this. Then a small player appears: press its play button.
+  \item \textbf{Notes on top of each other.} Python finishes the cell before the browser starts playing, so several \texttt{beep}s in one cell can overlap. Put \py|time.sleep(0.6)| after each \texttt{beep} (with \py|import time| at the top), or put each note in its own cell.
+\end{itemize}
+
+\subsection*{Beyond Colab}
+
+When your child wants real key-press games, or you have no Google account, these are the next places to go.
+
+\textbf{Thonny} (\url{thonny.org}) is a free Python editor for Windows, Mac and Linux, made for beginners. It needs no account, works offline, and nothing leaves your computer. It includes Python's standard \texttt{turtle}, which opens its own window and \emph{can} react to the keyboard. The turtle commands are the same as in Colab, and the ``90 minus'' direction rule still works. Here is a small coin game: the arrow keys steer the turtle, and touching the gold coin scores a point.
+
+In Thonny, click on the turtle window first, then press the arrow keys. The score shows in the window's title bar. Three things to notice in the program below:
+\begin{itemize}
+  \item \py|screen.onkeypress(go, "Up")| is \chip[events]{when up arrow key pressed}. Use \texttt{onkeypress}, not \texttt{onkey}: \texttt{onkey} waits until the key is let go.
+  \item Write \texttt{go} without brackets. You are telling Python which function to run \emph{later}, not running it now.
+  \item \py|screen.listen()| switches the keyboard on, and \py|turtle.mainloop()| keeps the window waiting for keys. It must be the last line.
+\end{itemize}
+\begin{code}
+import turtle
+import random
+
+screen = turtle.Screen()
+screen.setup(480, 360)
+player = turtle.Turtle()
+player.shape("turtle")
+player.penup()
+coin = turtle.Turtle()
+coin.shape("circle")
+coin.color("gold")
+coin.penup()
+coin.goto(100, 80)
+score = 0
+
+def check_coin():
+    global score
+    if player.distance(coin) < 20:
+        score = score + 1
+        screen.title("Score: " + str(score))
+        x = random.randint(-200, 200)
+        y = random.randint(-150, 150)
+        coin.goto(x, y)
+
+def go():
+    player.forward(15)
+    check_coin()
+
+def turn_left():
+    player.left(30)
+
+def turn_right():
+    player.right(30)
+
+screen.onkeypress(go, "Up")
+screen.onkeypress(turn_left, "Left")
+screen.onkeypress(turn_right, "Right")
+screen.listen()
+turtle.mainloop()
+\end{code}
+
+This example uses only things from Parts 1 to 6 plus \texttt{global} (Part 6), which is why events are left until last.
+
+\textbf{Pygame Zero, later.} Pygame Zero is a game library whose ideas match Scratch closely: an \texttt{Actor} is a sprite, \texttt{update()} is a forever loop, and \texttt{on\_key\_down} is a key-press hat. Thonny has a \textbf{Run}, \textbf{Pygame Zero mode} menu and installs it through \textbf{Tools}, \textbf{Manage packages}. One caution: a problem has been reported (Thonny issue \#3158) where Pygame Zero mode fails on newer Python versions. Test it on your own computer before you promise your child a game.
+
+\textbf{No computer to install on (iPad, Chromebook):} the \textbf{micro:bit Python editor} (\url{python.microbit.org}) runs in the browser, needs no account, and has a simulator, so you do not need a micro:bit board. It has buttons, sound and forever loops. It draws on a 5 by 5 grid of lights, not with a turtle. \textbf{MakeCode Arcade} (\url{arcade.makecode.com}) makes retro games and lets your child switch between blocks and a version of Python, which is a gentle bridge.
+
+\textbf{Tools you may read about but should skip:} Trinket closed in August 2026, and the Mu editor is archived and no longer updated, according to their own notices.
+
+\subsection*{Showing your child their own Scratch project as Python}
+
+This is a wonderful moment: ``Look, this is \emph{your} project, in Python.''
+
+A Scratch project saved with \textbf{File}, \textbf{Save to your computer} is an \texttt{.sb3} file. An \texttt{.sb3} file is really a zip file. Inside are the costume pictures, the sounds, and one file called \texttt{project.json}, which holds all the scripts as text. Each block is stored with a name such as \texttt{motion\_movesteps} (move steps) or \texttt{control\_repeat} (repeat). Scratch has no ``export as Python'' button, but you can peek inside with Python itself. Upload the \texttt{.sb3} to Colab (the folder icon on the left, then the upload button), change the file name in line 3, and run:
+
+\begin{code}
+import zipfile, json
+
+with zipfile.ZipFile("my-project.sb3") as z:
+    project = json.loads(z.read("project.json"))
+
+for sprite in project["targets"]:
+    print("Sprite:", sprite["name"])
+    for block in sprite["blocks"].values():
+        if isinstance(block, dict):
+            print("   ", block["opcode"])
+\end{code}
+
+For a square-drawing project it prints \texttt{event\_whenflagclicked}, \texttt{control\_repeat}, \texttt{motion\_movesteps} and \texttt{motion\_turnright}. The blocks may not come out in script order, but your child will recognise them.
+
+\textbf{Which projects translate well?} Simple drawing projects (green flag, repeat, move, turn, pen, variables, ask, My Blocks) translate almost line by line into the Python in this book, and the Block Dictionary makes this a good activity to do together by hand. Scratch's stage and the turtle share the same coordinates, so the drawing comes out the same. Games built on picture costumes, sprites touching, clones or sound do not translate simply. For those, talk about the structure instead: a loop is a \texttt{for}, a My Block is a \texttt{def}. Rewriting one of their own projects with the Block Dictionary open is the real milestone of this book.
+
+\subsection*{References}
+
+{\footnotesize
+\begin{itemize}[leftmargin=*, itemsep=1pt]
+  \item Brennan, K., \& Resnick, M. (2012). New frameworks for studying and assessing the development of computational thinking. Paper presented at the Annual Meeting of the American Educational Research Association, Vancouver, Canada. \url{https://scratched.gse.harvard.edu/ct/files/AERA2012.pdf}
+  \item Dann, W., Cosgrove, D., Slater, D., Culyba, D., \& Cooper, S. (2012). Mediated transfer: Alice 3 to Java. \emph{Proceedings of the 43rd ACM Technical Symposium on Computer Science Education (SIGCSE '12)}, 141--146.
+  \item Lee, I., Martin, F., Denner, J., Coulter, B., Allan, W., Erickson, J., Malyn-Smith, J., \& Werner, L. (2011). Computational thinking for youth in practice. \emph{ACM Inroads, 2}(1), 32--37. \url{https://doi.org/10.1145/1929887.1929902}
+  \item Sentance, S., Waite, J., \& Kallia, M. (2019). Teaching computer programming with PRIMM: A sociocultural perspective. \emph{Computer Science Education, 29}(2--3), 136--176. \url{https://doi.org/10.1080/08993408.2019.1608781}
+  \item Weintrop, D., \& Wilensky, U. (2017). Comparing block-based and text-based programming in high school computer science classrooms. \emph{ACM Transactions on Computing Education, 18}(1), Article 3. \url{https://doi.org/10.1145/3089799}
+  \item Weintrop, D., \& Wilensky, U. (2019). Transitioning from introductory block-based and text-based environments to professional programming languages in high school computer science classrooms. \emph{Computers \& Education, 142}, 103646. \url{https://doi.org/10.1016/j.compedu.2019.103646}
+\end{itemize}
+}
+
+\vspace{10pt}
+\begin{tcolorbox}[colback=white, colframe=muted!50, boxrule=0.5pt, arc=5pt]
+{\small\color{muted}This is an independent workbook. It is not made by, endorsed by or connected with the Scratch Foundation, MIT or Google. Scratch is a project of the Scratch Foundation. Google Colab is a product of Google. ColabTurtlePlus, Thonny, Pygame Zero, the micro:bit Python editor and MakeCode Arcade belong to their own makers.}
+\end{tcolorbox}

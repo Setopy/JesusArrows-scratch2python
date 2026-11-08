@@ -1,0 +1,75 @@
+\subsection*{Part 5, Mission ``Say hello'': challenges}
+The age question. \py|str( )| turns the number back into writing so it can be joined:
+\begin{codenonum}
+name = input("What's your name? ")
+age = int(input("How old are you? "))
+print("In 10 years you will be " + str(age + 10))
+\end{codenonum}
+\textbf{Super challenge:} without \py|int( )|, \py|age + 10| tries to add a number to writing. The last line says \texttt{TypeError: can only concatenate str (not "int") to str}. A \texttt{TypeError} means writing and numbers got mixed up.
+
+\subsection*{Part 5, Mission ``Guess my number'': only 5 tries}
+\begin{codenonum}
+import random
+secret = random.randint(1, 10)
+guess = 0
+tries = 0
+while guess != secret and tries < 5:
+    guess = int(input("Guess 1 to 10: "))
+    tries += 1
+    if guess < secret:
+        print("Too low")
+    elif guess > secret:
+        print("Too high")
+if guess == secret:
+    print("You got it in " + str(tries) + " tries!")
+else:
+    print("Out of tries! It was " + str(secret))
+\end{codenonum}
+Typing \texttt{cat} gives \texttt{ValueError: invalid literal for int() with base 10: 'cat'}, because \py|int( )| can't turn the word \texttt{cat} into a number.
+
+\subsection*{Part 5, Mission ``Quiz with a score'': the final message}
+Put this at the very end, after the score is printed:
+\begin{codenonum}
+if score == 3:
+    print("Quiz champion!")
+elif score >= 1:
+    print("Well done!")
+else:
+    print("Better luck next time!")
+\end{codenonum}
+\textbf{Super challenge:} put \py|import time| and \py|start = time.time()| at the top, and \py|print(round(time.time() - start))| at the bottom.
+
+\subsection*{Part 5, Mission ``Reaction timer'': best of three}
+\begin{codenonum}
+import time
+import random
+best = 100
+for i in range(3):
+    input("Press Enter to start ")
+    print("Get ready...")
+    time.sleep(random.randint(2, 5))
+    start = time.time()
+    input("GO! Press Enter! ")
+    taken = time.time() - start
+    if taken < best:
+        best = taken
+print("Your best: " + str(round(best, 2)) + " seconds")
+\end{codenonum}
+\py|best| starts at 100 seconds, so your first go is sure to beat it.
+
+\subsection*{Part 5: Translate it yourself}
+Your code may look a little different and still be right. If it does the same thing, you did it!
+\begin{codenonum}
+answer = input("What's the password? ")
+while answer != "banana":
+    print("Wrong! Try again.")
+    answer = input("What's the password? ")
+print("Come in!")
+\end{codenonum}
+Using \py|while not answer == "banana":| on line 2 is right too.
+
+\subsection*{Part 5: Two-line puzzle}
+\begin{codenonum}
+age = int(input("How old are you? "))
+print("Next year you will be " + str(age + 1))
+\end{codenonum}

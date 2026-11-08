@@ -1,0 +1,675 @@
+% =====================================================================
+% PART 2: Loops
+% =====================================================================
+\partopener{control}{PART 2}{Loops}{Make the computer do the repeating for you.}
+
+In Part 1 you drew pictures one command at a time. To draw a square you typed \py|forward(100)| and \py|right(90)| four times each. That is a lot of typing! In Scratch you would never do that. You would grab a \chip[control]{repeat 4} block and let it do the work.
+
+In this part you will learn the Python for the orange \textbf{Control} blocks that repeat and wait:
+
+\begin{center}
+\chip[control]{repeat 10}\quad \chip[control]{forever}\quad \chip[control]{wait 1 seconds}\quad \chip[control]{stop this script}
+\end{center}
+
+By the end you will draw stars, spirals and flowers with just a few lines of code.
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{Repeat becomes \texttt{for}}
+
+Here is the square from Part 1, but with a loop. Look at the two sides and match each block to its line. (In this part, the side-by-side pictures leave out the three starting lines to save space. When you type a drawing program into Colab, always start with them.)
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}[scale=0.85]
+\blockinit{when \greenflag clicked}
+\blockrepeat{repeat \ovalnum{4}}{
+  \blockmove{move \ovalnum{100} steps}
+  \blockmove{turn \turnright{} \ovalnum{90} degrees}
+}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+for i in range(4):
+    forward(100)
+    right(90)
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works.} Line 1, \py|for i in range(4):|, is the \chip[control]{repeat 4} block. You can read it as ``for each turn, 4 times''. The word \py|range(4)| means ``count 4 times''. Lines 2 and 3 are the blocks inside the loop, so they happen 4 times.
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{The mouth of the C: a colon and four spaces}
+
+In Scratch, a block goes \textbf{inside} a loop when you drop it into the C-shaped mouth. Python has no C shape, so it uses two things instead:
+
+\begin{enumerate}
+  \item A \textbf{colon} \texttt{:} at the end of the \py|for| line. The colon \textbf{opens the mouth}. It says ``the inside starts on the next line''.
+  \item \textbf{Four spaces} at the start of a line. Those lines are \textbf{inside} the mouth.
+\end{enumerate}
+
+The first line that goes back to the left edge, with no spaces, is the block snapped \textbf{under} the C. It runs once, after the loop has finished.
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}[scale=0.85]
+\blockrepeat{repeat \ovalnum{4}}{
+  \blockmove{move \ovalnum{100} steps}
+  \blockmove{turn \turnright{} \ovalnum{90} degrees}
+}
+\blocklook{say \ovalnum{Square done!}}
+\end{scratch}
+\end{tcolorbox}
+\begin{spaces}
+for i in range(4):
+    forward(100)
+    right(90)
+print("Square done!")
+\end{spaces}
+\end{tcbraster}
+
+The little \texttt{\textvisiblespace} marks show the spaces, which are normally invisible. Lines 2 and 3 have four spaces, so they repeat 4 times. Line 4 has no spaces, so it is outside the loop. You see \texttt{Square done!} only once, when the square is finished.
+
+\begin{think}[Colab helps you]
+When you type the colon and press \textbf{Enter}, Colab puts the four spaces in for you. To come back out of the loop, press \textbf{Backspace} once at the start of the line.
+\end{think}
+
+% ---------------------------------------------------------------------
+\needspace{12\baselineskip}
+\subsection*{What does \texttt{i} count?}
+
+The \texttt{i} in \py|for i in range(4):| is a \textbf{counter}. Each time the loop goes round, Python changes \texttt{i} by itself. Scratch's \chip[control]{repeat} block has no counter you can see. In Scratch you would have to make one yourself.
+
+Let's peek at \texttt{i}. This program doesn't draw, so it doesn't need the three starting lines.
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{code}
+for i in range(4):
+    print(i)
+\end{code}
+\begin{outputbox}
+0\\
+1\\
+2\\
+3
+\end{outputbox}
+\end{tcbraster}
+
+Python starts counting at \textbf{0}, so \texttt{i} is 0, then 1, then 2, then 3. That is still 4 times round! Notice that \py|range(4)| stops \textbf{before} it gets to 4. You don't have to use \texttt{i}, but it is always there if you want it.
+
+% ---------------------------------------------------------------------
+\needspace{12\baselineskip}
+\subsection*{Using \texttt{i} inside the loop}
+
+Because \texttt{i} changes every time round, you can use it to make each turn of the loop a little different. The star \texttt{*} means \textbf{times} in Python (there is no $\times$ key on the keyboard).
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{code}
+for i in range(5):
+    print(i * 10)
+\end{code}
+\begin{outputbox}
+0\\
+10\\
+20\\
+30\\
+40
+\end{outputbox}
+\end{tcbraster}
+
+Now imagine \py|forward(i * 5)| instead of \py|print(i * 10)|. The turtle would walk a bit further each time round. That is how you will draw a spiral in a mission soon! A name like \texttt{i} that holds a number is called a \textbf{variable}. You will make your own variables in Part 3.
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{When the spaces go wrong}
+
+Python is fussy about the colon and the spaces. Here are the two red messages you will see most often. Read them like a detective's clue note: the last line tells you what is wrong.
+
+\textbf{Forgot the colon?}
+
+\begin{codenonum}
+for i in range(3)
+    print("hi")
+\end{codenonum}
+\begin{errorbox}
+SyntaxError: expected ':'
+\end{errorbox}
+
+Python wants the colon that opens the mouth. Add \texttt{:} to the end of the \py|for| line.
+
+\needspace{10\baselineskip}
+\textbf{Forgot the spaces?}
+
+\begin{codenonum}
+for i in range(3):
+print("hi")
+\end{codenonum}
+\begin{errorbox}
+IndentationError: expected an indented block after 'for' statement on line 1
+\end{errorbox}
+
+This means ``the C has an empty mouth''. Nothing is inside the loop. Put four spaces in front of \py|print("hi")|.
+
+\needspace{16\baselineskip}
+\begin{watchout}[Watch out: the sneaky bug with no red writing]
+What if only \textbf{one} line loses its spaces?
+\begin{codenonum}
+for i in range(4):
+    forward(100)
+right(90)
+\end{codenonum}
+Python is happy, so there is \textbf{no error}. But \py|right(90)| is now outside the loop, like a block dropped \textbf{under} the C instead of inside it. The turtle walks forward 4 times in a row (one long line that runs off the stage) and turns only once, at the very end. If your drawing looks wrong, check the spaces first!
+\end{watchout}
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{A loop inside a loop}
+
+In Scratch you can put a \chip[control]{repeat} block inside another \chip[control]{repeat} block. Python can do the same. The inside loop gets \textbf{more} spaces.
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}[scale=0.85]
+\blockrepeat{repeat \ovalnum{6}}{
+  \blockrepeat{repeat \ovalnum{3}}{
+    \blockmove{move \ovalnum{80} steps}
+    \blockmove{turn \turnright{} \ovalnum{120} degrees}
+  }
+  \blockmove{turn \turnright{} \ovalnum{60} degrees}
+}
+\end{scratch}
+\end{tcolorbox}
+\begin{spaces}
+for i in range(6):
+    for j in range(3):
+        forward(80)
+        right(120)
+    right(60)
+\end{spaces}
+\end{tcbraster}
+
+\textbf{How it works.} Count the spaces at the start of each line:
+\begin{itemize}
+  \item \textbf{0 spaces} (line 1): the outside loop. It goes round 6 times.
+  \item \textbf{4 spaces} (lines 2 and 5): inside the outside loop.
+  \item \textbf{8 spaces} (lines 3 and 4): inside \textbf{both} loops. They draw one triangle.
+\end{itemize}
+Line 5 has 4 spaces, so it is not part of the triangle. It turns the turtle a little after each triangle. The inside loop uses a different counter letter, \texttt{j}, so the two counters don't get mixed up. The result is 6 triangles spinning round the middle, 18 lines in all.
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{Forever becomes \texttt{while True}}
+
+The \chip[control]{forever} block repeats with no end. In Python it is \py|while True:|. Read it as ``keep going while true is true'', and true is always true!
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}[scale=0.85]
+\blockinit{when \greenflag clicked}
+\blockinfloop{forever}{
+  \blockmove{move \ovalnum{100} steps}
+  \blockmove{turn \turnright{} \ovalnum{90} degrees}
+}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+while True:
+    forward(100)
+    right(90)
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works.} The colon and the four spaces work just like in a \py|for| loop. The difference is that this loop \textbf{never stops on its own}. The turtle draws the same square again and again, and the cell keeps running. While a cell is running, its play button turns into a spinning circle. Click it (\stopbtn) to stop the cell, just like the red stop sign in Scratch. You can also use the menu: \textbf{Runtime}, then \textbf{Interrupt execution}.
+
+\begin{watchout}[Watch out: forever means forever]
+When you stop the cell, Colab shows some red writing that ends with \texttt{KeyboardInterrupt}. That is not a mistake. It just means ``you pressed stop''. While a forever loop is running, no other cell can run, so remember to stop it. For drawings, a \py|for| loop with a number is usually better: it finishes by itself, and you still see the whole picture.
+\end{watchout}
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{Wait becomes \texttt{time.sleep}}
+
+The \chip[control]{wait 1 seconds} block pauses the script. Python keeps its clock in a toolbox called \py|time|. You open the toolbox once, at the top, with \py|import time|. Then \py|time.sleep(2)| means ``sleep for 2 seconds''.
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}[scale=0.85]
+\blockinit{when \greenflag clicked}
+\blocklook{say \ovalnum{Ready...}}
+\blockcontrol{wait \ovalnum{2} seconds}
+\blocklook{say \ovalnum{Go!}}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+import time
+print("Ready...")
+time.sleep(2)
+print("Go!")
+\end{code}
+\end{tcbraster}
+
+The dot in \py|time.sleep| means ``the \texttt{sleep} tool from the \texttt{time} toolbox''. If you forget line 1, Python gives a \texttt{NameError}, because it doesn't know what \texttt{time} is yet.
+
+\needspace{12\baselineskip}
+\textbf{Countdown rocket.} Here a loop and a wait work together. Each time round, \py|5 - i| works out the next number: $5-0=5$, then $5-1=4$, and so on.
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{code}
+import time
+for i in range(5):
+    print(5 - i)
+    time.sleep(1)
+print("Blast off!")
+\end{code}
+\begin{outputbox}
+5\\
+4\\
+3\\
+2\\
+1\\
+Blast off!
+\end{outputbox}
+\end{tcbraster}
+
+\begin{think}[Predict first]
+What would happen if \py|print("Blast off!")| had four spaces in front of it? Say what you think, then try it. (Remember the sneaky bug!)
+\end{think}
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{Stop this script becomes \texttt{break}}
+
+The \chip[control]{stop this script} block ends the script. Inside a Python loop, the word \py|break| does the same job: it \textbf{breaks out} of the loop straight away.
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}[scale=0.85]
+\blockinit{when \greenflag clicked}
+\blockinfloop{forever}{
+  \blocklook{say \ovalnum{Hello!}}
+  \blockstop{stop \selectmenu{this script}}
+}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+while True:
+    print("Hello!")
+    break
+print("Out of the loop")
+\end{code}
+\end{tcbraster}
+
+This prints \texttt{Hello!} only once, then \texttt{Out of the loop}. Here is something Scratch can't do: in Scratch nothing can snap under a \chip[control]{forever}, but in Python the line after the loop runs as soon as \py|break| jumps out. Right now \py|break| looks a bit silly, because it always stops the loop the first time round. In Part 5 you will learn \py|if|, and then \py|break| becomes really useful: ``if the guess is right, stop''.
+
+\begin{think}[What about repeat until?]
+Scratch also has \chip[control]{repeat until}. In Python it becomes \py|while not ...:|, where the dots are a question like ``has the cat reached the edge?''. You need a few more tools to ask those questions, so \chip[control]{repeat until} waits for Part 5.
+\end{think}
+
+% =====================================================================
+\mission{Draw shapes the short way}{\texttt{for} loops, the colon and four spaces, and the 360 trick}
+
+Now you can draw any shape with just three lines of loop. Let's start with a triangle. (In Scratch, add the \textbf{Pen} extension first.)
+
+\begin{tcbraster}[raster columns=2, raster column skip=12pt, raster valign=top, raster force size=false,
+  raster column 1/.style={add to width=-2.4cm}, raster column 2/.style={add to width=2.4cm}]
+\begin{tcolorbox}[blankest]{\large\bfseries\color{ink}Step 1: Build it in Scratch}\end{tcolorbox}
+\begin{tcolorbox}[blankest]{\large\bfseries\color{ink}Step 2: Type it in Colab}\end{tcolorbox}
+\begin{tcolorbox}[blankest]
+\begin{scratch}[scale=0.75]
+\blockinit{when \greenflag clicked}
+\blockpen{set pen color to \ovalnum{blue}}
+\blockpen{set pen size to \ovalnum{3}}
+\blockrepeat{repeat \ovalnum{3}}{
+  \blockmove{move \ovalnum{120} steps}
+  \blockmove{turn \turnright{} \ovalnum{120} degrees}
+}
+\end{scratch}
+\end{tcolorbox}
+\begin{typethis}
+from ColabTurtlePlus.Turtle import *
+clearscreen()
+initializeTurtle((480, 360))
+pencolor("blue")
+pensize(3)
+for i in range(3):
+    forward(120)
+    right(120)
+\end{typethis}
+\end{tcbraster}
+
+\step{Step 3: Read it line by line}
+
+\begin{longtable}{>{\centering\arraybackslash}p{1.1cm} P{5.3cm} P{9.1cm}}
+\toprule
+\textbf{Line} & \textbf{Scratch block} & \textbf{What it means} \\
+\midrule
+1--3 & \chip[events]{when green flag clicked} & The three starting lines. They get the stage and the turtle ready. The pen starts down. \\
+4 & \chip[pen]{set pen color to blue} & The colour is a word in quote marks, in small letters. \\
+5 & \chip[pen]{set pen size to 3} & A thicker line. \\
+6 & \chip[control]{repeat 3} & \py|for i in range(3):| means ``do this 3 times''. The colon opens the mouth. \\
+7 & \chip[motion]{move 120 steps} & Four spaces in front, so it is inside the loop. \\
+8 & \chip[motion]{turn right 120 degrees} & Four spaces too, so this is inside the loop as well. \\
+\bottomrule
+\end{longtable}
+
+\step{Step 4: Run it}
+Press \playbtn. The turtle draws a blue triangle, then stops back where it started, pointing the same way as at the beginning.
+
+\needspace{14\baselineskip}
+\step{Step 5: Make it yours}
+
+Here is a trick: \textbf{when the turtle goes all the way round a shape, its turns add up to 360 degrees}, one full circle. So to find the turn, divide 360 by the number of sides. Fill in the table, then draw each shape by changing the numbers in lines 6, 7 and 8. Bigger shapes need a smaller move, or they run off the stage.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{P{3.2cm} P{2.6cm} P{2.0cm} P{3.4cm} P{1.6cm}}
+\toprule
+\textbf{Shape} & \textbf{Sides (range)} & \textbf{Move} & \textbf{Turn} & \textbf{Drawn?} \\
+\midrule
+Triangle & 3 & 120 & $360 \div 3 = 120$ & $\square$ \\
+Square & 4 & 120 & $360 \div 4 = 90$ & $\square$ \\
+Pentagon & 5 & 100 & \rule{2.2cm}{0.5pt} & $\square$ \\
+Hexagon & 6 & 80 & \rule{2.2cm}{0.5pt} & $\square$ \\
+Octagon & 8 & 60 & \rule{2.2cm}{0.5pt} & $\square$ \\
+Decagon & 10 & 50 & \rule{2.2cm}{0.5pt} & $\square$ \\
+Almost a circle & 36 & 10 & \rule{2.2cm}{0.5pt} & $\square$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{challenge}
+\tick Fill in the table and draw every shape. Which one looks most like a circle?\par
+\tick Add \py|speed(13)| just after line 3 so the turtle draws faster.\par
+\tick Put \py|pencolor("red")| \textbf{inside} the loop, with four spaces, just before \py|forward(120)|. Does anything change? Why?\par
+\tick Add \py|print("Ta-da!")| at the very end with \textbf{no} spaces. How many times does it print? Now give it four spaces and run it again.
+\end{challenge}
+
+
+% =====================================================================
+\mission{Stars}{turning more than once round, and moving before you draw}
+
+A star is a shape that turns \textbf{further} than a pentagon. Each point is a sharp turn of 144 degrees.
+
+\begin{tcbraster}[raster columns=2, raster column skip=12pt, raster valign=top, raster force size=false,
+  raster column 1/.style={add to width=-2.4cm}, raster column 2/.style={add to width=2.4cm}]
+\begin{tcolorbox}[blankest]{\large\bfseries\color{ink}Step 1: Build it in Scratch}\end{tcolorbox}
+\begin{tcolorbox}[blankest]{\large\bfseries\color{ink}Step 2: Type it in Colab}\end{tcolorbox}
+\begin{tcolorbox}[blankest]
+\begin{scratch}[scale=0.75]
+\blockinit{when \greenflag clicked}
+\blockpen{set pen color to \ovalnum{gold}}
+\blockpen{set pen size to \ovalnum{4}}
+\blockpen{pen up}
+\blockmove{go to x: \ovalnum{-75} y: \ovalnum{30}}
+\blockpen{pen down}
+\blockrepeat{repeat \ovalnum{5}}{
+  \blockmove{move \ovalnum{150} steps}
+  \blockmove{turn \turnright{} \ovalnum{144} degrees}
+}
+\end{scratch}
+\end{tcolorbox}
+\begin{typethis}
+from ColabTurtlePlus.Turtle import *
+clearscreen()
+initializeTurtle((480, 360))
+pencolor("gold")
+pensize(4)
+penup()
+goto(-75, 30)
+pendown()
+for i in range(5):
+    forward(150)
+    right(144)
+\end{typethis}
+\end{tcbraster}
+
+\step{Step 3: Read it line by line}
+
+\begin{longtable}{>{\centering\arraybackslash}p{1.1cm} P{5.3cm} P{9.1cm}}
+\toprule
+\textbf{Line} & \textbf{Scratch block} & \textbf{What it means} \\
+\midrule
+1--3 & \chip[events]{when green flag clicked} & The three starting lines. \\
+4--5 & \chip[pen]{set pen color to gold} \chip[pen]{set pen size to 4} & A thick gold pen. \\
+6 & \chip[pen]{pen up} & Lift the pen so the next move leaves no line. \\
+7 & \chip[motion]{go to x: -75 y: 30} & Jump a little to the left, so the star ends up in the middle of the stage. \\
+8 & \chip[pen]{pen down} & Ready to draw again. \\
+9 & \chip[control]{repeat 5} & 5 points, so 5 times round. \\
+10--11 & \chip[motion]{move 150 steps} \chip[motion]{turn right 144 degrees} & Inside the loop: one long line and one sharp turn for each point. \\
+\bottomrule
+\end{longtable}
+
+\step{Step 4: Run it}
+Press \playbtn. A big gold star appears in the middle of the stage, and the turtle ends up back at the start.
+
+\begin{think}[Twice round!]
+A pentagon turns $5 \times 72 = 360$ degrees: once round. The star turns $5 \times 144 = 720$ degrees. That is $360 + 360$, so the turtle spins round \textbf{twice} while it draws the star. That's why its lines cross over in the middle.
+\end{think}
+
+\needspace{12\baselineskip}
+\step{Step 5: Make it yours}
+
+For a star with an \textbf{odd} number of points (5, 7, 9, \ldots), here is a recipe for the turn:
+\[ \text{turn} = 180 - (180 \div \text{points}) \]
+Check it for 5 points: $180 \div 5 = 36$, and $180 - 36 = 144$. It works! Fill in the table and draw each star. Use the number of points in \py|range( )| too.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{P{2.6cm} P{4.2cm} P{3.4cm} P{1.6cm}}
+\toprule
+\textbf{Points} & \textbf{$180 \div$ points} & \textbf{Turn} & \textbf{Drawn?} \\
+\midrule
+5 & 36 & 144 & $\square$ \\
+9 & \rule{2.2cm}{0.5pt} & \rule{2.2cm}{0.5pt} & $\square$ \\
+15 & \rule{2.2cm}{0.5pt} & \rule{2.2cm}{0.5pt} & $\square$ \\
+45 & \rule{2.2cm}{0.5pt} & \rule{2.2cm}{0.5pt} & $\square$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{challenge}
+\tick Fill in the star table. The 45-point star looks like a fuzzy sun! Add \py|speed(13)| after line 3 for that one.\par
+\tick \textbf{Even stars} need a different turn. Try \py|range(8)| with \py|right(135)|, and \py|range(12)| with \py|right(150)|.\par
+\tick Change the colour and the pen size. Try \py|"skyblue"| or \py|"hotpink"|.\par
+\tick Change line 7 to put the star in a corner of the stage. Can you keep it all on the stage?
+\end{challenge}
+
+% =====================================================================
+\mission{Square spiral}{using the counter \texttt{i} to change each step}
+
+In this mission each line is a little longer than the last, so the turtle spirals outwards. In Scratch you need a variable for this. In Python the counter \texttt{i} does the job for free!
+
+In Scratch, make a variable called \textbf{size} first.
+
+\begin{tcbraster}[raster columns=2, raster column skip=12pt, raster valign=top, raster force size=false,
+  raster column 1/.style={add to width=-2.4cm}, raster column 2/.style={add to width=2.4cm}]
+\begin{tcolorbox}[blankest]{\large\bfseries\color{ink}Step 1: Build it in Scratch}\end{tcolorbox}
+\begin{tcolorbox}[blankest]{\large\bfseries\color{ink}Step 2: Type it in Colab}\end{tcolorbox}
+\begin{tcolorbox}[blankest]
+\begin{scratch}[scale=0.75]
+\blockinit{when \greenflag clicked}
+\blockpen{set pen color to \ovalnum{purple}}
+\blockvariable{set \selectmenu{size} to \ovalnum{0}}
+\blockrepeat{repeat \ovalnum{40}}{
+  \blockmove{move \ovalvariable{size} steps}
+  \blockmove{turn \turnright{} \ovalnum{90} degrees}
+  \blockvariable{change \selectmenu{size} by \ovalnum{5}}
+}
+\end{scratch}
+\end{tcolorbox}
+\begin{typethis}
+from ColabTurtlePlus.Turtle import *
+clearscreen()
+initializeTurtle((480, 360))
+pencolor("purple")
+speed(13)
+for i in range(40):
+    forward(i * 5)
+    right(90)
+\end{typethis}
+\end{tcbraster}
+
+\step{Step 3: Read it line by line}
+
+\begin{longtable}{>{\centering\arraybackslash}p{1.1cm} P{5.3cm} P{9.1cm}}
+\toprule
+\textbf{Line} & \textbf{Scratch block} & \textbf{What it means} \\
+\midrule
+1--3 & \chip[events]{when green flag clicked} & The three starting lines. \\
+4 & \chip[pen]{set pen color to purple} & A purple pen. \\
+5 & (none) & Fastest drawing, so you don't wait long for 40 lines. \\
+--- & \chip[variables]{set size to 0} & No line needed! The counter \texttt{i} starts at 0 by itself. \\
+6 & \chip[control]{repeat 40} & 40 times round. \texttt{i} counts 0, 1, 2, \ldots{} up to 39. \\
+7 & \chip[motion]{move size steps} & \py|i * 5| means ``\texttt{i} times 5''. The first line is $0 \times 5 = 0$ steps, then 5, then 10, and so on, up to $39 \times 5 = 195$ steps. \\
+8 & \chip[motion]{turn right 90 degrees} & A square corner each time. \\
+--- & \chip[variables]{change size by 5} & No line needed! \texttt{i} goes up by 1 every time round, so \py|i * 5| goes up by 5. \\
+\bottomrule
+\end{longtable}
+
+\step{Step 4: Run it}
+Press \playbtn. A purple square spiral grows out from the middle of the stage. The lines get longer and longer, 5 steps at a time.
+
+\begin{think}[A puzzle for you]
+The loop goes round 40 times, but if you count carefully, the turtle draws only 39 lines. Where did one go? (Look at the first time round. The answer is at the back of the book.)
+\end{think}
+
+\needspace{12\baselineskip}
+\step{Step 5: Make it yours}
+
+\begin{challenge}
+\tick Change \py|right(90)| to \py|right(91)|. Just one degree more makes the spiral twist round like a whirlpool!\par
+\tick Change the turn to \py|right(120)| for a triangle spiral, or \py|right(60)| for a hexagon spiral.\par
+\tick Try \py|range(60)| with \py|forward(i * 3)|. Why does the spiral get more lines but stay about the same size?\par
+\tick \textbf{Super challenge:} what number in line 6 would make the spiral run off the stage? Guess first, then test it.
+\end{challenge}
+
+% =====================================================================
+\mission{Flower of squares}{loops inside loops, with 8 spaces}
+
+One square is plain. Twelve squares, each turned a little, make a flower!
+
+\begin{tcbraster}[raster columns=2, raster column skip=12pt, raster valign=top, raster force size=false,
+  raster column 1/.style={add to width=-2.4cm}, raster column 2/.style={add to width=2.4cm}]
+\begin{tcolorbox}[blankest]{\large\bfseries\color{ink}Step 1: Build it in Scratch}\end{tcolorbox}
+\begin{tcolorbox}[blankest]{\large\bfseries\color{ink}Step 2: Type it in Colab}\end{tcolorbox}
+\begin{tcolorbox}[blankest]
+\begin{scratch}[scale=0.75]
+\blockinit{when \greenflag clicked}
+\blockpen{set pen color to \ovalnum{deeppink}}
+\blockrepeat{repeat \ovalnum{12}}{
+  \blockrepeat{repeat \ovalnum{4}}{
+    \blockmove{move \ovalnum{80} steps}
+    \blockmove{turn \turnright{} \ovalnum{90} degrees}
+  }
+  \blockmove{turn \turnright{} \ovalnum{30} degrees}
+}
+\end{scratch}
+\end{tcolorbox}
+\begin{typethis}
+from ColabTurtlePlus.Turtle import *
+clearscreen()
+initializeTurtle((480, 360))
+pencolor("deeppink")
+speed(13)
+for i in range(12):
+    for j in range(4):
+        forward(80)
+        right(90)
+    right(30)
+\end{typethis}
+\end{tcbraster}
+
+\step{Step 3: Read it line by line}
+
+\begin{longtable}{>{\centering\arraybackslash}p{1.1cm} P{5.3cm} P{9.1cm}}
+\toprule
+\textbf{Line} & \textbf{Scratch block} & \textbf{What it means} \\
+\midrule
+1--3 & \chip[events]{when green flag clicked} & The three starting lines. \\
+4--5 & \chip[pen]{set pen color to deeppink} & A deep pink pen, drawing fast. \\
+6 & \chip[control]{repeat 12} & The outside loop: 12 squares. No spaces in front. \\
+7 & \chip[control]{repeat 4} & The inside loop: one square. It has 4 spaces, so it is inside the outside loop. It gets its own counter, \texttt{j}. \\
+8--9 & \chip[motion]{move 80 steps} \chip[motion]{turn right 90 degrees} & 8 spaces: inside \textbf{both} loops. These two lines run $12 \times 4 = 48$ times. \\
+10 & \chip[motion]{turn right 30 degrees} & Back to 4 spaces: after each square, turn a little. It runs 12 times. \\
+\bottomrule
+\end{longtable}
+
+\step{Step 4: Run it}
+Press \playbtn. The turtle draws a square, turns a little, draws another square, and so on. After 12 squares you have a pink flower. The turns add up to $12 \times 30 = 360$, so the flower goes exactly once round.
+
+\needspace{14\baselineskip}
+\step{Step 5: Make it yours}
+
+\begin{challenge}
+\tick Change line 6 to \py|range(36)| and line 10 to \py|right(10)|. Why do those two numbers belong together? (Hint: the 360 trick.)\par
+\tick Make a flower of triangles: change the inside loop to \py|range(3)| and \py|right(120)|.\par
+\tick Make a flower of stars: inside loop \py|range(5)| with \py|right(144)|, outside loop \py|range(8)| with \py|right(45)|.\par
+\tick Add \py|hideturtle()| at the very end so only the flower shows. How many spaces should it have?
+\end{challenge}
+
+\begin{watchout}
+If you get one square and then a mess, check line 10. It needs exactly \textbf{4} spaces. With 8 spaces it is inside the square loop, and every corner turns an extra 30 degrees.
+\end{watchout}
+
+% =====================================================================
+\clearpage
+\subsection*{Translate it yourself}
+
+Here is a Scratch script you haven't seen before. Write the Python on the lines. Start with the three starting lines.
+
+\begin{enumerate}
+  \item \textbf{Draw a line} from each block to the Python word that does the same job.
+  \item \textbf{Write the Python} on the lines. Count your spaces carefully!
+  \item \textbf{Type it into Colab} and run it. Did the turtle draw the same thing as the Scratch sprite?
+\end{enumerate}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=top]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt]
+\begin{scratch}[scale=0.85]
+\blockinit{when \greenflag clicked}
+\blockpen{set pen size to \ovalnum{4}}
+\blockpen{set pen color to \ovalnum{purple}}
+\blockrepeat{repeat \ovalnum{8}}{
+  \blockrepeat{repeat \ovalnum{6}}{
+    \blockmove{move \ovalnum{40} steps}
+    \blockmove{turn \turnright{} \ovalnum{60} degrees}
+  }
+  \blockmove{turn \turnright{} \ovalnum{45} degrees}
+}
+\blockpen{pen up}
+\blocklook{say \ovalnum{Done!}}
+\end{scratch}
+\end{tcolorbox}
+\begin{tcolorbox}[colback=white, colframe=codeframe, arc=5pt, title=\textbf{My Python}, coltitle=ink, colbacktitle=codebg]
+\vspace{4pt}
+\foreach \n in {1,...,12}{\rule{\linewidth}{0.4pt}\par\vspace{9pt}}
+\end{tcolorbox}
+\end{tcbraster}
+
+\begin{think}[Clues]
+How many spaces does \chip[motion]{move 40 steps} need? It is inside two C blocks. And where does \chip[pen]{pen up} go: inside a loop, or after?
+\end{think}
+
+% ---------------------------------------------------------------------
+\needspace{9\baselineskip}
+\begin{puzzle}
+Write a program that prints the numbers \textbf{1, 2, 3, 4, 5}, one on each line. You may only use \textbf{two lines} of Python, and one of them must be a \py|for| loop.
+
+\textbf{Clue:} \texttt{i} starts at 0, but you want to start at 1. What can you do to \texttt{i} inside the loop?
+
+\vspace{4pt}
+\foreach \n in {1,2}{\rule{\linewidth}{0.4pt}\par\vspace{9pt}}
+\end{puzzle}
+
+% ---------------------------------------------------------------------
+\needspace{16\baselineskip}
+\subsection*{Part 2 checklist}
+Tick each one when you can do it without looking back.
+
+\tick I can turn \chip[control]{repeat 10} into \py|for i in range(10):| with a colon and four spaces.\par
+\tick I know that \texttt{i} counts 0, 1, 2, \ldots{} and I can use it inside a loop, like \py|forward(i * 5)|.\par
+\tick I can put a line \textbf{after} a loop by taking its spaces away.\par
+\tick I can put a loop inside a loop, using 8 spaces for the innermost lines.\par
+\tick I can use \py|while True:| and stop it with the stop button \stopbtn.\par
+\tick I can make Python wait with \py|import time| and \py|time.sleep(1)|.

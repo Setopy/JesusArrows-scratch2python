@@ -1,0 +1,47 @@
+\subsection*{Part 1: Point in a direction (the table)}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{P{2.8cm} P{6.0cm} P{3.0cm} P{2.8cm}}
+\toprule
+\textbf{Scratch direction} & \textbf{Python code} & \textbf{Python direction} & \textbf{Which way?} \\
+\midrule
+90 & \py|setheading(90 - 90)| & 0 & right \\
+0 & \py|setheading(90 - 0)| & 90 & up \\
+-90 & \py|setheading(90 - -90)| & 180 & left \\
+45 & \py|setheading(90 - 45)| & 45 & up and right \\
+135 & \py|setheading(90 - 135)| & $-45$ & down and right \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Taking away a minus number is the same as adding, so $90 - (-90) = 180$. Python understands $-45$ too: it is the same direction as 315.
+
+\subsection*{Part 1: Translate it yourself}
+
+\begin{code}
+from ColabTurtlePlus.Turtle import *
+clearscreen()
+initializeTurtle((480, 360))
+penup()
+goto(-100, 0)
+pendown()
+pencolor("red")
+pensize(4)
+setheading(90 - 0)
+forward(80)
+right(90)
+forward(80)
+stamp()
+\end{code}
+
+The turtle draws a red line up from $(-100, 0)$, turns right, draws a line across, and stamps itself at $(-20, 80)$. Writing \py|setheading(90)| instead of \py|setheading(90 - 0)| also works. If you added \py|shape("turtle")|, well done: your stamp looks like a turtle.
+
+\subsection*{Part 1: Two-line puzzle}
+
+\begin{code}
+setheading(90 - 180)
+forward(100)
+\end{code}
+
+\py|setheading(-90)| works too, and so does \py|right(90)| instead of \py|setheading|, because the turtle starts facing right. A quarter turn clockwise makes it face down.

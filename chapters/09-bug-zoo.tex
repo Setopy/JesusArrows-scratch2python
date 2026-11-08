@@ -1,0 +1,586 @@
+% =====================================================================
+% Chapter 09: The Bug Zoo (errors and debugging)
+% Every error message below was produced by running the snippet with
+% python3.13 -I (Python 3.13.5), the same Python version Colab uses.
+% =====================================================================
+
+% ---------- Boxes used only in this chapter ----------
+\newtcblisting{bzerror}{listing only, enhanced, colback=errbg, colframe=errframe,
+  boxrule=0.6pt, arc=4pt, left=6pt, right=4pt, top=0pt, bottom=0pt, before skip=2pt, after skip=3pt,
+  listing options={basicstyle=\ttfamily\footnotesize, columns=fixed, keepspaces=true,
+    upquote=true, showstringspaces=false, numbers=none, breaklines=false}}
+\newtcblisting{bzerrorsmall}{listing only, enhanced, colback=errbg, colframe=errframe,
+  boxrule=0.6pt, arc=4pt, left=6pt, right=4pt, top=0pt, bottom=0pt, before skip=2pt, after skip=3pt,
+  listing options={basicstyle=\ttfamily\scriptsize, columns=fixed, keepspaces=true,
+    upquote=true, showstringspaces=false, numbers=none, breaklines=false}}
+\newtcblisting{bzcolab}{listing only, enhanced, colback=errbg, colframe=errframe,
+  boxrule=0.8pt, arc=5pt, left=6pt, right=4pt, top=2pt, bottom=2pt,
+  title={\textbf{What Colab shows under the cell}}, coltitle=white, colbacktitle=errframe,
+  fonttitle=\small,
+  listing options={basicstyle=\ttfamily\scriptsize, columns=fixed, keepspaces=true,
+    upquote=true, showstringspaces=false, numbers=none, breaklines=false}}
+\newtcolorbox{bzcard}[3]{enhanced, colback=white, colframe=errframe, boxrule=1pt, arc=8pt,
+  left=8pt, right=8pt, top=3pt, bottom=4pt, before skip=6pt, after skip=8pt,
+  title={\textbf{Bug #1: #2}\hfill{\itshape #3}}, coltitle=ink, colbacktitle=errhead,
+  fonttitle=\normalsize, fontupper=\small, before upper={\setlength{\parskip}{3pt}}}
+\newtcblisting{bzsnip}{listing only, enhanced, colback=codebg, colframe=codeframe,
+  boxrule=0.6pt, arc=4pt, left=6pt, right=4pt, top=1pt, bottom=1pt, before skip=0pt, after skip=0pt,
+  listing options={style=py, numbers=none, basicstyle=\ttfamily\footnotesize}}
+\newcommand{\bzlabel}[1]{{\bfseries\color{errframe}#1}\ }
+\newcommand{\bzruled}{\vspace{4pt}\rule{\linewidth}{0.4pt}\par\vspace{6pt}\rule{\linewidth}{0.4pt}\par}
+
+\partopener{errhead}{WHEN THINGS GO WRONG}{The Bug Zoo}{Meet the twelve bugs every coder catches, and learn to tame them like a detective.}
+
+A mistake in code is called a \textbf{bug}, and finding and fixing it is called \textbf{debugging}. Every programmer in the world makes bugs every single day, including the people who invented Python. In this zoo you will meet each kind of bug and learn how to catch it.
+
+\subsection*{Why does Python complain when Scratch never did?}
+
+Scratch was \textbf{designed} to have no error messages. Its blocks are like LEGO: they only snap together in ways that make sense, so you can never put a block in the wrong place. And when something odd happens, Scratch quietly does something harmless and carries on. Try this in Scratch:
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blocklook{say \ovaloperator{\ovalnum{10} / \ovalnum{0}}}
+\end{scratch}
+\par\smallskip\small The cat just says \textbf{Infinity} and keeps going.
+\end{tcolorbox}
+\begin{code}
+print(10 / 0)
+\end{code}
+\end{tcbraster}
+
+Python does not sweep problems under the rug. When it reaches something it cannot do, it \textbf{stops} and leaves you a note:
+
+\begin{bzerror}
+ZeroDivisionError: division by zero
+\end{bzerror}
+
+Think of Python as a detective's helpful assistant. When something goes wrong, it freezes the scene and writes you a \textbf{clue note}. The note tells you \textbf{where} it happened (the line number, like a room in a house), \textbf{what kind} of trouble it was (the error name, like a suspect's name) and gives you a \textbf{hint}. Red writing does not mean ``you failed''. It means ``a clue has arrived!''
+
+\begin{think}[Two families of bugs]
+\textbf{Grammar bugs} (\texttt{SyntaxError} and \texttt{IndentationError}): Python reads the whole cell first, finds a line it cannot understand, and runs \textbf{nothing}, not even line 1.
+
+\textbf{Running bugs} (all the others): Python runs the lines one by one and stops at the bad one. Anything printed \textbf{before} that line still appears, which is a clue too: ``it got this far''.
+\end{think}
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{How to read an error in Colab}
+
+Here is a cell with a bug in it. Can you spot it before you read on?
+
+\begin{code}
+score = 10
+print(scroe)
+\end{code}
+
+When you run it, Colab shows something like this under the cell (the top lines may look a little different on your screen, but the last line will be the same):
+
+\begin{bzcolab}
+---------------------------------------------------------------------
+NameError                         Traceback (most recent call last)
+/tmp/ipykernel_1604/434711600.py in <cell line: 0>()
+      1 score = 10
+----> 2 print(scroe)
+
+NameError: name 'scroe' is not defined
+\end{bzcolab}
+
+\needspace{10\baselineskip}
+Grammar bugs look a little different. Here Python shows the line and points at the exact spot with little arrows, \texttt{\textasciicircum}:
+
+\begin{bzcolab}
+  File "/tmp/ipython-input-2961531340.py", line 1
+    if 5 > 3
+            ^
+SyntaxError: expected ':'
+\end{bzcolab}
+
+\needspace{12\baselineskip}
+\begin{tcolorbox}[enhanced, colback=errbg, colframe=errframe, boxrule=0.8pt, arc=6pt,
+  title={\textbf{The Detective's Routine}}, coltitle=white, colbacktitle=errframe]
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Read the LAST line first.} The word before the colon is the \textbf{kind} of bug (which animal in the zoo). The words after it are the clue.
+  \item \textbf{Find the line number.} \texttt{line 2}, or the arrow \texttt{---->} next to a line, tells you which room the crime happened in. Switch on line numbers in Colab: \textbf{Tools}, then \textbf{Settings}, then \textbf{Editor}, then \textbf{Show line numbers}.
+  \item \textbf{Look at the markers.} For grammar bugs, Python puts \texttt{\textasciicircum} markers under the exact part of the line it did not like. For running bugs, Colab points at the line with an arrow \texttt{---->} instead.
+  \item \textbf{Read the hint.} Some clues carry a hint, like \texttt{expected ':'}. If the clue says a name is \textbf{not defined}, check the spelling and the capital letters very carefully: Colab won't guess the right word for you.
+\end{enumerate}
+\end{tcolorbox}
+
+\begin{watchout}[Only one clue at a time]
+Python stops at the \textbf{first} problem it finds. If your code has three bugs, you will meet them one at a time: fix one, run again, read the next clue. That is completely normal.
+\end{watchout}
+
+Under the error, Colab also shows an \textbf{Explain error} button. Be the detective first: read the last line, make your guess, and only then press it to check.
+
+\needspace{16\baselineskip}
+\subsection*{The clue decoder}
+
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{longtable}{P{4.4cm} P{5cm} P{6.1cm}}
+\toprule
+\textbf{The last line says} & \textbf{It means} & \textbf{Try this} \\
+\midrule
+\texttt{SyntaxError} & Python can't read the line. & Look for a missing \texttt{:}, bracket \texttt{)} or quote mark \texttt{"}. \\
+\texttt{IndentationError} & A line isn't lined up properly. & Lines inside a loop, \texttt{if} or \texttt{def} need four spaces in front. \\
+\texttt{NameError} & Python doesn't know that word. & Check spelling and capitals. Did you make the variable first? Did you run the cells above? \\
+\texttt{TypeError} & You mixed up text and numbers. & Use \py|int( )| to make a number, or \py|str( )| to make text. \\
+\texttt{ValueError} & That value doesn't make sense here. & Did you type a word where a number was needed? \\
+\texttt{IndexError} & That item number doesn't exist. & Python counts from 0. Check with \py|len( )|. \\
+\texttt{ZeroDivisionError} & You divided by zero. & Check the number is not 0 before you divide. \\
+\texttt{AttributeError} & That sprite doesn't have that command. & Check the spelling after the dot, as in \py|cat.forward|. \\
+\texttt{ModuleNotFoundError} & The turtle tools aren't loaded. & Run the magic first cell again. \\
+\texttt{KeyboardInterrupt} & You pressed stop. & Nothing is broken! Python is just saying ``you stopped me''. \\
+\bottomrule
+\end{longtable}
+\normalsize
+
+% ---------------------------------------------------------------------
+\needspace{20\baselineskip}
+\subsection*{Welcome to the Bug Zoo!}
+
+Here are the twelve bugs you will meet most often. Each card shows the Scratch habit that lets the bug sneak in, a tiny broken program, the \textbf{real} clue Python gives (copied from Python 3.13, the version Colab uses), and how to fix it. Try typing each broken program into Colab yourself to see the bug in the wild!
+
+\begin{bzcard}{1}{Missing colon}{the Colon Cobra}
+\noindent\begin{minipage}[c]{0.43\linewidth}
+\bzlabel{Scratch habit:} the C-shaped \chip[control]{if} block opens its own mouth. In Python, the colon \texttt{:} is the mouth opening, and you must type it.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.54\linewidth}
+\begin{bzsnip}
+if 5 > 3
+    print("yes")
+\end{bzsnip}
+\end{minipage}\par
+\begin{bzerror}
+    if 5 > 3
+            ^
+SyntaxError: expected ':'
+\end{bzerror}
+\bzlabel{Fix it:} add \texttt{:} at the end of every \texttt{if}, \texttt{for}, \texttt{while} and \texttt{def} line: \py|if 5 > 3:|
+\end{bzcard}
+
+\begin{bzcard}{2}{Missing spaces}{the Wobbly Stack}
+\noindent\begin{minipage}[c]{0.43\linewidth}
+\bzlabel{Scratch habit:} blocks snap \textbf{inside} the C-block by themselves. In Python, four spaces at the start of a line put it inside.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.54\linewidth}
+\begin{bzsnip}
+for i in range(3):
+print(i)
+\end{bzsnip}
+\end{minipage}\par
+\begin{bzerrorsmall}
+    print(i)
+    ^^^^^
+IndentationError: expected an indented block after 'for' statement on line 1
+\end{bzerrorsmall}
+\bzlabel{Fix it:} put four spaces (or press Tab) before \py|print(i)|. Python even tells you which line opened the mouth.
+\end{bzcard}
+
+\begin{bzcard}{3}{Spaces where none belong}{the Wandering Stray}
+\noindent\begin{minipage}[c]{0.43\linewidth}
+\bzlabel{Scratch habit:} you can drag a block anywhere on the Scratch screen. In Python, a line with spaces in front must be inside a C-block.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.54\linewidth}
+\begin{bzsnip}
+print("Hello")
+    print("there")
+\end{bzsnip}
+\end{minipage}\par
+\begin{bzerror}
+    print("there")
+IndentationError: unexpected indent
+\end{bzerror}
+\bzlabel{Fix it:} line 2 is not inside anything, so delete its spaces. No arrows this time: the clue is the word \textbf{unexpected}.
+\end{bzcard}
+
+\begin{bzcard}{4}{Spelling slip}{the Misspelled Monkey}
+\noindent\begin{minipage}[c]{0.43\linewidth}
+\bzlabel{Scratch habit:} you pick variables from the palette, so you can never misspell one. In Python you type every name.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.54\linewidth}
+\begin{bzsnip}
+score = 10
+print(scroe)
+\end{bzsnip}
+\end{minipage}\par
+\begin{bzerror}
+    print(scroe)
+          ^^^^^
+NameError: name 'scroe' is not defined
+\end{bzerror}
+\bzlabel{Fix it:} spell it exactly. Turtle commands are names too: \py|forwad(100)| gives \texttt{NameError: name 'forwad' is not defined}
+\end{bzcard}
+
+\begin{bzcard}{5}{Capital letters}{the Capital Copycat}
+\noindent\begin{minipage}[c]{0.43\linewidth}
+\bzlabel{Scratch habit:} block words are already written for you. To Python, \texttt{Print} and \texttt{print} are as different as \texttt{cat} and \texttt{dog}.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.54\linewidth}
+\begin{bzsnip}
+Print("hi")
+\end{bzsnip}
+\end{minipage}\par
+\begin{bzerror}
+    Print("hi")
+    ^^^^^
+NameError: name 'Print' is not defined
+\end{bzerror}
+\bzlabel{Fix it:} Python words are lowercase: \py|print|, \py|if|, \py|for|. A capital \texttt{If} gives just \texttt{SyntaxError: invalid syntax}. And \texttt{Name} and \texttt{name} are two different boxes!
+\end{bzcard}
+
+\begin{bzcard}{6}{Missing quotes}{the Quote Thief}
+\noindent\begin{minipage}[c]{0.43\linewidth}
+\bzlabel{Scratch habit:} you type text into a white bubble, with no quote marks. In Python, quotes say ``this is just text''.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.54\linewidth}
+\begin{bzsnip}
+print(hello)
+\end{bzsnip}
+\end{minipage}\par
+\begin{bzerror}
+    print(hello)
+          ^^^^^
+NameError: name 'hello' is not defined
+\end{bzerror}
+\bzlabel{Fix it:} \py|print("hello")|. Without quotes, Python thinks \texttt{hello} is a variable's name. Forget only the \textbf{closing} quote, \py|print("hello)|, and you get \texttt{SyntaxError: unterminated string literal}: ``you started some text and never finished it''.
+\end{bzcard}
+
+\begin{bzcard}{7}{Missing bracket}{the Bracketless Bat}
+\noindent\begin{minipage}[c]{0.43\linewidth}
+\bzlabel{Scratch habit:} the holes in a block are drawn for you. In Python, the holes are brackets \texttt{( )}, and every \texttt{(} needs its \texttt{)}.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.54\linewidth}
+\begin{bzsnip}
+print("hi"
+\end{bzsnip}
+\end{minipage}\par
+\begin{bzerror}
+    print("hi"
+         ^
+SyntaxError: '(' was never closed
+\end{bzerror}
+\bzlabel{Fix it:} add the closing bracket: \py|print("hi")|. Its cousin, \py|print "hello"|, gives \texttt{SyntaxError: Missing parentheses in call to 'print'. Did you mean print(...)?}
+\end{bzcard}
+
+\begin{bzcard}{8}{One equals instead of two}{the Equals Eel}
+\noindent\begin{minipage}[c]{0.43\linewidth}
+\bzlabel{Scratch habit:} the green \chip[operators]{( ) = ( )} block asks a question, and \chip[variables]{set} is a different block. Python uses \texttt{=} to set and \texttt{==} to ask.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.54\linewidth}
+\begin{bzsnip}
+x = 5
+if x = 5:
+    print("five")
+\end{bzsnip}
+\end{minipage}\par
+\begin{bzerror}
+    if x = 5:
+       ^^^^^
+SyntaxError: invalid syntax. Maybe you meant '==' or ':=' instead of '='?
+\end{bzerror}
+\bzlabel{Fix it:} \py|if x == 5:|. Ignore the \texttt{:=} part of the hint; that is a tool for much later.
+\end{bzcard}
+
+\begin{bzcard}{9}{Text plus a number}{the Glue Goblin}
+\noindent\begin{minipage}[c]{0.43\linewidth}
+\bzlabel{Scratch habit:} \chip[operators]{join} glues anything to anything. Python will not glue text to a number with \texttt{+}.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.54\linewidth}
+\begin{bzsnip}
+score = 10
+print("Score: " + score)
+\end{bzsnip}
+\end{minipage}\par
+\begin{bzerror}
+    print("Score: " + score)
+          ~~~~~~~~~~^~~~~~~
+TypeError: can only concatenate str (not "int") to str
+\end{bzerror}
+\bzlabel{Fix it:} ``concatenate'' means glue, \texttt{str} means text, \texttt{int} means whole number. Use a comma, \py|print("Score:", score)|, or turn the number into text: \py|"Score: " + str(score)|. The same goblin bites \py|input() + 1|, because \py|input()| always gives text.
+\end{bzcard}
+
+\begin{bzcard}{10}{A word that is not a number}{the Number Faker}
+\noindent\begin{minipage}[c]{0.43\linewidth}
+\bzlabel{Scratch habit:} Scratch treats a word as 0 and carries on. Python's \py|int()| can read \texttt{"5"} but not \texttt{"five"}.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.54\linewidth}
+\begin{bzsnip}
+age = int("five")
+\end{bzsnip}
+\end{minipage}\par
+\begin{bzerror}
+    age = int("five")
+ValueError: invalid literal for int() with base 10: 'five'
+\end{bzerror}
+\bzlabel{Fix it:} ignore ``literal'' and ``base 10''; the clue is \texttt{'five'}. You get the same clue if someone types \texttt{five} into \py|int(input("How old are you? "))|. Type digits: \texttt{5}.
+\end{bzcard}
+
+\begin{bzcard}{11}{An item that isn't there}{the Off-by-One Owl}
+\noindent\begin{minipage}[c]{0.43\linewidth}
+\bzlabel{Scratch habit:} lists start at item 1, and \chip[lists]{item 99 of list} just gives a blank. Python counts from \textbf{0}.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.54\linewidth}
+\begin{bzsnip}
+fruits = ["apple", "banana", "cherry"]
+print(fruits[3])
+\end{bzsnip}
+\end{minipage}\par
+\begin{bzerror}
+    print(fruits[3])
+          ~~~~~~^^^
+IndexError: list index out of range
+\end{bzerror}
+\bzlabel{Fix it:} ``index'' means item number. The three fruits are \py|fruits[0]|, \py|fruits[1]| and \py|fruits[2]|. The last one is also \py|fruits[-1]|. Check how many with \py|len(fruits)|.
+\end{bzcard}
+
+\begin{bzcard}{12}{Dividing by zero}{the Zero Zombie}
+\noindent\begin{minipage}[c]{0.43\linewidth}
+\bzlabel{Scratch habit:} Scratch says \textbf{Infinity} and keeps going. Sharing 12 sweets among 0 friends makes no sense, so Python stops.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.54\linewidth}
+\begin{bzsnip}
+sweets = 12
+friends = 0
+print(sweets / friends)
+\end{bzsnip}
+\end{minipage}\par
+\begin{bzerror}
+    print(sweets / friends)
+          ~~~~~~~^~~~~~~~~
+ZeroDivisionError: division by zero
+\end{bzerror}
+\bzlabel{Fix it:} check first with \py|if friends != 0:| (\texttt{!=} means ``is not equal to''), and only divide inside the \texttt{if}.
+\end{bzcard}
+
+% ---------------------------------------------------------------------
+\clearpage
+\subsection*{Sneaky bugs: no red writing!}
+
+The sneakiest animals in the zoo make no noise at all. The program runs, there is no error, but it does the \textbf{wrong thing}. These are just like Scratch bugs, so you already know how to hunt them: run the program and check what it \textbf{really} did.
+
+\newcommand{\bzsneaky}[2]{\needspace{8\baselineskip}\par\medskip{\bfseries\color{errframe}#1}\quad{\itshape #2}\par}
+
+\bzsneaky{The Lost Hooray}{wrong indentation level}
+\noindent\begin{minipage}[c]{0.55\linewidth}
+\begin{code}
+for i in range(3):
+    print("Hip hip")
+    print("Hooray!")
+\end{code}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}\small\raggedright
+This prints ``Hooray!'' three times. If you only wanted one at the end, take the spaces off line 3. The spaces decide what is inside the loop, and Python never warns you if you pick the wrong level.
+\end{minipage}
+
+\bzsneaky{The Picky Parrot}{``Yes'' is not ``yes''}
+\noindent\begin{minipage}[c]{0.55\linewidth}
+\begin{code}
+answer = input("Like pizza? ")
+if answer == "yes":
+    print("Me too!")
+\end{code}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}\small\raggedright
+Type \texttt{Yes} with a capital Y and nothing is printed. Scratch thinks \texttt{Yes} and \texttt{yes} are the same; Python does not. Fix: \py|if answer.lower() == "yes":| (\py|.lower()| turns the answer into small letters first).
+\end{minipage}
+
+\bzsneaky{The Zero Hero}{counting from 0}
+\noindent\begin{minipage}[c]{0.55\linewidth}
+\begin{code}
+fruits = ["apple", "banana"]
+print(fruits[1])
+\end{code}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}\small\raggedright
+You wanted the first fruit, but it prints \texttt{banana}. Scratch's \chip[lists]{item 1} is Python's \py|[0]|.
+\end{minipage}
+
+\bzsneaky{The Forever Phantom}{a loop that never ends}
+\noindent\begin{minipage}[c]{0.55\linewidth}
+\begin{code}
+count = 0
+while count < 3:
+    print("hi")
+\end{code}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}\small\raggedright
+It prints \texttt{hi} again and again and never stops, because \texttt{count} stays 0. Press the \stopbtn\ stop button on the cell (it replaces the play button while the cell runs). Then add \py|count = count + 1| inside the loop: Scratch's \chip[variables]{change count by 1}.
+\end{minipage}
+
+\bzsneaky{The Silent Recipe}{forgetting the brackets}
+\noindent\begin{minipage}[c]{0.55\linewidth}
+\begin{code}
+def cheer():
+    print("Hooray!")
+
+cheer
+\end{code}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}\small\raggedright
+No ``Hooray!''. Without \texttt{()}, you only \textbf{named} the recipe; you didn't cook it. Colab may show a strange line starting \texttt{<function}. Fix: \py|cheer()|.
+\end{minipage}
+
+\bzsneaky{The Rounding Riddle}{round(2.5) is 2}
+\noindent\begin{minipage}[c]{0.55\linewidth}
+\begin{code}
+print(round(2.5))
+print(round(3.5))
+\end{code}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\linewidth}\small\raggedright
+This prints \texttt{2} and then \texttt{4}! Scratch rounds 2.5 up to 3. Python rounds an exact half to the nearest \textbf{even} number. This is not really a bug in Python, but it can make a bug in your program, so now you know.
+\end{minipage}
+
+% ---------------------------------------------------------------------
+\needspace{18\baselineskip}
+\subsection*{Detective tricks}
+
+Scratch coders who are good at fixing bugs use the same tricks again and again. Researchers Karen Brennan and Mitchel Resnick asked young Scratchers how they hunt bugs, and these are the tricks they named. They work just as well in Python.
+
+\needspace{10\baselineskip}
+\textbf{1. Make it say what it knows.} In Scratch you can add a \chip[looks]{say} block to see what is inside a variable. In Python, add a \py|print|:
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blocklook{say \ovalvariable{score} for \ovalnum{2} seconds}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+print("score is", score)
+\end{code}
+\end{tcbraster}
+
+Put one before and one after the line you suspect. When the number is not what you expected, you have found the scene of the crime. Delete the extra \py|print| lines when you are done.
+
+\textbf{2. Find where the problem is.} Read the line number, or run the program in small pieces. Split a big cell into smaller cells and run them one at a time, like clicking one Scratch block to test it.
+
+\textbf{3. Read it out loud.} Explain your code, line by line, to a grown-up, a friend or a rubber duck. Programmers really do keep a toy duck on their desk for this! Very often you hear the bug yourself halfway through.
+
+\textbf{4. Change one thing at a time.} Make one change, run, look. If you change five things at once, you won't know which one helped (or which one made a new bug).
+
+\textbf{5. Compare with a working example.} Find a program in this book that works and does something similar. Put them side by side and spot the difference, like a spot-the-difference puzzle.
+
+\textbf{6. Take a break.} Get a drink, stretch, look out of the window. Brains keep working on puzzles in the background, and the bug is often obvious when you come back.
+
+\textbf{7. Tell someone.} Asking for help is a real programmer's skill. Say what you wanted, what happened instead, and what the last line of the error says.
+
+
+% ---------------------------------------------------------------------
+\clearpage
+\subsection*{Bug hunt! Catch them all}
+
+Each program below has a bug: some are loud (red writing), some are sneaky (no error, wrong result). Type each one into Colab, run it and read the clue. Then fix it, and write what was wrong on the lines. Before you run it, can you \textbf{predict} which zoo animal will appear? (Answers are at the back of the book, but try first!)
+
+\newcommand{\bzhunt}[2]{\par\needspace{7\baselineskip}\smallskip\textbf{Bug hunt #1}\quad #2\par\nopagebreak}
+
+\bzhunt{1}{It should say Meow 5 times.}
+\begin{code}
+count = 1
+while count <= 5:
+print("Meow number", count)
+    count = count + 1
+\end{code}
+\bzruled
+
+\bzhunt{2}{It should show your score.}
+\begin{code}
+score = 0
+score = score + 10
+Print("Your score is", score)
+\end{code}
+\bzruled
+
+\bzhunt{3}{Type \texttt{9} when it asks.}
+\begin{code}
+age = input("How old are you? ")
+print("Next year you will be", age + 1)
+\end{code}
+\bzruled
+
+\bzhunt{4}{Type \texttt{cat123} when it asks.}
+\begin{code}
+password = input("Password? ")
+if password = "cat123":
+    print("Come in!")
+\end{code}
+\bzruled
+
+\bzhunt{5}{It should print the first and the last fruit. (Two bugs!)}
+\begin{code}
+fruits = ["apple", "banana", "cherry"]
+print("First:", fruits[1])
+print("Last:", fruits[3])
+\end{code}
+\bzruled
+
+\bzhunt{6}{It should share the sweets fairly, or say there is nobody to share with.}
+\begin{code}
+sweets = 20
+friends = 0
+print("Each friend gets", sweets / friends)
+\end{code}
+\bzruled
+
+\bzhunt{7}{It should cheer.}
+\begin{code}
+def cheer():
+    print("Hip hip hooray!")
+
+cheer
+\end{code}
+\bzruled
+
+\bzhunt{8}{It should count down 5, 4, 3, 2, 1 and blast off. (Have the stop button ready!)}
+\begin{code}
+n = 5
+while n > 0:
+    print(n)
+print("Blast off!")
+\end{code}
+\bzruled
+
+\bzhunt{9}{It should draw a square. (Put the three starting lines above it.)}
+\begin{code}
+for i in range(4):
+    forward(50)
+right(90)
+\end{code}
+\bzruled
+
+\bzhunt{10}{Type your name when it asks.}
+\begin{code}
+name = input("What is your name? ")
+print("Hello, " + name)
+print("Nice to meet you!)
+\end{code}
+\bzruled
+
+% ---------------------------------------------------------------------
+\needspace{10\baselineskip}
+\subsection*{Bug Zoo checklist}
+
+Tick each animal when you have caught it in your own code. Every bug you catch makes you a better detective!
+
+\begin{tcbraster}[raster columns=3, raster column skip=8pt, raster equal height]
+\begin{tcolorbox}[colback=errbg, colframe=errframe, boxrule=0.5pt, arc=4pt, fontupper=\small]
+\tick Colon Cobra\par \tick Wobbly Stack\par \tick Wandering Stray\par \tick Misspelled Monkey\par \tick Capital Copycat\par \tick Quote Thief
+\end{tcolorbox}
+\begin{tcolorbox}[colback=errbg, colframe=errframe, boxrule=0.5pt, arc=4pt, fontupper=\small]
+\tick Bracketless Bat\par \tick Equals Eel\par \tick Glue Goblin\par \tick Number Faker\par \tick Off-by-One Owl\par \tick Zero Zombie
+\end{tcolorbox}
+\begin{tcolorbox}[colback=errbg, colframe=errframe, boxrule=0.5pt, arc=4pt, fontupper=\small]
+\tick Lost Hooray\par \tick Picky Parrot\par \tick Zero Hero\par \tick Forever Phantom\par \tick Silent Recipe\par \tick Rounding Riddle
+\end{tcolorbox}
+\end{tcbraster}
+
+\begin{itemize}[label={}, leftmargin=0pt]
+  \item \tick I read the \textbf{last line} of an error first.
+  \item \tick I can find the line number and the \texttt{\textasciicircum\textasciicircum\textasciicircum} markers.
+  \item \tick I can stop a forever loop with the stop button.
+  \item \tick I use \py|print| to make my program say what it knows.
+  \item \tick I change one thing at a time, and I take a break when I'm stuck.
+\end{itemize}

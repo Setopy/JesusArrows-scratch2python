@@ -1,0 +1,825 @@
+% =====================================================================
+% PART 3: Variables and Lists
+% =====================================================================
+\partopener{variables}{PART 3}{Variables and Lists}{Give your programs a memory: boxes that remember one thing, and backpacks that carry lots.}
+
+In Scratch, the orange \textbf{Variables} blocks and the red-orange \textbf{List} blocks give your project a memory. A variable remembers \textbf{one} thing, like a score. A list remembers \textbf{lots} of things in order, like everything in a backpack.
+
+In this part you will meet the Python for blocks like these:
+
+\chip[variables]{set score to 0} \quad \chip[variables]{change score by 1} \quad \chip[variables]{show variable score}
+
+\chip[lists]{add apple to backpack} \quad \chip[lists]{item 1 of backpack}
+
+\chip[lists]{length of backpack} \quad \chip[lists]{backpack contains sword?}
+
+Good news: in Python, variables and lists need \textbf{no} magic starting lines. Programs that do not draw can start straight away.
+
+% ---------------------------------------------------------------------
+\needspace{12\baselineskip}
+\subsection*{A variable is a labelled box}
+
+In Scratch, you click \textbf{Make a Variable}, type a name, and Scratch makes a box for you. In Python there is no button. You make a box just by putting something in it.
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blockvariable{set \selectmenu{score} to \ovalnum{0}}
+\blockvariable{set \selectmenu{name} to \ovalnum{Ada}}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+score = 0
+name = "Ada"
+\end{code}
+\end{tcbraster}
+
+\begin{center}
+\begin{tikzpicture}[font=\sffamily]
+  \foreach \x/\lab/\val in {0/score/0, 5/name/"Ada"}{
+    \fill[variables!25] (\x,0) -- (\x+3,0) -- (\x+3,1.6) -- (\x,1.6) -- cycle;
+    \draw[variables!80!black, line width=1pt] (\x,0) rectangle (\x+3,1.6);
+    \draw[variables!80!black, line width=1pt, fill=variables!45] (\x-0.15,1.6) -- (\x+3.15,1.6) -- (\x+3.15,1.95) -- (\x-0.15,1.95) -- cycle;
+    \node[fill=white, draw=variables!80!black, rounded corners=2pt, font=\sffamily\bfseries] at (\x+1.5,0.55) {\lab};
+    \node[font=\ttfamily\Large] at (\x+1.5,2.45) {\val};
+    \draw[-{Stealth[length=7pt]}, line width=1pt, ink] (\x+1.5,2.2) -- (\x+1.5,1.35);
+  }
+\end{tikzpicture}
+\end{center}
+
+\textbf{How it works:} \py|score = 0| means ``put 0 in the box labelled \texttt{score}''. In Python, one \texttt{=} does \textbf{not} mean ``equals''. It means \textbf{put in the box}. Read it from right to left: the value on the right goes into the box on the left. A box holds one thing at a time, so putting something new in throws the old thing out.
+
+\begin{think}[Why does \texttt{"Ada"} have quote marks?]
+Quote marks tell Python ``this is writing''. Without them, \py|name = Ada| makes Python look for a box called \texttt{Ada}, and it can't find one. Numbers like \texttt{0} don't need quote marks.
+\end{think}
+
+% ---------------------------------------------------------------------
+\needspace{12\baselineskip}
+\subsection*{Change the score}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blockvariable{set \selectmenu{score} to \ovalnum{0}}
+\blockvariable{change \selectmenu{score} by \ovalnum{1}}
+\blockvariable{change \selectmenu{score} by \ovalnum{1}}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+score = 0
+score = score + 1
+score += 1
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works:} Line 2 looks strange if you think \texttt{=} means ``equals''. But remember, it means \textbf{put in the box}. Python works out the right side first: ``what's in \texttt{score}, plus 1''. That is 1. Then it puts the 1 back in the box. Line 3 is a shortcut that does exactly the same thing: \py|score += 1| means ``change score by 1''. After both lines, \texttt{score} holds 2.
+
+\begin{think}[Going down]
+\chip[variables]{change score by -1} is \py|score -= 1| (or \py|score = score - 1|). You can use \texttt{+=}, \texttt{-=}, \texttt{*=} and \texttt{/=}.
+\end{think}
+
+% ---------------------------------------------------------------------
+\needspace{12\baselineskip}
+\subsection*{Show the variable}
+
+In Scratch, ticking the box next to a variable shows a \textbf{monitor} on the stage that updates all by itself. Python has no monitor. Instead, you \texttt{print} the box whenever you want to look inside.
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blockvariable{set \selectmenu{score} to \ovalnum{7}}
+\blockvariable{show variable \selectmenu{score}}
+\blocklook{say \ovaloperator{join \ovalnum{Score: } \ovalvariable{score}}}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+score = 7
+print(score)
+print("Score:", score)
+\end{code}
+\end{tcbraster}
+
+\begin{outputbox}
+7\\
+Score: 7
+\end{outputbox}
+
+\textbf{How it works:} \py|print(score)| has no quote marks around \texttt{score}, so Python shows what is \textbf{inside} the box, not the word ``score''. In line 3, the comma lets you print two things in a row, and Python puts a space between them for you. That is easier than Scratch's \chip[operators]{join} block!
+
+% ---------------------------------------------------------------------
+\needspace{12\baselineskip}
+\subsection*{Naming your boxes}
+
+Scratch lets you call a variable almost anything, even \texttt{my score} with a space. Python is pickier. A Python name must follow these rules:
+
+\begin{itemize}
+  \item \textbf{No spaces.} Use an underscore \texttt{\_} instead: \texttt{my\_score}.
+  \item \textbf{Don't start with a digit.} \texttt{score2} is fine, \texttt{2score} is not.
+  \item \textbf{Capitals matter.} \texttt{Score} and \texttt{score} are two different boxes.
+  \item \textbf{Not a Python word.} You can't call a box \texttt{for} or \texttt{import}, because Python already uses those words.
+\end{itemize}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{P{3.6cm} P{1.6cm} P{8.4cm}}
+\toprule
+\textbf{Name} & \textbf{OK?} & \textbf{Why} \\
+\midrule
+\texttt{score} & \textcolor{chalframe}{\textbf{Yes}} & Small letters are perfect. \\
+\texttt{my\_score} & \textcolor{chalframe}{\textbf{Yes}} & The underscore joins the words. \\
+\texttt{score2} & \textcolor{chalframe}{\textbf{Yes}} & Digits are fine after the first letter. \\
+\texttt{my score} & \textcolor{errframe}{\textbf{No}} & A space. Python thinks these are two names. \\
+\texttt{2score} & \textcolor{errframe}{\textbf{No}} & It starts with a digit. \\
+\texttt{for} & \textcolor{errframe}{\textbf{No}} & Python already uses this word for loops. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\needspace{12\baselineskip}
+\begin{watchout}[Watch out: capitals make a different box]
+\begin{codenonum}
+Score = 10
+print(score)
+\end{codenonum}
+\begin{errorbox}
+NameError: name 'score' is not defined
+\end{errorbox}
+Python only knows the boxes you have made. Read the last line of the red error: it names the box Python can't find. Look closely: the box you made is \texttt{Score}, with a capital S. Use small letters for your names and you will rarely hit this bug.
+\end{watchout}
+
+\needspace{10\baselineskip}
+\begin{challenge}[Quick quiz: box or bust?]
+Tick the names Python will accept. (Answers at the back.)\par
+\begin{tabular}{@{}p{4.6cm}p{4.6cm}p{4.6cm}@{}}
+\tick \texttt{lives} & \tick \texttt{high score} & \tick \texttt{player\_1} \\
+\tick \texttt{1st\_place} & \tick \texttt{bestTime} & \tick \texttt{import} \\
+\end{tabular}
+\end{challenge}
+
+% ---------------------------------------------------------------------
+\needspace{12\baselineskip}
+\subsection*{Text or number? Quotes matter!}
+
+Scratch quietly guesses whether something is a number or writing. Python never guesses. \texttt{5} is a number. \texttt{"5"} in quote marks is writing (Python calls writing a \textbf{string}).
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{code}
+print(5 + 5)
+print("5" + "5")
+\end{code}
+\begin{outputbox}
+10\\
+55
+\end{outputbox}
+\end{tcbraster}
+
+\textbf{How it works:} Adding two numbers does maths: 10. Adding two strings sticks them together, like the \chip[operators]{join} block: \texttt{55}. In Scratch, both would give 10. And if you try to add a string and a number, Python stops and complains:
+
+\begin{codenonum}
+score = 5
+print("Score: " + score)
+\end{codenonum}
+\begin{errorbox}
+TypeError: can only concatenate str (not "int") to str
+\end{errorbox}
+
+This means ``I can only join writing to writing, and you gave me a number''. The easy fix is the comma you already know: \py|print("Score:", score)|.
+
+% ---------------------------------------------------------------------
+\needspace{8\baselineskip}
+\begin{think}[For this sprite only, or for all sprites?]
+When you make a Scratch variable, Scratch asks: \textbf{For all sprites} or \textbf{For this sprite only}? In this part, all your Python boxes are like ``for all sprites'': any line in your program can use them. In a later part you will learn how to give each sprite its own boxes, like a cat with its own \texttt{health} and a dog with its own \texttt{health}.
+\end{think}
+
+% ---------------------------------------------------------------------
+\needspace{12\baselineskip}
+\subsection*{Variables can draw too}
+
+A box can hold the size of a shape. Change the box, and every line that uses it changes too.
+
+\noindent\begin{minipage}[t]{0.33\linewidth}\vspace{0pt}
+\setscratch{scale=0.85}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blockpen{pen down}
+\blockvariable{set \selectmenu{size} to \ovalnum{50}}
+\blockrepeat{repeat \ovalnum{4}}{
+  \blockmove{move \ovalvariable{size} steps}
+  \blockmove{turn \turnright{} \ovalnum{90} degrees}
+}
+\blockvariable{change \selectmenu{size} by \ovalnum{50}}
+\blockrepeat{repeat \ovalnum{4}}{
+  \blockmove{move \ovalvariable{size} steps}
+  \blockmove{turn \turnright{} \ovalnum{90} degrees}
+}
+\end{scratch}
+\end{minipage}\hfill\begin{minipage}[t]{0.66\linewidth}\vspace{0pt}
+\begin{code}
+from ColabTurtlePlus.Turtle import *
+clearscreen()
+initializeTurtle((480, 360))
+size = 50
+for i in range(4):
+    forward(size)
+    right(90)
+size = size + 50
+for i in range(4):
+    forward(size)
+    right(90)
+\end{code}
+\end{minipage}
+
+\textbf{How it works:} \py|forward(size)| has no quote marks, so the turtle walks however many steps are in the \texttt{size} box. The first square uses 50. Line 8 makes the box hold 100, so the second square is twice as big. Both squares start from the same corner.
+
+What if you put \py|size = size + 50| \textbf{inside} the loop, so the size grows after every line? You will find out in the \textbf{Growing spiral} mission\ldots
+
+% ---------------------------------------------------------------------
+\needspace{8\baselineskip}
+\subsection*{A list is a backpack}
+
+A variable holds one thing. A \textbf{list} holds lots of things, in order, under one name. In Scratch you click \textbf{Make a List}. In Python you write square brackets.
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center, halign=center]
+\tcbox[on line, colback=white, colframe=muted, arc=4pt, boxrule=0.8pt]{\sffamily\small Make a List}
+\par\medskip
+New list name: \textbf{backpack}
+\end{tcolorbox}
+\begin{code}
+backpack = []
+print(backpack)
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works:} The square brackets \texttt{[ ]} are the backpack. With nothing between them, the backpack is empty, and \py|print(backpack)| shows \texttt{[]}. Printing a list is Python's \chip[lists]{show list backpack}.
+
+% ---------------------------------------------------------------------
+\needspace{12\baselineskip}
+\subsection*{Put things in the backpack}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blocklist{delete all of \selectmenu{backpack}}
+\blocklist{add \ovalnum{apple} to \selectmenu{backpack}}
+\blocklist{add \ovalnum{torch} to \selectmenu{backpack}}
+\blocklist{add \ovalnum{map} to \selectmenu{backpack}}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+backpack = []
+backpack.append("apple")
+backpack.append("torch")
+backpack.append("map")
+print(backpack)
+\end{code}
+\end{tcbraster}
+
+\begin{outputbox}
+{[}'apple', 'torch', 'map']
+\end{outputbox}
+
+\textbf{How it works:} \py|append| means ``add to the end''. The dot joins the list's name to the job you want it to do: \py|backpack.append("torch")| means ``backpack, add torch to your end''. You can also fill a backpack in one go: \py|backpack = ["apple", "torch", "map"]|. Commas go between the items.
+
+% ---------------------------------------------------------------------
+\needspace{12\baselineskip}
+\subsection*{Python counts from 0!}
+
+Think of a list as a train. Each carriage carries one item. Scratch numbers the carriages like seats: 1, 2, 3. Python counts \textbf{how many carriages away from the front} each one is, so the first carriage is number \textbf{0}.
+
+\begin{center}
+\begin{tikzpicture}[font=\sffamily]
+  \fill[ink] (-1.9,0) rectangle (-0.3,1.3);
+  \fill[ink] (-1.6,1.3) rectangle (-1.2,1.75);
+  \node[white, font=\sffamily\small\bfseries] at (-1.1,0.65) {engine};
+  \foreach \i/\item in {0/apple, 1/torch, 2/map}{
+    \draw[lists!80!black, line width=1pt, fill=lists!25, rounded corners=3pt] (\i*2.7,0) rectangle (\i*2.7+2.3,1.3);
+    \node[font=\ttfamily] at (\i*2.7+1.15,0.65) {"\item"};
+    \fill[ink] (\i*2.7+0.5,-0.15) circle (0.18);
+    \fill[ink] (\i*2.7+1.8,-0.15) circle (0.18);
+    \node[font=\sffamily\small, text=muted] at (\i*2.7+1.15,1.7) {Scratch: item \the\numexpr\i+1\relax};
+    \node[font=\sffamily\bfseries, text=kw] at (\i*2.7+1.15,-0.75) {Python: [\i]};
+  }
+  \draw[ink, line width=1.5pt] (-0.3,0.4) -- (0,0.4);
+  \draw[ink, line width=1.5pt] (2.3,0.4) -- (2.7,0.4);
+  \draw[ink, line width=1.5pt] (5.0,0.4) -- (5.4,0.4);
+\end{tikzpicture}
+\end{center}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blocklook{say \ovallist{item \ovalnum{1} of \selectmenu{backpack}}}
+\blocklook{say \ovallist{item \ovalnum{3} of \selectmenu{backpack}}}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+print(backpack[0])
+print(backpack[2])
+\end{code}
+\end{tcbraster}
+
+\begin{outputbox}
+apple\\
+map
+\end{outputbox}
+
+\textbf{How it works:} The square brackets after the name pick one carriage. Here is the rule to remember: \textbf{Scratch item $n$ is Python \texttt{[n - 1]}}. Item 1 is \py|backpack[0]|, item 3 is \py|backpack[2]|.
+
+% ---------------------------------------------------------------------
+\needspace{12\baselineskip}
+\subsection*{How long is the list?}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blocklook{say \ovallist{length of \selectmenu{backpack}}}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+print(len(backpack))
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works:} \py|len| is short for \textbf{length}. It counts the carriages: for our backpack it gives \texttt{3}. Notice that the length is 3 but the last item is \py|backpack[2]|. That is the count-from-0 rule again.
+
+% ---------------------------------------------------------------------
+\needspace{12\baselineskip}
+\subsection*{Take things out}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blocklist{delete \ovalnum{2} of \selectmenu{backpack}}
+\blocklist{delete all of \selectmenu{backpack}}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+del backpack[1]
+backpack.clear()
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works:} \py|del| is short for \textbf{delete}. Scratch's item 2 is Python's \texttt{[1]}, so \py|del backpack[1]| takes out \texttt{"torch"}, and the train closes the gap: \texttt{['apple', 'map']}. \py|backpack.clear()| empties the whole backpack, leaving \texttt{[]}.
+
+% ---------------------------------------------------------------------
+\needspace{12\baselineskip}
+\subsection*{Squeeze in and swap}
+
+Start again with \py|backpack = ["apple", "torch", "map"]|.
+
+\begin{center}
+\begin{scratch}
+\blocklist{insert \ovalnum{rope} at \ovalnum{2} of \selectmenu{backpack}}
+\blocklist{replace item \ovalnum{4} of \selectmenu{backpack} with \ovalnum{lamp}}
+\end{scratch}
+\end{center}
+\begin{code}
+backpack.insert(1, "rope")
+backpack[3] = "lamp"
+\end{code}
+
+\begin{outputbox}[After line 1, then after line 2]
+{[}'apple', 'rope', 'torch', 'map']\\
+{[}'apple', 'rope', 'torch', 'lamp']
+\end{outputbox}
+
+\textbf{How it works:} \py|insert(1, "rope")| squeezes a new carriage in at place 1 (Scratch's place 2), and the others shuffle back. \py|backpack[3] = "lamp"| uses the ``put in the box'' sign: carriage 3 (Scratch's item 4) gets a new item, and the old \texttt{"map"} is thrown out. Each carriage works like a little box!
+
+% ---------------------------------------------------------------------
+\needspace{12\baselineskip}
+\subsection*{Is it in the backpack?}
+
+\begin{center}
+\begin{scratch}
+\blocklook{say \boollist{\selectmenu{backpack} contains \ovalnum{torch} ?}}
+\blocklook{say \boollist{\selectmenu{backpack} contains \ovalnum{sword} ?}}
+\end{scratch}
+\end{center}
+\begin{code}
+backpack = ["apple", "torch", "map"]
+print("torch" in backpack)
+print("sword" in backpack)
+\end{code}
+
+\begin{outputbox}
+True\\
+False
+\end{outputbox}
+
+\textbf{How it works:} \py|"sword" in backpack| asks a yes-or-no question. Python answers \texttt{True} (yes) or \texttt{False} (no), where Scratch says \texttt{true} or \texttt{false}. In Part 5 you will use questions like this with \py|if|, to do something only when the sword is there.
+
+\begin{watchout}[Watch out: capitals again]
+Scratch thinks \texttt{Torch} and \texttt{torch} are the same. Python doesn't: \py|"Torch" in backpack| is \texttt{False}. Type your items exactly.
+\end{watchout}
+
+% ---------------------------------------------------------------------
+\needspace{24\baselineskip}
+\subsection*{A Python power: walk through the backpack}
+
+In Scratch, to visit every item you need a counter variable, \chip[control]{repeat (length of backpack)} and \chip[lists]{item (i) of backpack}. Python has a much shorter way.
+
+\begin{center}
+\begin{scratch}
+\blockvariable{set \selectmenu{i} to \ovalnum{1}}
+\blockrepeat{repeat \ovallist{length of \selectmenu{backpack}}}{
+  \blocklook{say \ovallist{item \ovalvariable{i} of \selectmenu{backpack}} for \ovalnum{1} seconds}
+  \blockvariable{change \selectmenu{i} by \ovalnum{1}}
+}
+\end{scratch}
+\end{center}
+\begin{code}
+for thing in backpack:
+    print("In my backpack:", thing)
+\end{code}
+
+\begin{outputbox}
+In my backpack: apple\\
+In my backpack: torch\\
+In my backpack: map
+\end{outputbox}
+
+\textbf{How it works:} \py|for thing in backpack:| means ``take each item out of the backpack in turn, and call it \texttt{thing}''. The first time round the loop, \texttt{thing} holds \texttt{"apple"}, then \texttt{"torch"}, then \texttt{"map"}. You get to choose the name: \py|for snack in snacks:| reads nicely. No counter, no \texttt{- 1}, no mistakes!
+
+% ---------------------------------------------------------------------
+\needspace{12\baselineskip}
+\subsection*{Pick one at random}
+
+\begin{center}
+\begin{scratch}
+\blocklook{say \ovallist{item \ovalnum{random} of \selectmenu{snacks}}}
+\end{scratch}
+\end{center}
+\begin{code}
+import random
+snacks = ["crisps", "banana", "cookie"]
+print(random.choice(snacks))
+\end{code}
+
+\textbf{How it works:} Did you know you can type \texttt{random} into Scratch's \chip[lists]{item 1 of} block? Python's version is \py|random.choice(snacks)|: it reaches into the list without looking and pulls out one item. Like \py|import time| in Part 2, \py|import random| brings in Python's random tools first. Run it a few times: you won't always get the same snack.
+
+% ---------------------------------------------------------------------
+\needspace{12\baselineskip}
+\begin{watchout}[Watch out: Python tells you when a carriage is missing]
+Ask Scratch for \chip[lists]{item 4 of backpack} when there are only 3 items, and Scratch quietly gives you nothing. Python stops and tells you:
+\begin{codenonum}
+backpack = ["apple", "torch", "map"]
+print(backpack[3])
+\end{codenonum}
+\begin{errorbox}
+IndexError: list index out of range
+\end{errorbox}
+\textbf{Index} is Python's word for a carriage number. ``Out of range'' means ``there is no carriage with that number''. A list of 3 has carriages 0, 1 and 2 only. This error is a clue note, not a telling-off: it shows you exactly which line to fix.
+\end{watchout}
+
+% =====================================================================
+\mission{Score counter}{making a variable, changing it in a loop, and printing it}
+
+Every game needs a score. This program gives you 10 points every second, five times, and shows the score each time, just like a Scratch monitor ticking up.
+
+\step{Step 1: Build it in Scratch}
+\noindent\begin{minipage}[t]{0.52\linewidth}\vspace{0pt}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blockvariable{set \selectmenu{score} to \ovalnum{0}}
+\blockvariable{show variable \selectmenu{score}}
+\blockrepeat{repeat \ovalnum{5}}{
+  \blockcontrol{wait \ovalnum{1} seconds}
+  \blockvariable{change \selectmenu{score} by \ovalnum{10}}
+}
+\blocklook{say \ovaloperator{join \ovalnum{Game over! Final score: } \ovalvariable{score}}}
+\end{scratch}
+\end{minipage}\hfill\begin{minipage}[t]{0.39\linewidth}\vspace{0pt}
+Click \textbf{Make a Variable} and call it \textbf{score}. Then build:
+\end{minipage}
+
+
+\step{Step 2: Type it in Colab}
+This one doesn't draw, so you don't need the three starting lines.
+
+\begin{typethis}
+import time
+score = 0
+print("Score:", score)
+for i in range(5):
+    time.sleep(1)
+    score = score + 10
+    print("Score:", score)
+print("Game over! Final score:", score)
+\end{typethis}
+
+\needspace{8\baselineskip}
+\step{Step 3: Read it line by line}
+
+\begin{longtable}{>{\centering\arraybackslash}p{1.1cm} P{5.3cm} P{9.1cm}}
+\toprule
+\textbf{Line} & \textbf{Scratch block} & \textbf{What it means} \\
+\midrule
+--- & \chip[events]{when green flag clicked} & No code needed. The play button \playbtn{} starts it. \\
+1 & (wait needs this) & Brings in Python's clock tools, so we can use \py|time.sleep|. \\
+2 & \chip[variables]{set score to 0} & Makes a box called \texttt{score} and puts 0 in it. \\
+3 & \chip[variables]{show variable score} & Shows what is in the box: \texttt{Score: 0}. \\
+4 & \chip[control]{repeat 5} & Do the indented lines 5 times. \\
+5 & \chip[control]{wait 1 seconds} & Wait one second. \\
+6 & \chip[variables]{change score by 10} & Take what's in the box, add 10, and put it back. \\
+7 & (the monitor updates) & Scratch's monitor changes by itself. In Python, we print again to see the new score. \\
+8 & \chip[looks]{say join Game over! \ldots} & No spaces in front, so it runs once, after the loop. \\
+\bottomrule
+\end{longtable}
+
+\step{Step 4: Run it}
+Press \playbtn. A new line appears every second.
+
+\noindent\begin{minipage}[t]{0.36\linewidth}\vspace{0pt}
+\begin{outputbox}
+Score: 0\\
+Score: 10\\
+Score: 20\\
+Score: 30\\
+Score: 40\\
+Score: 50\\
+Game over! Final score: 50
+\end{outputbox}
+\end{minipage}\hfill\begin{minipage}[t]{0.55\linewidth}\vspace{0pt}
+\begin{think}[What if you forget line 2?]
+Delete line 2 and click \textbf{Runtime}, then \textbf{Restart session}, then run the cell again. Python says \texttt{NameError: name 'score' is not defined}. You can't add 10 to a box that doesn't exist yet! In Scratch, a new variable starts at 0 by itself. In Python, you always fill the box first.
+\end{think}
+\end{minipage}
+
+
+\begin{challenge}
+\tick Change line 6 to \py|score += 10|. Does anything change when you run it?\par
+\tick Make it count \textbf{down}: start the score at 50 and take away 10 each time. (Hint: \texttt{-=}.)\par
+\tick Add a second box, \py|lives = 3|, before the loop. Inside the loop, take one life away and print both: \py|print("Score:", score, "Lives:", lives)|. What happens to the lives after 5 goes?\par
+\tick \textbf{Super challenge:} make the points get bigger each time. Add \py|points = 10| before the loop. Inside it, add \py|points| to the score, then make \py|points| 10 bigger. What is the final score?
+\end{challenge}
+
+% =====================================================================
+\mission{Growing spiral}{using a variable for the size, and changing it inside a loop}
+
+On the ``Variables can draw too'' page, the size changed once, between two squares. Now the size grows a little after \textbf{every} line. Each line is longer than the one before, and the turtle spirals outwards.
+
+\step{Step 1 and Step 2: Build it in Scratch, then type it in Colab}
+Make a variable called \textbf{size}. Add the \textbf{Pen} extension, then build the script on the left. Then type the Python on the right.
+
+\noindent\begin{minipage}[t]{0.33\linewidth}\vspace{0pt}
+\setscratch{scale=0.85}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blockpen{erase all}
+\blockpen{pen down}
+\blockpen{set pen color to \ovalnum{purple}}
+\blockvariable{set \selectmenu{size} to \ovalnum{5}}
+\blockrepeat{repeat \ovalnum{40}}{
+  \blockmove{move \ovalvariable{size} steps}
+  \blockmove{turn \turnright{} \ovalnum{90} degrees}
+  \blockvariable{change \selectmenu{size} by \ovalnum{5}}
+}
+\end{scratch}
+\end{minipage}\hfill\begin{minipage}[t]{0.66\linewidth}\vspace{0pt}
+\begin{typethis}
+from ColabTurtlePlus.Turtle import *
+clearscreen()
+initializeTurtle((480, 360))
+speed(13)
+pencolor("purple")
+size = 5
+for i in range(40):
+    forward(size)
+    right(90)
+    size = size + 5
+\end{typethis}
+\end{minipage}
+
+\step{Step 3: Read it line by line}
+
+\begin{longtable}{>{\centering\arraybackslash}p{1.1cm} P{5.3cm} P{9.1cm}}
+\toprule
+\textbf{Line} & \textbf{Scratch block} & \textbf{What it means} \\
+\midrule
+1--3 & \chip[events]{when green flag clicked}\newline\chip[pen]{erase all} & The three starting lines. \py|clearscreen()| wipes the stage, like \chip[pen]{erase all}. The pen starts down. \\
+4 & & The fastest speed, so you don't wait too long. \\
+5 & \chip[pen]{set pen color to purple} & Colour names go in quote marks, in small letters. \\
+6 & \chip[variables]{set size to 5} & The first line will be 5 steps long. \\
+7 & \chip[control]{repeat 40} & Do the indented lines 40 times. \\
+8 & \chip[motion]{move (size) steps} & Walk forward by whatever is in the \texttt{size} box right now. \\
+9 & \chip[motion]{turn right 90 degrees} & Turn a corner. \\
+10 & \chip[variables]{change size by 5} & Make the box 5 bigger, \textbf{inside} the loop, so the next line is longer. \\
+\bottomrule
+\end{longtable}
+
+\step{Step 4: Run it}
+A purple square spiral grows out from the middle of the stage. The lines go 5, 10, 15, 20 \ldots{} steps, and the last one is 200 steps long.
+
+\begin{think}[Spaces matter]
+Line 10 has four spaces in front, so it is inside the loop. Take the spaces away and run it. Now \py|size| only changes \textbf{once}, after the loop has finished, so every line is 5 steps long and the turtle just goes round a tiny square 40 times. No red error, but the wrong drawing!
+\end{think}
+
+\begin{challenge}
+\tick Change \py|right(90)| to \py|right(91)|. The spiral twists! Try 89, 120 and 144 too.\par
+\tick Make the spiral tighter with \py|size = size + 2|, or looser with \py|size = size + 8|. With \texttt{+ 8}, does it still fit on the stage?\par
+\tick Make the pen thicker as well: add \py|thick = 1| before the loop, then \py|pensize(thick)| and \py|thick = thick + 0.2| inside it.\par
+\tick \textbf{Super challenge:} make a spiral that \textbf{shrinks}. Start at \py|size = 200| and take away 5 each time. (Hint: so it fits on the stage, jump to \py|goto(-100, 100)| with the pen up before you start.)
+\end{challenge}
+
+% =====================================================================
+\mission{Rainbow from a colour list}{a list of colours, and a \texttt{for} loop that walks through it}
+
+A rainbow is a list of colours! This program keeps the six colours in a list, then draws one thick stripe for each colour, from top to bottom.
+
+\step{Step 1: Build it in Scratch}
+\noindent\begin{minipage}[t]{0.61\linewidth}\vspace{0pt}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blockpen{erase all}
+\blockpen{set pen size to \ovalnum{15}}
+\blockvariable{set \selectmenu{y} to \ovalnum{60}}
+\blockvariable{set \selectmenu{i} to \ovalnum{1}}
+\blockrepeat{repeat \ovallist{length of \selectmenu{colours}}}{
+  \blockpen{set pen color to \ovallist{item \ovalvariable{i} of \selectmenu{colours}}}
+  \blockpen{pen up}
+  \blockmove{go to x: \ovalnum{-150} y: \ovalvariable{y}}
+  \blockpen{pen down}
+  \blockmove{move \ovalnum{300} steps}
+  \blockvariable{change \selectmenu{y} by \ovalnum{-15}}
+  \blockvariable{change \selectmenu{i} by \ovalnum{1}}
+}
+\end{scratch}
+\end{minipage}\hfill\begin{minipage}[t]{0.36\linewidth}\vspace{0pt}
+Make a list called \textbf{colours} and two variables called \textbf{y} and \textbf{i}. Scratch's pen doesn't understand colour names, so fill the list on the stage with six colour codes: \texttt{\#FF0000}, \texttt{\#FFA500}, \texttt{\#FFFF00}, \texttt{\#008000}, \texttt{\#0000FF}, \texttt{\#800080}. Then build:
+\end{minipage}
+
+
+\step{Step 2: Type it in Colab}
+
+\begin{typethis}
+from ColabTurtlePlus.Turtle import *
+clearscreen()
+initializeTurtle((480, 360))
+speed(13)
+pensize(15)
+colours = ["red", "orange", "yellow",
+           "green", "blue", "purple"]
+y = 60
+for colour in colours:
+    pencolor(colour)
+    penup()
+    goto(-150, y)
+    pendown()
+    forward(300)
+    y = y - 15
+hideturtle()
+\end{typethis}
+
+\par\medskip{\large\bfseries\color{ink}Step 3: Read it line by line}\par\nopagebreak
+
+\begin{longtable}{>{\centering\arraybackslash}p{1.1cm} P{5.3cm} P{9.1cm}}
+\toprule
+\textbf{Line} & \textbf{Scratch block} & \textbf{What it means} \\
+\midrule
+1--3 & \chip[events]{when green flag clicked} & The three starting lines. They also do \chip[pen]{erase all}. \\
+4--5 & \chip[pen]{set pen size to 15} & The fastest speed, and thick stripes. \\
+6--7 & (the list on the stage) & Six colour names. Inside square brackets you may carry on to the next line. \\
+8 & \chip[variables]{set y to 60} & The first stripe is at $y = 60$. \\
+9 & \chip[control]{repeat length of colours} & Take out each colour in turn, and call it \texttt{colour}. No counter \texttt{i}! \\
+10 & \chip[pen]{set pen color to}\newline\chip[lists]{item i of colours} & Use the colour we just took out. \texttt{colour} has no quote marks: it is a box, not the word ``colour''. Python understands colour \textbf{names}, so no codes are needed. \\
+11--13 & \chip[pen]{pen up}\newline\chip[motion]{go to x: -150 y: (y)}\newline\chip[pen]{pen down} & Jump to the left end of this stripe without drawing. \\
+14 & \chip[motion]{move 300 steps} & Draw the stripe. The turtle faces right. \\
+15 & \chip[variables]{change y by -15} & Move down 15 for the next stripe. Then line 16 hides the turtle. \\
+\bottomrule
+\end{longtable}
+
+\step{Step 4: Run it}
+Six thick stripes appear one under another: red at the top, then orange, yellow, green, blue and purple at the bottom.
+
+\begin{think}[Colour and \texttt{colour}]
+In this book we spell it \textbf{colour}. Python was written in America, so its own words use \textbf{color}: \py|pencolor|. Our list and box names can use any spelling we like, as long as we always spell them the same way.
+\end{think}
+
+\begin{challenge}
+\tick Add a seventh stripe with \py|colours.append("pink")| on a new line after line 7.\par
+\tick Leave gaps between the stripes: change \texttt{15} in line 15 to \texttt{20}.\par
+\tick Make your own flag. Change the list to \py|["red", "white", "blue"]|. Which countries could you make?\par
+\tick \textbf{Super challenge:} make every stripe shorter than the one above it. Add \py|length = 300| before the loop, use \py|forward(length)|, and take 30 off \texttt{length} each time round.
+\end{challenge}
+
+% =====================================================================
+\mission{Random story maker}{filling lists, adding to them, and picking with \texttt{random.choice}}
+
+Three lists, one pinch of randomness, and you get a silly sentence every time. Will a dragon eat your homework?
+
+\step{Step 1: Build it in Scratch}
+\noindent\begin{minipage}[t]{0.68\linewidth}\vspace{0pt}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blocklist{add \ovalnum{my homework} to \selectmenu{things}}
+\blockrepeat{repeat \ovalnum{3}}{
+  \blockvariable{set \selectmenu{hero} to \ovallist{item \ovalnum{random} of \selectmenu{heroes}}}
+  \blockvariable{set \selectmenu{action} to \ovallist{item \ovalnum{random} of \selectmenu{actions}}}
+  \blockvariable{set \selectmenu{thing} to \ovallist{item \ovalnum{random} of \selectmenu{things}}}
+  \blocklook{say \ovaloperator{join \ovalvariable{hero} \ovaloperator{join \ovalvariable{action} \ovalvariable{thing}}} for \ovalnum{2} seconds}
+}
+\end{scratch}
+\end{minipage}\hfill\begin{minipage}[t]{0.29\linewidth}\vspace{0pt}
+Make three lists, \textbf{heroes}, \textbf{actions} and \textbf{things}, and fill them on the stage. Make three variables, \textbf{hero}, \textbf{action} and \textbf{thing}. Then build:
+\end{minipage}
+
+
+\step{Step 2: Type it in Colab}
+
+\begin{typethis}
+import random
+heroes = ["A dragon", "My teacher", "A tiny robot"]
+actions = ["ate", "sang to", "tickled"]
+things = ["a banana", "the moon", "a sock"]
+things.append("my homework")
+for i in range(3):
+    hero = random.choice(heroes)
+    action = random.choice(actions)
+    thing = random.choice(things)
+    print(hero, action, thing)
+\end{typethis}
+
+\needspace{8\baselineskip}
+\step{Step 3: Read it line by line}
+
+\begin{longtable}{>{\centering\arraybackslash}p{1.1cm} P{5.3cm} P{9.1cm}}
+\toprule
+\textbf{Line} & \textbf{Scratch block} & \textbf{What it means} \\
+\midrule
+1 & & Brings in Python's random tools. \\
+2--4 & (lists filled on the stage) & Three lists, each with three items. Each item is a string, so each has quote marks. Commas go between items. \\
+5 & \chip[lists]{add my homework to things} & Puts a fourth thing on the end of the \texttt{things} list. \\
+6 & \chip[control]{repeat 3} & Make three sentences. \\
+7--9 & \chip[variables]{set hero to}\newline\chip[lists]{item random of heroes} \ldots & Pick one item from each list, and put it in a box. \\
+10 & \chip[looks]{say join hero \ldots} & Print the three boxes in a row. The commas put spaces between them, so you don't need three \chip[operators]{join} blocks. \\
+\bottomrule
+\end{longtable}
+
+\step{Step 4: Run it}
+You will get three random sentences. Yours will be different!
+
+\begin{outputbox}[You might see]
+A dragon ate a sock\\
+A tiny robot tickled my homework\\
+My teacher sang to the moon
+\end{outputbox}
+
+\begin{think}[Click the flag twice]
+In Scratch, lists remember their items even after the project stops. Click the green flag twice, and \texttt{my homework} is added \textbf{twice}! In Python, line 4 makes a fresh \texttt{things} list every time you run the cell, so it always starts with exactly three things.
+\end{think}
+
+\begin{challenge}
+\tick Add your own words to each list. Don't forget the quote marks and commas!\par
+\tick Make 5 sentences instead of 3.\par
+\tick Add a fourth list, \texttt{places}, like \py|["in the bath", "on the bus"]|, and print a place at the end of each sentence.\par
+\tick \textbf{Super challenge:} after the loop, print \py|len(things)| and the whole \texttt{things} list. How many things are there, and where did \texttt{"my homework"} go?
+\end{challenge}
+
+% =====================================================================
+\banner{variables}{YOUR TURN}{Translate it yourself}
+
+You are the translator now! Write the Python for this new Scratch script, then run it in Colab.
+
+\noindent\begin{minipage}[t]{0.47\linewidth}\vspace{0pt}
+\setscratch{scale=0.9}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blocklist{delete all of \selectmenu{pets}}
+\blocklist{add \ovalnum{cat} to \selectmenu{pets}}
+\blocklist{add \ovalnum{dog} to \selectmenu{pets}}
+\blocklist{add \ovalnum{fish} to \selectmenu{pets}}
+\blocklook{say \ovallist{length of \selectmenu{pets}} for \ovalnum{2} seconds}
+\blocklook{say \ovallist{item \ovalnum{2} of \selectmenu{pets}} for \ovalnum{2} seconds}
+\end{scratch}
+\end{minipage}\hfill\begin{minipage}[t]{0.5\linewidth}\vspace{0pt}
+\begin{tcolorbox}[colback=white, colframe=codeframe, arc=5pt, title=\textbf{My Python}, coltitle=ink, colbacktitle=codebg]
+\vspace{4pt}
+\foreach \n in {1,...,6}{\rule{\linewidth}{0.4pt}\par\vspace{9pt}}
+\end{tcolorbox}
+\small\textbf{Hints:} What starts an empty list? Which word adds to the end? Item 2 is not \texttt{[2]}!
+\end{minipage}
+
+\medskip
+\begin{puzzle}
+Can you count the items in a list \textbf{without} \py|len|? Write the \textbf{two} missing lines, using a \py|for| loop and \texttt{+=}. It should print \texttt{4}.
+\begin{codenonum}
+words = ["tiger", "lion", "zebra", "hippo"]
+count = 0
+\end{codenonum}
+\vspace{10pt}
+\rule{\linewidth}{0.4pt}\par\vspace{10pt}
+\rule{\linewidth}{0.4pt}\par\vspace{2pt}
+\hspace*{8pt}\texttt{print(count)}
+\end{puzzle}
+
+\smallskip
+\begin{tcolorbox}[colback=variables!10, colframe=variables!80!black, arc=6pt, boxrule=0.8pt, left=10pt, top=2pt, bottom=2pt, title={\textbf{Part 3 checklist}}, coltitle=white, colbacktitle=variables!80!black]
+\tick I can make a variable with \py|=| and explain that it means ``put in the box''.\par
+\tick I can change a variable with \py|score += 1| and show it with \py|print|.\par
+\tick I know the naming rules, and that \texttt{5} and \texttt{"5"} are different.\par
+\tick I can make a list and use \py|append|, \py|len|, \py|del|, \py|insert| and \py|clear|.\par
+\tick I remember that Scratch item 1 is Python \texttt{[0]}, and I know what \texttt{IndexError} means.\par
+\tick I can walk through a list with \py|for| and pick at random with \py|random.choice|.
+\end{tcolorbox}

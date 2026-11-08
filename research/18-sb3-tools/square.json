@@ -1,0 +1,84 @@
+{
+  "targets": [
+    {
+      "isStage": true,
+      "name": "Stage",
+      "variables": {},
+      "lists": {},
+      "broadcasts": {},
+      "blocks": {},
+      "comments": {},
+      "currentCostume": 0,
+      "costumes": [],
+      "sounds": [],
+      "layerOrder": 0,
+      "volume": 100
+    },
+    {
+      "isStage": false,
+      "name": "Sprite1",
+      "variables": {},
+      "lists": {},
+      "broadcasts": {},
+      "blocks": {
+        "flag": {
+          "opcode": "event_whenflagclicked",
+          "next": "rep",
+          "parent": null,
+          "inputs": {},
+          "fields": {},
+          "shadow": false,
+          "topLevel": true,
+          "x": 50,
+          "y": 50
+        },
+        "rep": {
+          "opcode": "control_repeat",
+          "next": null,
+          "parent": "flag",
+          "inputs": {
+            "TIMES": [1, [6, "4"]],
+            "SUBSTACK": [2, "mv"]
+          },
+          "fields": {},
+          "shadow": false,
+          "topLevel": false
+        },
+        "mv": {
+          "opcode": "motion_movesteps",
+          "next": "tr",
+          "parent": "rep",
+          "inputs": { "STEPS": [1, [4, "100"]] },
+          "fields": {},
+          "shadow": false,
+          "topLevel": false
+        },
+        "tr": {
+          "opcode": "motion_turnright",
+          "next": null,
+          "parent": "mv",
+          "inputs": { "DEGREES": [1, [4, "90"]] },
+          "fields": {},
+          "shadow": false,
+          "topLevel": false
+        }
+      },
+      "comments": {},
+      "currentCostume": 0,
+      "costumes": [],
+      "sounds": [],
+      "layerOrder": 1,
+      "volume": 100,
+      "visible": true,
+      "x": 0,
+      "y": 0,
+      "size": 100,
+      "direction": 90,
+      "draggable": false,
+      "rotationStyle": "all around"
+    }
+  ],
+  "monitors": [],
+  "extensions": [],
+  "meta": { "semver": "3.0.0", "vm": "hand-written", "agent": "hand-written" }
+}

@@ -1,0 +1,53 @@
+\subsection*{Part 7, Costume parade: five costumes}
+If you add \py|"arrow"| to the costume list, the colour list needs a fifth colour too, for example \py|colours = ["green", "red", "blue", "orange", "purple"]|. Otherwise, when \py|n| is 4, \py|colours[4]| doesn't exist and Python stops with an \texttt{IndexError}. Line 17 doesn't need changing: \py|len(costumes)| is now 5 by itself.
+
+\subsection*{Part 7, Make music: Happy Birthday}
+\begin{codenonum}
+G = 392
+A = 440
+B = 494
+C2 = 523
+tune = [G, G, A, G, C2, B]
+beats = [0.75, 0.25, 1, 1, 1, 2]
+\end{codenonum}
+Put these in place of lines 2 to 10 and keep the loop as it is. If it sounds too fast, change \py|0.4| in line 12 to \py|0.5|.
+
+\subsection*{Part 7, Turtle race: three racers}
+\begin{codenonum}
+green = make_racer("green", 0)
+\end{codenonum}
+goes after line 17. The loop and its inside become:
+\begin{codenonum}
+while (red.xcor() < 200 and blue.xcor() < 200
+       and green.xcor() < 200):
+    red.forward(random.randint(1, 20))
+    blue.forward(random.randint(1, 20))
+    green.forward(random.randint(1, 20))
+\end{codenonum}
+The round brackets let the condition go over two lines.
+
+\subsection*{Part 7, Translate it yourself}
+\begin{codenonum}
+from ColabTurtlePlus.Turtle import *
+clearscreen()
+initializeTurtle((480, 360))
+import time
+
+shape("turtle")
+shapesize(3)
+for i in range(3):
+    hideturtle()
+    time.sleep(0.5)
+    showturtle()
+    time.sleep(0.5)
+print("Boo!")
+time.sleep(2)
+\end{codenonum}
+Size 300\,\% is \py|shapesize(3)|. ``Say for 2 seconds'' is a \py|print| and then a 2-second wait. If you used a speech turtle to write \texttt{Boo!} on the stage and \py|clear()| it after 2 seconds, that is even closer to Scratch.
+
+\subsection*{Part 7, Two-line puzzle}
+\begin{codenonum}
+def cheer():
+    print("Hooray!")
+\end{codenonum}
+The third line, the broadcast, is \py|cheer()|. When you run all three, you see \texttt{Hooray!}.

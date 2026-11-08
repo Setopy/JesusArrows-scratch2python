@@ -1,0 +1,902 @@
+% =====================================================================
+% PART 6: My Blocks (functions, return, sprites, clones)
+% =====================================================================
+\partopener{myblocks}{PART 6}{My Blocks}{Invent your own Python blocks, get answers back from them, and fill the stage with sprites.}
+
+In Scratch, the pink \textbf{My Blocks} button lets you invent a brand-new block, like \chip[myblocks]{square} or \chip[myblocks]{jump}. You build it once, and then you can use it again and again. In Python, a home-made block is called a \textbf{function}. Think of it as a \textbf{recipe card}: you write the steps once, give the card a name, and then you just say the name whenever you want those steps.
+
+In this part you will meet:
+\begin{itemize}
+  \item \chip[myblocks]{define square (size)} \quad becomes \quad \py|def square(size):|
+  \item \chip[myblocks]{square 100} \quad becomes \quad \py|square(100)|
+  \item \chip[control]{create clone of myself} \quad becomes \quad \py|s = Turtle()| inside a loop
+\end{itemize}
+
+And you will learn a Python superpower that Scratch's pink blocks don't have: a block that \textbf{gives an answer back}.
+
+\setscratch{scale=0.85}
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{Make a block: \texttt{def}}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center, raster force size=false, raster column 1/.style={add to width=-2cm}, raster column 2/.style={add to width=2cm}]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\initmoreblocks{define \namemoreblocks{hello}}
+\blocklook{say \ovalnum{Hello!} for \ovalnum{1} seconds}
+\blocklook{say \ovalnum{My new block!}}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+def hello():
+    print("Hello!")
+    print("My new block!")
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works.} \py|def| is short for \textbf{define}, so \py|def hello():| is the pink \chip[myblocks]{define hello} hat. The name comes next, then a pair of round brackets (empty for now, because this block has no inputs). The \textbf{colon} opens the block's mouth, just like the colon after \py|for| or \py|if|. Every line with four spaces in front is \textbf{inside} the block. The first line back at the left edge is no longer part of it.
+
+\begin{think}[Nothing happened?]
+If you run just these three lines, \textbf{nothing appears}. That's correct! A \chip[myblocks]{define} hat on its own doesn't run in Scratch either. You have written the recipe card, but nobody has cooked it yet. Read on to find out how.
+\end{think}
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{Use your block: brackets make it run}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center, raster force size=false, raster column 1/.style={add to width=-2cm}, raster column 2/.style={add to width=2cm}]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blockmoreblocks{hello}
+\blockmoreblocks{hello}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+def hello():
+    print("Hello!")
+    print("My new block!")
+
+hello()
+hello()
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works.} Writing the name with round brackets, \py|hello()|, \textbf{calls} the block. That is the same as snapping the pink \chip[myblocks]{hello} block into a script. Python jumps up to the \py|def|, does every line inside, and then comes back to carry on. Here it runs twice, so you see the two lines twice.
+
+\begin{watchout}[Watch out: no brackets, no action]
+If you type \py|hello| without the brackets, Python does \textbf{nothing}, and it doesn't show an error either! The brackets are the ``go'' button. Without them, you have only said the block's name, as if you pointed at the recipe card without cooking. When a block seems to be ignored, check for the \texttt{()}.
+\end{watchout}
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{A number input}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center, raster force size=false, raster column 1/.style={add to width=-2cm}, raster column 2/.style={add to width=2cm}]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\initmoreblocks{define \namemoreblocks{square \ovalmoreblocks{size}}}
+\blockrepeat{repeat \ovalnum{4}}{
+  \blockmove{move \ovalmoreblocks{size} steps}
+  \blockmove{turn \turnright{} \ovalnum{90} degrees}
+}
+\end{scratch}
+\par\medskip
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blockmoreblocks{square \ovalnum{50}}
+\blockmoreblocks{square \ovalnum{100}}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+def square(size):
+    for i in range(4):
+        forward(size)
+        right(90)
+
+square(50)
+square(100)
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works.} The word inside the brackets of the \py|def| line is an \textbf{input}. Python calls it a \textbf{parameter}. It is like the pink \chip[myblocks]{size} oval in Scratch: a labelled box that gets filled each time the block is used. \py|square(50)| puts 50 into \py|size|, and \py|square(100)| puts 100 into it. Inside the block, you use \py|size| wherever you would drag the pink oval. (Put the three starting lines above this code when you run it.)
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{Two or more inputs}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center, raster force size=false, raster column 1/.style={add to width=-0.6cm}, raster column 2/.style={add to width=0.6cm}]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\initmoreblocks{define \namemoreblocks{polygon \ovalmoreblocks{sides} \ovalmoreblocks{size}}}
+\blockrepeat{repeat \ovalmoreblocks{sides}}{
+  \blockmove{move \ovalmoreblocks{size} steps}
+  \blockmove{turn \turnright{} \ovaloperator{\ovalnum{360} / \ovalmoreblocks{sides}} degrees}
+}
+\end{scratch}
+\par\medskip
+\begin{scratch}
+\blockmoreblocks{polygon \ovalnum{3} \ovalnum{100}}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+def polygon(sides, size):
+    for i in range(sides):
+        forward(size)
+        right(360 / sides)
+
+polygon(3, 100)
+polygon(6, 50)
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works.} Put a comma between the inputs. When you call the block, the numbers go into the inputs \textbf{in order}: the first number goes into \py|sides| and the second into \py|size|. So \py|polygon(3, 100)| is a big triangle and \py|polygon(6, 50)| is a small hexagon.
+
+\begin{watchout}[Watch out: order matters, and none can be missing]
+\py|polygon(100, 3)| swaps them: 100 sides that are 3 steps long. You get a tiny circle! And if you forget an input, Scratch just uses a blank, but Python stops and tells you:
+\begin{errorbox}
+TypeError: polygon() missing 1 required positional argument: 'size'
+\end{errorbox}
+Read it like a detective's clue: the block \texttt{polygon} is \textbf{missing} the input called \texttt{size}. Give it two numbers, like \py|polygon(6, 50)|.
+\end{watchout}
+
+\begin{think}[Inputs live inside the block]
+In Scratch, if you drag the pink \chip[myblocks]{size} oval out of the define hat and use it somewhere else, it just reports 0. In Python, an input only exists \textbf{inside} its block. Try \py|print(sides)| on a line at the left edge, after the block: Python says \texttt{NameError}, because \py|sides| belongs to \py|polygon| alone.
+\end{think}
+
+% ---------------------------------------------------------------------
+\needspace{10\baselineskip}
+\subsection*{Define it before you use it}
+
+In Scratch, the \chip[myblocks]{define} hat can sit anywhere in the code area. Python is different: it reads from the \textbf{top down}, like you read a book. If a line uses a block that Python hasn't read yet, it stops:
+
+\begin{code}
+flower()
+
+def flower():
+    print("A flower!")
+\end{code}
+\begin{errorbox}
+NameError: name 'flower' is not defined
+\end{errorbox}
+
+The clue says Python has never heard of \texttt{flower}. The fix: move the \py|def| part \textbf{above} the line that uses it.
+
+\begin{watchout}[Watch out in Colab: run the def cell first]
+If your \py|def| is in one cell and you use the block in another, run the \py|def| cell \textbf{first}. And if you change a \py|def|, run its cell again, or Colab keeps using the old version.
+\end{watchout}
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{Text inputs and True/False inputs}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center, raster force size=false, raster column 1/.style={add to width=-2cm}, raster column 2/.style={add to width=2cm}]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\setscratch{scale=0.85}
+\begin{scratch}
+\initmoreblocks{define \namemoreblocks{greet \ovalmoreblocks{name} \boolmoreblocks{shout}}}
+\blockifelse{if \boolmoreblocks{shout} then}{
+  \blocklook{say \ovaloperator{join \ovalnum{HELLO } \ovalmoreblocks{name}}}
+}{
+  \blocklook{say \ovaloperator{join \ovalnum{Hello } \ovalmoreblocks{name}}}
+}
+\end{scratch}
+\par\medskip
+\begin{scratch}
+\blockmoreblocks{greet \ovalnum{Ada} \booloperator{\ovalnum{1} = \ovalnum{2}}}
+\blockmoreblocks{greet \ovalnum{Sam} \booloperator{\ovalnum{1} = \ovalnum{1}}}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+def greet(name, shout):
+    if shout:
+        print("HELLO " + name)
+    else:
+        print("Hello " + name)
+
+greet("Ada", False)
+greet("Sam", True)
+\end{code}
+\end{tcbraster}
+
+\begin{outputbox}
+Hello Ada\\
+HELLO Sam
+\end{outputbox}
+
+\textbf{How it works.} An input can hold words too. Words need quote marks when you call the block: \py|greet("Ada", False)|. The pointy hexagon input in Scratch is a \textbf{True/False} input. Scratch has no True block, so Scratchers drop in a test like \chip[operators]{1 = 1}. Python just lets you type \py|True| or \py|False| (with a capital letter and no quote marks). Then \py|if shout:| asks ``is \texttt{shout} True?''
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{Run without screen refresh}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center, raster force size=false, raster column 1/.style={add to width=-2cm}, raster column 2/.style={add to width=2cm}]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\initmoreblocks{define \namemoreblocks{flower}}
+\blockrepeat{repeat \ovalnum{36}}{
+  \blockmoreblocks{square \ovalnum{80}}
+  \blockmove{turn \turnright{} \ovalnum{10} degrees}
+}
+\end{scratch}
+\par\smallskip
+{\small $\boxtimes$ Run without screen refresh}
+\end{tcolorbox}
+\begin{code}
+def flower():
+    animationOff()
+    for i in range(36):
+        square(80)
+        right(10)
+    animationOn()
+
+flower()
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works.} When you make a block in Scratch, you can tick \textbf{Run without screen refresh} so it draws in a flash. Python has two ways to hurry the turtle up:
+\begin{itemize}
+  \item \py|speed(13)| is the fastest speed where you still watch the lines being drawn.
+  \item \py|animationOff()| makes the turtle \textbf{jump} instead of walk, so a big drawing appears very quickly. \py|animationOn()| turns walking back on.
+\end{itemize}
+(This program also needs the three starting lines and the \py|def square| from the number-input page above it.)
+
+\begin{watchout}[Watch out: don't use speed(0)]
+In Colab, \py|speed(0)| shows \textbf{nothing at all} until the very end, and only if you add \py|done()|. It looks as if your program is broken. Stick to \py|speed(13)| or \py|animationOff()|.
+\end{watchout}
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{Python's superpower: \texttt{return}}
+
+Scratch's pink blocks can \textbf{do} things, but they can't \textbf{give an answer back}. There is no pink round reporter block. So Scratchers store the answer in a variable and read it afterwards. In Python, a block can hand the answer straight back with \py|return|.
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center, raster force size=false, raster column 1/.style={add to width=-2cm}, raster column 2/.style={add to width=2cm}]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\initmoreblocks{define \namemoreblocks{double \ovalmoreblocks{n}}}
+\blockvariable{set \selectmenu{answer} to \ovaloperator{\ovalmoreblocks{n} * \ovalnum{2}}}
+\end{scratch}
+\par\medskip
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blockmoreblocks{double \ovalnum{5}}
+\blocklook{say \ovalvariable{answer}}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+def double(n):
+    return n * 2
+
+answer = double(5)
+print(answer)
+print(double(double(3)))
+\end{code}
+\end{tcbraster}
+
+\begin{outputbox}
+10\\
+12
+\end{outputbox}
+
+\textbf{How it works.} \py|return n * 2| means ``work out \py|n * 2| and hand it back to whoever asked''. So \py|double(5)| turns into \texttt{10}, and you can put it in a variable, print it, or even feed it into another \py|double|. \py|double(double(3))| works from the inside out: \py|double(3)| is 6, and \py|double(6)| is 12. Your block now works like a round green reporter, such as \chip[operators]{pick random 1 to 10}!
+
+\needspace{14\baselineskip}
+\begin{watchout}[Watch out: print is not return]
+\py|print| only \textbf{shows} a number on the screen. It doesn't hand it back. Look:
+\begin{code}
+def show_double(n):
+    print(n * 2)
+
+x = show_double(5)
+print(x)
+\end{code}
+This shows \texttt{10} and then \texttt{None}. \texttt{None} is Python's word for ``nothing''. A block without \py|return| gives back nothing, so \py|x| is empty. If you want to \textbf{use} the answer, use \py|return|.
+\end{watchout}
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{More sprites: \texttt{Turtle()}}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center, raster force size=false, raster column 1/.style={add to width=-1.2cm}, raster column 2/.style={add to width=1.2cm}]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\setscratch{scale=0.7}{\small\bfseries Cat sprite}\par
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blockpen{set pen color to \ovalnum{orange}}
+\blockmove{move \ovalnum{100} steps}
+\end{scratch}
+\par\smallskip
+{\small\bfseries Dog sprite}\par
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blockpen{set pen color to \ovalnum{blue}}
+\blockmove{turn \turnleft{} \ovalnum{90} degrees}
+\blockmove{move \ovalnum{100} steps}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+cat = Turtle()
+dog = Turtle()
+cat.pencolor("orange")
+dog.pencolor("blue")
+cat.forward(100)
+dog.left(90)
+dog.forward(100)
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works.} So far, your plain commands have moved one turtle. \py|cat = Turtle()| makes a \textbf{new sprite} and gives it the name \py|cat|. Every new sprite starts in the middle, facing right, with its pen down. To tell a sprite what to do, write its name, a dot, then the command: \py|cat.forward(100)|. The name before the dot is like clicking that sprite in Scratch's sprite list.
+
+
+% ---------------------------------------------------------------------
+\needspace{8\baselineskip}
+\subsection*{Give a sprite to your block}
+
+In Scratch, a pink block belongs to \textbf{one} sprite. If the dog wants the cat's \chip[myblocks]{square} block, you have to drag a copy over. In Python, one block can work for every sprite: you hand it the sprite as an input!
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center, raster force size=false, raster column 1/.style={add to width=-2cm}, raster column 2/.style={add to width=2cm}]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\begin{scratch}
+\initmoreblocks{define \namemoreblocks{square \ovalmoreblocks{size}}}
+\blockrepeat{repeat \ovalnum{4}}{
+  \blockmove{move \ovalmoreblocks{size} steps}
+  \blockmove{turn \turnright{} \ovalnum{90} degrees}
+}
+\end{scratch}
+\par\smallskip
+{\small (one copy in the Cat, another copy in the Dog)}
+\end{tcolorbox}
+\begin{code}
+def square(t, size):
+    for i in range(4):
+        t.forward(size)
+        t.right(90)
+
+square(cat, 60)
+square(dog, 100)
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works.} The input \py|t| holds a sprite. When you call \py|square(cat, 60)|, the cat goes into \py|t|, so \py|t.forward(size)| moves the cat. Call \py|square(dog, 100)| and the same lines move the dog. (Make \py|cat| and \py|dog| first, as above.)
+
+\begin{think}[Speed is for one sprite]
+\py|speed(13)| only speeds up the plain turtle. Each new sprite has its own speed, so write \py|cat.speed(13)| for the cat.
+\end{think}
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{Clones: a list of sprites}
+
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center, raster force size=false, raster column 1/.style={add to width=-2cm}, raster column 2/.style={add to width=2cm}]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center]
+\setscratch{scale=0.85}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blocklook{hide}
+\blockpen{pen up}
+\blockmove{go to x: \ovalnum{-200} y: \ovalnum{120}}
+\blockrepeat{repeat \ovalnum{5}}{
+  \blockcontrol{create clone of \selectmenu{myself}}
+  \blockmove{change y by \ovalnum{-60}}
+}
+\end{scratch}
+\par\smallskip
+\begin{scratch}
+\blockinitclone{when I start as a clone}
+\blocklook{show}
+\blockmove{move \ovalnum{100} steps}
+\end{scratch}
+\end{tcolorbox}
+\begin{code}
+army = []
+for i in range(5):
+    s = Turtle()
+    s.shape("turtle")
+    s.penup()
+    s.goto(-200, 120 - i * 60)
+    army.append(s)
+
+for s in army:
+    s.forward(100)
+\end{code}
+\end{tcbraster}
+
+\textbf{How it works.} Python has no ``create clone'' block. Instead, you make new sprites in a loop and keep them in a \textbf{list}, like a backpack full of sprites. Each time round, \py|Turtle()| makes a new sprite called \py|s|, we move it into place, and \py|army.append(s)| puts it in the backpack. \py|i| is 0, 1, 2, 3, 4, so \py|120 - i * 60| gives the heights 120, 60, 0, $-60$ and $-120$. Then \py|for s in army:| takes the sprites out one at a time and moves each one. That second loop is your \chip[control]{when I start as a clone} script.
+
+\begin{think}[Taking turns]
+Scratch clones seem to move all at the same time. Python moves them \textbf{one after another}, very quickly. Keep your army small (up to about 20 sprites), or Colab gets slow.
+\end{think}
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{Bonus: the cookie cutter}
+
+\textit{This page is extra. Skip it if you like, and come back when you are ready.}
+
+A \textbf{class} is a cookie cutter. You design the cutter once, then stamp out as many cookies as you like. Each cookie is its own sprite with its own position.
+
+\begin{code}
+class Bug:
+    def __init__(self, y):
+        self.t = Turtle()
+        self.t.shape("turtle")
+        self.t.penup()
+        self.t.goto(-200, y)
+
+    def move(self):
+        self.t.forward(30)
+
+bugs = []
+for i in range(3):
+    bugs.append(Bug(i * 60))
+
+for step in range(5):
+    for b in bugs:
+        b.move()
+\end{code}
+
+\textbf{How it works.} \py|class Bug:| starts the cookie cutter. \py|__init__| (two underscores on each side) runs once, the moment a new bug is made, just like \chip[control]{when I start as a clone}. \py|self| means ``this bug, the one being made right now'', so \py|self.t| is this bug's own turtle. \py|move| is a block that every bug knows. \py|Bug(60)| stamps out a new bug at height 60, and \py|b.move()| tells one bug to move.
+
+% ---------------------------------------------------------------------
+\needspace{14\baselineskip}
+\subsection*{Bonus challenge: a block that uses itself}
+
+\textit{Extra, for brave coders.} A block can call \textbf{itself}! This is called \textbf{recursion}. Each branch of this tree grows two smaller trees.
+
+\begin{code}
+speed(13)
+
+def tree(size):
+    if size < 10:
+        return
+    forward(size)
+    left(30)
+    tree(size * 0.7)
+    right(60)
+    tree(size * 0.7)
+    left(30)
+    back(size)
+
+penup()
+goto(0, -170)
+setheading(90)
+pendown()
+tree(80)
+\end{code}
+
+\textbf{How it works.} Lines 4 and 5 are the \textbf{stop rule}: when the branch is tiny, \py|return| ends the block straight away (like \chip[control]{stop this script}). Without it, the tree would grow for ever, and Python would stop with a \texttt{RecursionError}. Each new tree is 0.7 times the size of the one before. The last line, \py|back(size)|, walks back down the branch, so the turtle always ends where it started. (Add the three starting lines at the top.)
+
+% =====================================================================
+\setscratch{scale=1}
+\mission{Make your own block}{\texttt{def}, a number input, and using one block many times}
+
+In this mission you make a \chip[myblocks]{square} block with a \texttt{size} input, then use it three times.
+
+\step{Step 1: Build it in Scratch}
+Click \textbf{My Blocks}, then \textbf{Make a Block}. Call it \texttt{square}, and add a number input called \texttt{size}. Add the Pen extension too.
+
+\begin{center}
+\begin{tabular}{c@{\hspace{1.2cm}}c}
+\begin{scratch}
+\initmoreblocks{define \namemoreblocks{square \ovalmoreblocks{size}}}
+\blockrepeat{repeat \ovalnum{4}}{
+  \blockmove{move \ovalmoreblocks{size} steps}
+  \blockmove{turn \turnright{} \ovalnum{90} degrees}
+}
+\end{scratch}
+&
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blockpen{pen down}
+\blockmoreblocks{square \ovalnum{40}}
+\blockmoreblocks{square \ovalnum{80}}
+\blockmoreblocks{square \ovalnum{120}}
+\end{scratch}
+\end{tabular}
+\end{center}
+
+\step{Step 2: Type it in Colab}
+
+\begin{typethis}
+from ColabTurtlePlus.Turtle import *
+clearscreen()
+initializeTurtle((480, 360))
+
+def square(size):
+    for i in range(4):
+        forward(size)
+        right(90)
+
+square(40)
+square(80)
+square(120)
+\end{typethis}
+
+\step{Step 3: Read it line by line}
+
+\begin{longtable}{>{\centering\arraybackslash}p{1.1cm} P{5.3cm} P{9.1cm}}
+\toprule
+\textbf{Line} & \textbf{Scratch block} & \textbf{What it means} \\
+\midrule
+1--3 & \chip[events]{when green flag clicked} & The three starting lines. The turtle's pen starts down, so you don't need \chip[pen]{pen down}. \\
+5 & \chip[myblocks]{define square (size)} & \py|def square(size):| makes a new block called \py|square| with an input called \py|size|. The colon opens it up. \\
+6 & \chip[control]{repeat 4} & This line has four spaces, so it is inside the block. \\
+7--8 & \chip[motion]{move size steps}\newline\chip[motion]{turn right 90 degrees} & \textbf{Eight} spaces, because they are inside the loop, which is inside the block! \py|size| is used where the pink oval goes. \\
+10 & \chip[myblocks]{square 40} & This \textbf{uses} your block. The 40 goes into \py|size|. \\
+11--12 & \chip[myblocks]{square 80}\newline\chip[myblocks]{square 120} & Use it again with bigger sizes. You wrote the square code once, but used it three times! \\
+\bottomrule
+\end{longtable}
+
+\step{Step 4: Run it}
+Press \playbtn. You should see three squares of different sizes, all starting from the same corner in the middle of the stage, and growing down and to the right.
+
+\begin{think}[Why is line 9 empty?]
+Python doesn't need it. It helps \textbf{you} see where the block ends.
+\end{think}
+
+\begin{challenge}
+\tick Make a \py|triangle(size)| block. It works like \texttt{square}, but repeats 3 times and turns 120.\par
+\tick \textbf{Draw a flower.} Add this at the bottom and run it. (Put \py|speed(13)| after line 3, so it doesn't take ages.)
+\begin{codenonum}
+for i in range(12):
+    square(80)
+    right(30)
+\end{codenonum}
+\tick Give your block a second input for the colour: \py|def square(size, colour):|, then add \py|pencolor(colour)| as the first line inside. Use it like this: \py|square(80, "red")|.\par
+\tick Type \py|square| on its own line, without brackets, and run it. What happens? Why?
+\end{challenge}
+
+% =====================================================================
+\mission{Shape machine}{blocks with two inputs, and a block that uses another block}
+
+One block can draw \textbf{any} shape. Then a second block uses the first one to draw a flower.
+
+\step{Step 1: Build it in Scratch}
+
+\begin{center}
+\begin{tabular}{l@{\hspace{0.6cm}}l}
+\begin{tabular}[t]{@{}l@{}}
+\begin{scratch}
+\initmoreblocks{define \namemoreblocks{polygon \ovalmoreblocks{sides} \ovalmoreblocks{size}}}
+\blockrepeat{repeat \ovalmoreblocks{sides}}{
+  \blockmove{move \ovalmoreblocks{size} steps}
+  \blockmove{turn \turnright{} \ovaloperator{\ovalnum{360} / \ovalmoreblocks{sides}} degrees}
+}
+\end{scratch}
+\\ \rule{0pt}{0.7cm}\\
+\begin{scratch}
+\initmoreblocks{define \namemoreblocks{flower \ovalmoreblocks{petals} \ovalmoreblocks{sides} \ovalmoreblocks{size}}}
+\blockrepeat{repeat \ovalmoreblocks{petals}}{
+  \blockmoreblocks{polygon \ovalmoreblocks{sides} \ovalmoreblocks{size}}
+  \blockmove{turn \turnright{} \ovaloperator{\ovalnum{360} / \ovalmoreblocks{petals}} degrees}
+}
+\end{scratch}
+\end{tabular}
+&
+\begin{tabular}[t]{@{}l@{}}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blockpen{pen up}
+\blockmove{go to x: \ovalnum{-170} y: \ovalnum{60}}
+\blockpen{pen down}
+\blockpen{set pen color to \ovalnum{blue}}
+\blockmoreblocks{polygon \ovalnum{5} \ovalnum{70}}
+\blockpen{pen up}
+\blockmove{go to x: \ovalnum{90} y: \ovalnum{0}}
+\blockpen{pen down}
+\blockpen{set pen color to \ovalnum{purple}}
+\blockmoreblocks{flower \ovalnum{12} \ovalnum{6} \ovalnum{40}}
+\end{scratch}
+\end{tabular}
+\end{tabular}
+\end{center}
+
+\step{Step 2: Type it in Colab}
+
+\begin{typethis}
+from ColabTurtlePlus.Turtle import *
+clearscreen()
+initializeTurtle((480, 360))
+speed(13)
+
+def polygon(sides, size):
+    for i in range(sides):
+        forward(size)
+        right(360 / sides)
+
+def flower(petals, sides, size):
+    for i in range(petals):
+        polygon(sides, size)
+        right(360 / petals)
+
+penup()
+goto(-170, 60)
+pendown()
+pencolor("blue")
+polygon(5, 70)
+
+penup()
+goto(90, 0)
+pendown()
+pencolor("purple")
+flower(12, 6, 40)
+\end{typethis}
+
+\step{Step 3: Read it line by line}
+
+\begin{longtable}{>{\centering\arraybackslash}p{1.1cm} P{5.3cm} P{9.1cm}}
+\toprule
+\textbf{Line} & \textbf{Scratch block} & \textbf{What it means} \\
+\midrule
+1--3 & \chip[events]{when green flag clicked} & The three starting lines. \\
+4 & $\boxtimes$ Run without screen refresh & \py|speed(13)| draws as fast as possible while you still watch. \\
+6 & \chip[myblocks]{define polygon (sides) (size)} & A block with \textbf{two} inputs, with a comma between them. \\
+7 & \chip[control]{repeat sides} & \py|range(sides)| repeats as many times as the number in \py|sides|. \\
+8--9 & \chip[motion]{move size steps}\newline\chip[motion]{turn right 360 / sides} & The turns of any shape add up to 360, so each turn is \py|360 / sides|. \\
+11 & \chip[myblocks]{define flower (petals)}\newline\chip[myblocks]{(sides) (size)} & A second block with three inputs. \\
+12--14 & \chip[myblocks]{polygon sides size} & The \texttt{flower} block \textbf{uses} the \texttt{polygon} block, then turns a little. Blocks can use other blocks! \\
+16--18 & \chip[pen]{pen up}\newline\chip[motion]{go to x: -170 y: 60}\newline\chip[pen]{pen down} & Move to the left side without drawing a line. \\
+19--20 & \chip[myblocks]{polygon 5 70} & A blue pentagon: 5 sides, each 70 steps long. \\
+22--24 & \chip[motion]{go to x: 90 y: 0} & Move to the right side without drawing. \\
+25--26 & \chip[myblocks]{flower 12 6 40} & A purple flower: 12 petals, each petal a hexagon with sides of 40. \\
+\bottomrule
+\end{longtable}
+
+\step{Step 4: Run it}
+You should see a blue pentagon on the left and a purple flower made of 12 overlapping hexagons on the right.
+
+\begin{think}[Order inside the brackets]
+\py|polygon(5, 70)| and \py|polygon(70, 5)| are very different! The first number always goes into the first input. Try \py|polygon(70, 5)| and see what you get.
+\end{think}
+
+\begin{challenge}
+\tick Change line 26 to \py|flower(8, 4, 60)|. How many petals can you count? What shape is each petal?\par
+\tick Add a fourth input to \texttt{flower} called \texttt{colour}, and use \py|pencolor(colour)| inside it.\par
+\tick Draw a triangle, a square and a hexagon in a row, using only \py|polygon|, \py|penup|, \py|goto| and \py|pendown|.\par
+\tick Swap line 4 for \py|animationOff()|. Is it faster?
+\end{challenge}
+
+% =====================================================================
+\mission{Answer machine}{\texttt{return}: blocks that give back an answer}
+
+Now you build blocks that work out answers and hand them back, like your own reporter blocks. This program doesn't draw, so you don't need the three starting lines.
+
+\step{Step 1: Build it in Scratch}
+Scratch can't make a reporter block, so these pink blocks put their answer in a variable called \textbf{answer}.
+
+\begin{center}
+\setscratch{scale=0.75}
+\begin{tabular}{l@{\hspace{0.8cm}}l}
+\begin{tabular}[t]{@{}l@{}}
+\begin{scratch}
+\initmoreblocks{define \namemoreblocks{double \ovalmoreblocks{n}}}
+\blockvariable{set \selectmenu{answer} to \ovaloperator{\ovalmoreblocks{n} * \ovalnum{2}}}
+\end{scratch}
+\\ \rule{0pt}{0.6cm}\\
+\begin{scratch}
+\initmoreblocks{define \namemoreblocks{area \ovalmoreblocks{width} \ovalmoreblocks{height}}}
+\blockvariable{set \selectmenu{answer} to \ovaloperator{\ovalmoreblocks{width} * \ovalmoreblocks{height}}}
+\end{scratch}
+\end{tabular}
+&
+\begin{tabular}[t]{@{}l@{}}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blockmoreblocks{double \ovalnum{4}}
+\blocklook{say \ovalvariable{answer} for \ovalnum{2} seconds}
+\blockmoreblocks{area \ovalnum{5} \ovalnum{3}}
+\blocklook{say \ovaloperator{join \ovalnum{The rug covers } \ovalvariable{answer}}}
+\end{scratch}
+\end{tabular}
+\end{tabular}
+\end{center}
+
+\step{Step 2: Type it in Colab}
+
+\begin{typethis}
+def double(n):
+    return n * 2
+
+def area(width, height):
+    return width * height
+
+print(double(4))
+print(double(21))
+rug = area(5, 3)
+print("The rug covers " + str(rug) + " squares")
+print(area(double(2), 10))
+
+w = int(input("How wide? "))
+h = int(input("How tall? "))
+print("Area: " + str(area(w, h)))
+\end{typethis}
+
+\step{Step 3: Read it line by line}
+
+\begin{longtable}{>{\centering\arraybackslash}p{1.1cm} P{5.3cm} P{9.1cm}}
+\toprule
+\textbf{Line} & \textbf{Scratch block} & \textbf{What it means} \\
+\midrule
+1--2 & \chip[myblocks]{define double (n)} & \py|return n * 2| hands back double the number. No variable needed! \\
+4--5 & \chip[myblocks]{define area (width) (height)} & The area of a rectangle is width times height. \py|return| hands it back. \\
+7 & \chip[myblocks]{double 4} \chip[looks]{say answer} & \py|double(4)| turns into 8, and \py|print| shows it. One line instead of two blocks. \\
+8 & & The same block with a different number gives 42. \\
+9 & \chip[myblocks]{area 5 3} & The answer, 15, is stored in a variable called \py|rug|. \\
+10 & \chip[looks]{say join The rug\ldots} & \py|str(rug)| turns the number into writing, so it can be joined with \texttt{+}. \\
+11 & & Blocks inside blocks: \py|double(2)| is 4, so this is \py|area(4, 10)|, which is 40. \\
+13--14 & \chip[sensing]{ask How wide? and wait} & Ask for two numbers. \py|int( )| turns each answer into a number. \\
+15 & \chip[looks]{say} & Work out the area of \textbf{your} rectangle and show it. \\
+\bottomrule
+\end{longtable}
+
+\step{Step 4: Run it}
+Press \playbtn. When it asks, type a width and a height, pressing Enter after each one.
+
+\begin{outputbox}[You might see]
+8\\
+42\\
+The rug covers 15 squares\\
+40\\
+How wide? 7\\
+How tall? 4\\
+Area: 28
+\end{outputbox}
+
+\begin{watchout}[Watch out: return ends the block]
+As soon as Python reaches \py|return|, it leaves the block straight away. Any lines after \py|return| inside the block never run.
+\end{watchout}
+
+\begin{challenge}
+\tick Write \py|def half(n):| that gives back half of a number. Try \py|print(half(9))|.\par
+\tick Write \py|def perimeter(width, height):| that gives back the distance all the way round a rectangle (that's \py|2 * width + 2 * height|).\par
+\tick Change line 2 to \py|print(n * 2)|. Run it. Why do you see \texttt{None}, and why does line 11 now go wrong?\par
+\tick \textbf{Super challenge:} write \py|def is_even(n):| that gives back \py|n % 2 == 0|. Then try \py|if is_even(7):|. Scratch can't make a pink True/False block at all!
+\end{challenge}
+
+% =====================================================================
+\mission{Sprite army}{making many sprites in a loop, keeping them in a list, and moving them together}
+
+You will make five turtle sprites, each a different colour, and march them across the stage together. These are Python's version of clones.
+
+\step{Step 1: Build it in Scratch}
+
+\begin{center}
+\setscratch{scale=0.85}
+\begin{tabular}{c@{\hspace{0.8cm}}c}
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blocklook{hide}
+\blockpen{pen up}
+\blockmove{go to x: \ovalnum{-200} y: \ovalnum{120}}
+\blockrepeat{repeat \ovalnum{5}}{
+  \blockcontrol{create clone of \selectmenu{myself}}
+  \blockmove{change y by \ovalnum{-60}}
+  \blocklook{change \selectmenu{color} effect by \ovalnum{25}}
+}
+\end{scratch}
+&
+\begin{scratch}
+\blockinitclone{when I start as a clone}
+\blocklook{show}
+\blockpen{pen down}
+\blockrepeat{repeat \ovalnum{4}}{
+  \blockmove{move \ovalnum{80} steps}
+}
+\end{scratch}
+\end{tabular}
+\end{center}
+
+\step{Step 2: Type it in Colab}
+
+\begin{typethis}
+from ColabTurtlePlus.Turtle import *
+clearscreen()
+initializeTurtle((480, 360))
+
+colours = ["red", "orange", "gold", "green", "blue"]
+army = []
+for i in range(5):
+    s = Turtle()
+    s.shape("turtle")
+    s.color(colours[i])
+    s.speed(13)
+    s.penup()
+    s.goto(-200, 120 - i * 60)
+    s.pendown()
+    army.append(s)
+
+def march(steps):
+    for s in army:
+        s.forward(steps)
+
+for step in range(4):
+    march(80)
+\end{typethis}
+
+\par\medskip{\large\bfseries\color{ink}Step 3: Read it line by line}\par
+
+\begin{longtable}{>{\centering\arraybackslash}p{1.1cm} P{5.3cm} P{9.1cm}}
+\toprule
+\textbf{Line} & \textbf{Scratch block} & \textbf{What it means} \\
+\midrule
+1--3 & \chip[events]{when green flag clicked} & The three starting lines. \\
+5 & \chip[looks]{change color effect by 25} & A list of five colours, one for each sprite. \\
+6 & & An empty list: the backpack that will hold the army. \\
+7 & \chip[control]{repeat 5} & Go round 5 times. \py|i| counts 0, 1, 2, 3, 4. \\
+8 & \chip[control]{create clone of myself} & \py|Turtle()| makes a brand-new sprite, called \py|s| for now. \\
+9--11 & \chip[looks]{show} & Give it the turtle costume, its own colour (\py|colours[i]|), and the fastest speed. \py|color| sets the pen and the costume colour together. \\
+12--14 & \chip[pen]{pen up}\newline\chip[motion]{go to x: -200 y: 120}\newline\chip[pen]{pen down} & Jump to the start line without drawing. Each sprite is 60 steps lower than the one before. \\
+15 & & Put the new sprite in the backpack. \\
+17--19 & \chip[myblocks]{define march (steps)} & A block that moves \textbf{every} sprite in the army forward. \\
+21--22 & \chip[control]{repeat 4}\newline\chip[motion]{move 80 steps} & March 4 times. Each time, every sprite takes 80 steps. \\
+\bottomrule
+\end{longtable}
+
+\step{Step 4: Run it}
+Five coloured turtles appear on the left, one above the other. Then they march to the right together, step by step, each leaving a line of its own colour. They stop at $x = 120$.
+
+\begin{think}[Why not five names?]
+You could write \py|red = Turtle()|, \py|orange = Turtle()| and so on. But with a list, 5 sprites take the same number of lines as 50. Just change the \texttt{5} in line 7 (and add more colours)!
+\end{think}
+
+\begin{challenge}
+\tick Give the army 8 sprites. Add three more colours to the list, and change \py|i * 60| to \py|i * 35| so they fit on the stage.\par
+\tick Make a \py|turn_all(angle)| block that turns every sprite, and use it to march the army up the stage.\par
+\tick Import \py|random| and make each sprite take \py|random.randint(10, 80)| steps instead of the same number. Now it's a race!\par
+\tick Use \py|army[0]| to move only the first sprite. Which one is it?
+\end{challenge}
+
+% =====================================================================
+\banner{pen}{YOUR TURN}{Translate it yourself}
+
+Here is a Scratch project with a home-made block. Write the Python on the lines (with the three starting lines at the top). Then type it into Colab and check that the turtle draws the same thing. Clue: don't forget to \textbf{call} your block, with brackets, below the \py|def|.
+
+\needspace{20\baselineskip}
+\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=top]
+\begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt]
+\begin{scratch}
+\initmoreblocks{define \namemoreblocks{star \ovalmoreblocks{size}}}
+\blockrepeat{repeat \ovalnum{5}}{
+  \blockmove{move \ovalmoreblocks{size} steps}
+  \blockmove{turn \turnright{} \ovalnum{144} degrees}
+}
+\end{scratch}
+\par\bigskip
+\begin{scratch}
+\blockinit{when \greenflag clicked}
+\blockpen{set pen color to \ovalnum{gold}}
+\blockmoreblocks{star \ovalnum{100}}
+\blockmoreblocks{star \ovalnum{50}}
+\end{scratch}
+\end{tcolorbox}
+\begin{tcolorbox}[colback=white, colframe=codeframe, arc=5pt, title=\textbf{My Python}, coltitle=ink, colbacktitle=codebg]
+\vspace{4pt}
+\foreach \n in {1,...,11}{\rule{\linewidth}{0.4pt}\par\vspace{9pt}}
+\end{tcolorbox}
+\end{tcbraster}
+
+
+\needspace{10\baselineskip}
+\begin{puzzle}
+Write a block called \py|triple| that \textbf{gives back} three times the number you put in. It takes exactly \textbf{two lines}. When it works, this line should show \texttt{18}:
+\begin{codenonum}
+print(triple(triple(2)))
+\end{codenonum}
+\vspace{4pt}
+\foreach \n in {1,...,2}{\rule{\linewidth}{0.4pt}\par\vspace{9pt}}
+\end{puzzle}
+
+\needspace{14\baselineskip}
+\subsection*{Part 6 checklist}
+
+I can\ldots
+\begin{itemize}[label={}, leftmargin=0pt]
+  \item \tick make my own block with \py|def| and a colon, and call it with brackets.
+  \item \tick give a block one or more inputs, in the right order.
+  \item \tick explain why the \py|def| must come before the call (and fix a \texttt{NameError}).
+  \item \tick use \py|return| to give an answer back, and tell \py|print| and \py|return| apart.
+  \item \tick make a new sprite with \py|Turtle()| and hand it to a block.
+  \item \tick make an army of sprites in a loop and move them all with another loop.
+\end{itemize}

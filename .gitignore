@@ -1,0 +1,13 @@
+# Build output
+*.log
+*.aux
+*.out
+*.toc
+chapters/_build-*/
+chapters/_colab/cell_*.txt
+chapters/_colab/runner_*.py
+__pycache__/
+.DS_Store
+
+# Third-party source kept only as a local reference (belongs to the ColabTurtlePlus author)
+research/ref/

@@ -1,0 +1,80 @@
+\subsection*{Part 3: Quick quiz, box or bust?}
+Python accepts \texttt{lives}, \texttt{player\_1} and \texttt{bestTime}. \texttt{high score} has a space, \texttt{1st\_place} starts with a digit, and \texttt{import} is a word Python already uses.
+
+\subsection*{Part 3, Mission: Score counter}
+\py|score += 10| does exactly the same as \py|score = score + 10|, so nothing changes. To count down, start with \py|score = 50| and use \py|score -= 10|: the last line says \texttt{Final score: 0}. With \py|lives -= 1| inside the loop, the lives go 2, 1, 0, then $-1$ and $-2$. Python doesn't stop at 0 unless you tell it to (you will learn how with \py|if| in Part 5).
+
+\textbf{Super challenge:}
+\begin{codenonum}
+import time
+score = 0
+points = 10
+print("Score:", score)
+for i in range(5):
+    time.sleep(1)
+    score = score + points
+    points = points + 10
+    print("Score:", score)
+print("Game over! Final score:", score)
+\end{codenonum}
+The score goes 10, 30, 60, 100, 150. The final score is \texttt{150}.
+
+\subsection*{Part 3, Mission: Growing spiral}
+With \texttt{+ 8} the last line is 317 steps long, and the spiral only just fits on the stage. For the thicker pen, put \py|thick = 1| next to \py|size = 5|, and add \py|pensize(thick)| and \py|thick = thick + 0.2| inside the loop.
+
+\textbf{Super challenge} (after the three starting lines):
+\begin{codenonum}
+speed(13)
+pencolor("purple")
+penup()
+goto(-100, 100)
+pendown()
+size = 200
+for i in range(40):
+    forward(size)
+    right(90)
+    size = size - 5
+\end{codenonum}
+
+\subsection*{Part 3, Mission: Rainbow from a colour list}
+\py|colours.append("pink")| adds pink to the end of the list, so the loop goes round 7 times and pink is the bottom stripe. Red, white and blue stripes, from top to bottom, make the flag of the Netherlands. Try \py|["white", "blue", "red"]| for Russia.
+
+\textbf{Super challenge:} lines 8 to 16 become
+\begin{codenonum}
+y = 60
+length = 300
+for colour in colours:
+    pencolor(colour)
+    penup()
+    goto(-150, y)
+    pendown()
+    forward(length)
+    y = y - 15
+    length = length - 30
+hideturtle()
+\end{codenonum}
+
+\subsection*{Part 3, Mission: Random story maker}
+For the places, add \py|places = ["in the bath", "on the bus"]| before the loop, \py|place = random.choice(places)| inside it, and change the print to \py|print(hero, action, thing, place)|. After the loop, \py|len(things)| is \texttt{4}, and \texttt{"my homework"} is the last item, because \py|append| always adds to the end:
+\begin{outputbox}
+4\\
+{[}'a banana', 'the moon', 'a sock', 'my homework']
+\end{outputbox}
+
+\subsection*{Part 3: Translate it yourself}
+\begin{codenonum}
+pets = []
+pets.append("cat")
+pets.append("dog")
+pets.append("fish")
+print(len(pets))
+print(pets[1])
+\end{codenonum}
+It prints \texttt{3} and then \texttt{dog}. Scratch's item 2 is Python's \texttt{[1]}. \py|pets = []| does the job of \chip[lists]{delete all of pets}, because it starts a brand-new empty list.
+
+\subsection*{Part 3: Two-line puzzle}
+\begin{codenonum}
+for word in words:
+    count += 1
+\end{codenonum}
+The loop goes round once for every item, and each time it adds 1 to \texttt{count}. That is exactly how \py|len| counts!
