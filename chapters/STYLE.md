@@ -23,7 +23,7 @@ initializeTurtle((480, 360))
 - These are **the three starting lines**. Every drawing program starts with exactly these three lines, character for character (the coordinator may replace them all with a script later, so do not vary them).
 - After them, use plain commands: `forward(100)`, `right(90)`, `goto(0, 0)`, `pencolor("red")`, `speed(13)`. The plain commands move "the turtle", which plays the part of the selected sprite in Scratch.
 - Extra sprites, only when a program needs two or more: `cat = Turtle()`, then `cat.forward(10)`. This was tested: plain commands and `Turtle()` objects work together in one cell. Explain it as "making a new sprite and giving it a name".
-- The magic first cell, once per session: `!pip install ColabTurtlePlus` (NOT `ColabTurtle`: that is a different library with no `Turtle`, a black 800x500 window and (0, 0) at the top-left; never use it).
+- The “In the beginning” cell, once per session: `!pip install ColabTurtlePlus` (NOT `ColabTurtle`: that is a different library with no `Turtle`, a black 800x500 window and (0, 0) at the top-left; never use it).
 - Stage: `initializeTurtle((480, 360))` gives exactly the Scratch stage: centre (0, 0), x from -240 to 240, y from -180 to 180, y goes up.
 - Directions: standard mode, 0 = right, 90 = up, anticlockwise. Scratch 0 = up, 90 = right, clockwise. Rule taught to the child: **Python direction = 90 - Scratch direction**, i.e. `setheading(90 - d)`. Turning (`right`, `left`) is the same as Scratch.
 - **Never** use `mode("logo")` or `initializeTurtle((480, 360), "logo")`: tested live, `setheading(90)` then points DOWN (library bug).

@@ -1,5 +1,5 @@
 # Part 7: Looks, Sound and Events. Colab test programs.
-# Run the magic first cell (!pip install ColabTurtlePlus) before these.
+# Run the “In the beginning” cell (!pip install ColabTurtlePlus) before these.
 # Each piece is complete. Sound pieces need the "sound cell" piece first.
 
 # %% Concept: words on the stage (say for 2 seconds)

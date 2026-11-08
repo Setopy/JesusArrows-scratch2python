@@ -1,5 +1,5 @@
 # Drawing snippets from chapters/00-front.tex (paste each piece into Colab).
-# Run the magic first cell once first:  !pip install ColabTurtlePlus
+# Run the “In the beginning” cell once first:  !pip install ColabTurtlePlus
 
 # %% Meet Google Colab: first line
 from ColabTurtlePlus.Turtle import *

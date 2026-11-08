@@ -1,4 +1,4 @@
-# Colab tests for chapter 09 (The Bug Zoo). Run the magic first cell
+# Colab tests for chapter 09 (The Bug Zoo). Run the “In the beginning” cell
 # (!pip install ColabTurtlePlus) once before these.
 
 # %% Bug hunt 9 (broken on purpose): draws one long line, not a square

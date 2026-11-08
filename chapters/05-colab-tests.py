@@ -1,5 +1,5 @@
 # Part 5: Sensing and Decisions -- drawing programs for Colab
-# Run the magic first cell (!pip install ColabTurtlePlus) once, then paste
+# Run the “In the beginning” cell (!pip install ColabTurtlePlus) once, then paste
 # each piece into its own cell.
 
 # %% Concept: touching a spot (distance to a point)

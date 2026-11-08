@@ -18,7 +18,7 @@ Hello, coder! Every mission in your workbook has a place here.
 * You can also click inside a cell and press **Shift + Enter**.
 * Each mission shows the code from the workbook. **Type it yourself** into the empty cell underneath, letter by letter. Typing it is how you learn!
 * Made a mess? That's fine. Delete what you typed and try again."""),
- md("""## ⭐ The magic first cell
+ md("""## ⭐ The “In the beginning” cell
 **Run this cell first, every time you open this notebook.** It downloads the turtle drawing tools, like clicking *Extensions* and adding *Pen* in Scratch.
 
 ⚠️ It must say **ColabTurtlePlus** (with *Plus*). A library called ColabTurtle is a different one and won't work with this book."""),
@@ -71,7 +71,7 @@ cells.append(code(START + "\n\n# My own project"))
 cells.append(md("""---
 ### If something goes wrong
 * **A cell keeps running?** Click the ■ stop button where the play button was.
-* **`No module named 'ColabTurtlePlus'`?** Run the magic first cell again.
+* **`No module named 'ColabTurtlePlus'`?** Run the “In the beginning” cell again.
 * **`NameError`?** Check the spelling, or run the cells above first. You can also open the **Runtime** menu and choose **Run all**.
 * Under an error, the **Explain error** button can help, but be the detective first!"""))
 nb = {"cells": cells, "metadata": {"colab": {"provenance": [], "toc_visible": True}, "kernelspec": {"name": "python3", "display_name": "Python 3"}, "language_info": {"name": "python"}}, "nbformat": 4, "nbformat_minor": 0}

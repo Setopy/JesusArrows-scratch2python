@@ -184,35 +184,35 @@ else:
 \needspace{14\baselineskip}
 \subsection*{Repeat until: Python flips the question}
 
-\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=12pt, raster valign=center, raster force size=false, raster column 1/.style={width=0.36\linewidth}, raster column 2/.style={width=0.64\linewidth-12pt}]
+\begin{tcbraster}[raster columns=1, raster row skip=6pt]
 \begin{tcolorbox}[colback=white, colframe=white, boxrule=0pt, valign=center, left=0pt, right=0pt]
 \setscratch{scale=0.8}
 \begin{scratch}
 \blockinit{when \greenflag clicked}
-\blockrepeat{repeat until \booloperator{\ovalsensing{answer} = \ovalnum{please}}}{
-  \blocksensing{ask \ovalnum{Magic word?} and wait}
+\blockrepeat{repeat until \booloperator{\ovalsensing{answer} = \ovalnum{Genesis}}}{
+  \blocksensing{ask \ovalnum{First book of the Bible?} and wait}
 }
-\blocklook{say \ovalnum{Thank you!}}
+\blocklook{say \ovalnum{Well done!}}
 \end{scratch}
 \end{tcolorbox}
 \begin{code}
 answer = ""
-while answer != "please":
-    answer = input("Magic word? ")
-print("Thank you!")
+while answer != "Genesis":
+    answer = input("First book of the Bible? ")
+print("Well done!")
 \end{code}
 \end{tcbraster}
 
-\textbf{How it works.} Python has no ``repeat until''. It has \py|while|, which means ``keep going \textbf{as long as} this is true''. So you flip the question. Scratch says repeat \textbf{until} the answer \textbf{is} ``please''. Python says keep going \textbf{while} the answer is \textbf{not} ``please''. \texttt{!=} means ``is not equal to''. It is like ``stay outside until it rains'' and ``stay outside while it isn't raining'': the same plan, said the other way round.
+\textbf{How it works.} Python has no ``repeat until''. It has \py|while|, which means ``keep going \textbf{as long as} this is true''. So you flip the question. Scratch says repeat \textbf{until} the answer \textbf{is} ``Genesis''. Python says keep going \textbf{while} the answer is \textbf{not} ``Genesis''. \texttt{!=} means ``is not equal to''. It is like ``stay outside until it rains'' and ``stay outside while it isn't raining'': the same plan, said the other way round.
 
 You can also flip it with the word \py|not|, which matches the green \chip[operators]{not} block:
 \begin{codenonum}
-while not answer == "please":
+while not answer == "Genesis":
 \end{codenonum}
 Both lines do the same thing. Most Python coders use \texttt{!=} because it is shorter.
 
 \begin{think}[Why \texttt{answer = ""} on line 1?]
-\py|while| checks its question \textbf{before} the first go, just like \chip[control]{repeat until}. Python needs a box called \py|answer| to look in. \py|""| is empty writing: a box with nothing in it yet. It is not ``please'', so the loop starts.
+\py|while| checks its question \textbf{before} the first go, just like \chip[control]{repeat until}. Python needs a box called \py|answer| to look in. \py|""| is empty writing: a box with nothing in it yet. It is not ``Genesis'', so the loop starts.
 \end{think}
 
 % ---------------------------------------------------------------------

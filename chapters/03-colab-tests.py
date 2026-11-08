@@ -1,5 +1,5 @@
 # Part 3: Variables and Lists. Drawing programs, one per cell.
-# Run the magic first cell once per session: !pip install ColabTurtlePlus
+# Run the “In the beginning” cell once per session: !pip install ColabTurtlePlus
 
 # %% Concept page: Variables can draw too (two squares)
 from ColabTurtlePlus.Turtle import *

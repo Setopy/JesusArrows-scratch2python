@@ -18,7 +18,7 @@ A workbook for a 9-year-old who already knows [Scratch](https://scratch.mit.edu)
 
 1. **Print or open the PDF.** Read *For grown-ups* near the back first (about 10 minutes).
 2. **Open the notebook in Colab** with the badge above, then choose *File → Save a copy in Drive* so your child's work is saved.
-3. **Run the magic first cell** (`!pip install ColabTurtlePlus`) every time you open the notebook.
+3. **Run the “In the beginning” cell** (`!pip install ColabTurtlePlus`) every time you open the notebook.
 4. **Work through one mission per session** (20–30 minutes). Each mission has five steps: build it in Scratch, type it in Colab, read it line by line, run it, make it yours.
 
 ## What a mission looks like
@@ -118,7 +118,7 @@ python3 chapters/_make_notebook.py
 mkdir -p chapters/_build-02 && tectonic -o chapters/_build-02 chapters/_test-02.tex
 ```
 
-**Test every drawing program in Colab.** Run `python3 chapters/_colab/build_runner.py`, then paste each line from `chapters/_colab/cell_A.txt`, `cell_B.txt` and `cell_C.txt` into a Colab cell after the magic first cell. Each cell runs its chapters' programs against the real library and prints PASS or FAIL for each. Last run (8 Nov 2026): 91 pass and 2 skipped (one runs forever by design, one needs a local file). The one failure was the Bug Zoo's broken-on-purpose example, failing as intended.
+**Test every drawing program in Colab.** Run `python3 chapters/_colab/build_runner.py`, then paste each line from `chapters/_colab/cell_A.txt`, `cell_B.txt` and `cell_C.txt` into a Colab cell after the “In the beginning” cell. Each cell runs its chapters' programs against the real library and prints PASS or FAIL for each. Last run (8 Nov 2026): 91 pass and 2 skipped (one runs forever by design, one needs a local file). The one failure was the Bug Zoo's broken-on-purpose example, failing as intended.
 
 ## Credits
 

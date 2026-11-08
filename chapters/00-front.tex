@@ -152,13 +152,13 @@ Hello!
 Click \textbf{+ Code} at the top to get a new empty cell. Use a new cell for each program. You can run any cell again whenever you like.
 
 \needspace{16\baselineskip}
-\subsection*{The magic first cell: getting the turtle}
+\subsection*{The ``In the beginning'' cell: getting the turtle}
 
 In Scratch, you get the pen blocks by clicking the \textbf{Extensions} button in the bottom corner. Python works the same way: we add the drawing tools we need. In Python, the sprite that draws is called a \textbf{turtle}. It walks around the stage and leaves a line behind it, just like a Scratch sprite after \chip[pen]{pen down}.
 
-Each time you open your notebook, run this cell first:
+Each time you open your notebook, run this cell first. We call it the \textbf{``In the beginning'' cell}. The Bible starts with ``In the beginning God created the heavens and the earth'' (Genesis 1:1), and every Colab session starts with this cell:
 
-\begin{typethis}[Magic first cell: run it once every time you open Colab]
+\begin{typethis}[The ``In the beginning'' cell: run it once every time you open Colab]
 !pip install ColabTurtlePlus
 \end{typethis}
 
@@ -208,7 +208,7 @@ When you run the starting lines, Colab may also print a short note about \py|cle
 \begin{watchout}[If Colab gets stuck or forgets]
 \begin{itemize}
   \item \textbf{A cell keeps running forever?} Click the \stopbtn{} button where the play button was. This is just like the red stop sign in Scratch.
-  \item \textbf{You see \texttt{No module named 'ColabTurtlePlus'}?} Colab forgets everything when you close it or leave it alone for a while. Run the magic first cell again.
+  \item \textbf{You see \texttt{No module named 'ColabTurtlePlus'}?} Colab forgets everything when you close it or leave it alone for a while. Run the ``In the beginning'' cell again.
   \item \textbf{You see a \texttt{NameError}?} Python doesn't know a word yet, because a cell above has not run. Run the cells above it first, starting from the top. Or click \textbf{Runtime}, then \textbf{Run all}, to run every cell in order.
 \end{itemize}
 \end{watchout}

@@ -1,5 +1,5 @@
 # Part 4 (Operators): drawing programs for Colab.
-# Run the magic first cell (!pip install ColabTurtlePlus) once first.
+# Run the “In the beginning” cell (!pip install ColabTurtlePlus) once first.
 
 # %% Mission: Random dot art
 from ColabTurtlePlus.Turtle import *
