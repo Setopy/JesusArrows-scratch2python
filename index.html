@@ -48,7 +48,8 @@ h1 { font-size: clamp(36px, 7vw, 60px); line-height: 1.05; margin: 8px 0 16px; }
 section { padding: 28px 0; }
 h2 { font-size: 26px; margin: 0 0 14px; }
 .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
-.side { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.side { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+.side > * { min-width: 0; }
 .blocks { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
 .block {
   color: #fff; font-weight: 700; font-size: 15px; padding: 7px 14px; border-radius: 6px;
@@ -73,7 +74,7 @@ code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; backgro
 footer { color: var(--muted); font-size: 14px; padding: 28px 0 40px; border-top: 1px solid var(--line); margin-top: 20px; }
 footer a, .card a, .note a { color: var(--accent); }
 @media (max-width: 640px) {
-  .side { grid-template-columns: 1fr; }
+  .side { grid-template-columns: minmax(0, 1fr); }
   header { padding-top: 32px; }
 }
 </style>
