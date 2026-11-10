@@ -1,0 +1,14 @@
+{
+  "name": "From Scratch to Python",
+  "short_name": "Scratch→Python",
+  "description": "A free workbook for kids moving from Scratch to real Python in Google Colab.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f8fd",
+  "theme_color": "#1b2550",
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ]
+}

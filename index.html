@@ -6,6 +6,11 @@
 <title>From Scratch to Python</title>
 <meta name="description" content="A free workbook for kids moving from Scratch to real Python in Google Colab: every Scratch block mapped to runnable code, 35 missions.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐢</text></svg>">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#1b2550">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Scratch→Python">
 <style>
 :root {
   --bg: #f6f8fd; --card: #ffffff; --ink: #1b2550; --muted: #56618a; --line: #dfe4f2;
@@ -43,6 +48,8 @@ h1 { font-size: clamp(36px, 7vw, 60px); line-height: 1.05; margin: 8px 0 16px; }
 }
 .btn.primary { background: var(--accent); color: var(--accent-ink); }
 .btn.secondary { color: var(--accent); background: transparent; }
+button.btn { font: inherit; font-weight: 700; cursor: pointer; }
+.btn[hidden] { display: none; }
 .btn:focus-visible { outline: 3px solid var(--events); outline-offset: 2px; }
 .facts { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 20px; color: var(--muted); font-size: 15px; }
 section { padding: 28px 0; }
@@ -96,6 +103,7 @@ footer a, .card a, .note a { color: var(--accent); }
   <div class="buttons">
     <a class="btn primary" href="scratch-to-python-workbook.pdf">📘 Download the book (PDF)</a>
     <a class="btn secondary" href="https://colab.research.google.com/github/Setopy/JesusArrows-scratch2python/blob/main/My%20Python%20Adventures.ipynb">▶ Open the notebook in Colab</a>
+    <button class="btn secondary" id="install" type="button" hidden>⬇ Install as an app</button>
   </div>
   <div class="facts">
     <span>258 pages</span><span>35 missions</span><span>147 Scratch blocks translated</span><span>Nothing to install</span>
@@ -160,5 +168,22 @@ initializeTurtle((480, 360))
   <p>This is an independent workbook. It is not made by or connected with Scratch, the Scratch Foundation, MIT or Google. Scratch is a project of the Scratch Foundation.</p>
 </footer>
 </div>
+<script>
+// Installable app: keeps the page and the book available offline.
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(function () {});
+}
+(function () {
+  var btn = document.getElementById('install'), deferred = null;
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault(); deferred = e; btn.hidden = false;
+  });
+  btn.addEventListener('click', function () {
+    if (!deferred) return;
+    deferred.prompt(); deferred = null; btn.hidden = true;
+  });
+  window.addEventListener('appinstalled', function () { btn.hidden = true; });
+})();
+</script>
 </body>
 </html>
