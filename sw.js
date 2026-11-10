@@ -1,6 +1,7 @@
 // Offline support for the From Scratch to Python site.
-// Bump CACHE when the book or page changes so devices fetch the new copy.
-const CACHE = 'scratch2python-v1';
+// No version bump is needed when the book changes: every time the page is opened
+// online, the saved copies (including the PDF) are re-checked and replaced if newer.
+const CACHE = 'scratch2python-v2';
 const FILES = [
   './',
   'index.html',
@@ -23,6 +24,18 @@ self.addEventListener('activate', (e) => {
   );
 });
 
+// Re-check every saved file with the server. Unchanged files cost almost nothing
+// (the server answers "not modified"); changed ones replace the saved copy.
+function refreshSaved() {
+  return caches.open(CACHE).then((c) =>
+    Promise.all(FILES.map((f) =>
+      fetch(new Request(f, {cache: 'no-cache'}))
+        .then((res) => (res && res.status === 200 ? c.put(f, res) : null))
+        .catch(() => null)
+    ))
+  );
+}
+
 // Same-site files only: network first (so updates show), cached copy when offline.
 self.addEventListener('fetch', (e) => {
   const url = new URL(e.request.url);
@@ -30,6 +43,7 @@ self.addEventListener('fetch', (e) => {
   e.respondWith(
     fetch(e.request)
       .then((res) => {
+        if (res && res.status === 200 && e.request.mode === 'navigate') e.waitUntil(refreshSaved());
         if (res && res.ok && res.status === 200) {
           const copy = res.clone();
           caches.open(CACHE).then((c) => c.put(e.request, copy));
