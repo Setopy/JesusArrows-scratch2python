@@ -12,5 +12,5 @@ __pycache__/
 # Third-party source kept only as a local reference (belongs to the ColabTurtlePlus author)
 research/ref/
 
-# Spanish edition: its own repository (github.com/Setopy/JesusArrows-de-scratch-a-python), checked out here
+# Spanish edition: its own repository (github.com/Setopy/de-scratch-a-python), checked out here
 es/

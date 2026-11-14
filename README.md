@@ -2,7 +2,7 @@
 
 **🌐 Website: <https://setopy.github.io/JesusArrows-scratch2python/>**
 
-**🇲🇽 Spanish edition, *De Scratch a Python*: <https://setopy.github.io/JesusArrows-de-scratch-a-python/>** ([source](https://github.com/Setopy/JesusArrows-de-scratch-a-python))
+**🇲🇽 Spanish edition, *De Scratch a Python*: <https://setopy.github.io/de-scratch-a-python/>** ([source](https://github.com/Setopy/de-scratch-a-python))
 
 [![Open the notebook in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Setopy/JesusArrows-scratch2python/blob/main/My%20Python%20Adventures.ipynb)
 
