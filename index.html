@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>From Scratch to Python</title>
 <meta name="description" content="A free workbook for kids moving from Scratch to real Python in Google Colab: every Scratch block mapped to runnable code, 35 missions.">
+<link rel="alternate" hreflang="en" href="https://setopy.github.io/JesusArrows-scratch2python/">
+<link rel="alternate" hreflang="es" href="https://setopy.github.io/JesusArrows-de-scratch-a-python/">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐢</text></svg>">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#1b2550">
@@ -37,7 +39,9 @@ body {
 .wrap { max-width: 980px; margin: 0 auto; padding: 0 16px; }
 .strip { display: flex; height: 8px; }
 .strip span { flex: 1; }
-header { padding: 48px 0 32px; }
+header { padding: 24px 0 32px; }
+.topbar { display: flex; justify-content: flex-end; padding-top: 14px; font-size: 15px; }
+.topbar a { color: var(--accent); font-weight: 700; text-decoration: none; }
 .kicker { color: var(--muted); font-weight: 700; letter-spacing: .04em; text-transform: uppercase; font-size: 14px; margin: 0; }
 h1 { font-size: clamp(36px, 7vw, 60px); line-height: 1.05; margin: 8px 0 16px; }
 .lead { font-size: 19px; max-width: 640px; margin: 0 0 24px; }
@@ -82,7 +86,6 @@ footer { color: var(--muted); font-size: 14px; padding: 28px 0 40px; border-top:
 footer a, .card a, .note a { color: var(--accent); }
 @media (max-width: 640px) {
   .side { grid-template-columns: minmax(0, 1fr); }
-  header { padding-top: 32px; }
 }
 </style>
 </head>
@@ -96,6 +99,7 @@ footer a, .card a, .note a { color: var(--accent); }
 </div>
 
 <div class="wrap">
+<div class="topbar"><a href="https://setopy.github.io/JesusArrows-de-scratch-a-python/" hreflang="es" lang="es">Leer en español →</a></div>
 <header>
   <p class="kicker">🐢 A free workbook for young coders</p>
   <h1>From Scratch<br>to Python</h1>
@@ -164,7 +168,7 @@ initializeTurtle((480, 360))
 </section>
 
 <footer>
-  <p>Source files, research notes and build scripts are on <a href="https://github.com/Setopy/JesusArrows-scratch2python">GitHub</a>.</p>
+  <p>Source files, research notes and build scripts are on <a href="https://github.com/Setopy/JesusArrows-scratch2python">GitHub</a>. There is also a <a href="https://setopy.github.io/JesusArrows-de-scratch-a-python/" hreflang="es">Spanish edition, <span lang="es">De Scratch a Python</span></a>.</p>
   <p>This is an independent workbook. It is not made by or connected with Scratch, the Scratch Foundation, MIT or Google. Scratch is a project of the Scratch Foundation.</p>
 </footer>
 </div>

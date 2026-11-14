@@ -2,6 +2,8 @@
 
 **🌐 Website: <https://setopy.github.io/JesusArrows-scratch2python/>**
 
+**🇲🇽 Spanish edition, *De Scratch a Python*: <https://setopy.github.io/JesusArrows-de-scratch-a-python/>** ([source](https://github.com/Setopy/JesusArrows-de-scratch-a-python))
+
 [![Open the notebook in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Setopy/JesusArrows-scratch2python/blob/main/My%20Python%20Adventures.ipynb)
 
 A workbook for a 9-year-old who already knows [Scratch](https://scratch.mit.edu) and is ready for real Python. It maps every Scratch 3.0 block category to runnable Python in **Google Colab**, side by side, with turtle graphics standing in for the Scratch stage. Nothing needs installing: a browser and a Google account are enough.
